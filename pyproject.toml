@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tum-semantic-integration-pipeline"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg2-binary",
+    "pymongo",
+    "neo4j",
+    "rdflib",
+    "pydantic>=2.0",
+    "pydantic-settings",
+    "python-dotenv",
+    "anthropic",
+    "openai",
+    "rapidfuzz",
+    "chromadb",
+    "fastapi",
+    "uvicorn",
+    "jinja2",
+    "pandas",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pipeline"]
