@@ -1,6 +1,4 @@
 from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import Optional
 import pymongo
 import datetime
 from bson import ObjectId
@@ -64,15 +62,25 @@ class MongoDBConnector(BaseConnector):
                 {"$sample": {"size": 50}}
             ]))
 
-            all_fields: dict[str, str] = {}
+            schema_properties: dict[str, set] = {}
             for doc in samples:
-                for key, value in doc.items():
-                    if key not in all_fields:
-                        all_fields[key] = type(value).__name__
+                schema_type = doc.get("schema", "Unknown")
+                props = doc.get("properties", {})
+
+                if schema_type not in schema_properties:
+                    schema_properties[schema_type] = set()
+
+                if isinstance(props, dict):
+                    for key in props.keys():
+                        schema_properties[schema_type].add(key)
 
             inferred_fields = [
-                ColumnSchema(name=k, data_type=v)
-                for k, v in all_fields.items()
+                ColumnSchema(
+                    name=f"{schema_type}.{field}",
+                    data_type="list"
+                )
+                for schema_type, fields in schema_properties.items()
+                for field in sorted(fields)
             ]
 
             sample_records = [self._serialize(doc) for doc in samples[:5]]
