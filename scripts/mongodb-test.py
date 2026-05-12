@@ -1,8 +1,11 @@
 from pipeline.connectors.mongodb import MongoDBConnector, MongoDBConfig
 import ast
 
+from pipeline.extraction.schema_extractor import SchemaExtractor
+
 config = MongoDBConfig()
 
+# Test connector
 with MongoDBConnector(config) as connector:
     schema = connector.extract_schema()
     
@@ -24,3 +27,9 @@ with MongoDBConnector(config) as connector:
         print(f"\n{schema_type}:")
         for field in sorted(fields):
             print(f"  properties.{field}")
+
+# Test schema extractor
+schema_extractor = SchemaExtractor(connector)
+schema_extractor.save_schema(schema, "data/schemas/mongodb_schema.json")
+loaded_schema = schema_extractor.load_schema("data/schemas/mongodb_schema.json")
+print(f"\nLoaded schema source: {loaded_schema.source_name}")
