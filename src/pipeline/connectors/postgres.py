@@ -3,7 +3,7 @@ import psycopg2
 import psycopg2.extras
 import datetime
 
-from .model import ExtractedSchema, ColumnSchema
+from .models import ExtractedSchema, ColumnSchema
 from .base import BaseConnector, ConnectorError
 
 

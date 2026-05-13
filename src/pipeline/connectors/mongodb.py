@@ -3,7 +3,7 @@ import pymongo
 import datetime
 from bson import ObjectId
 
-from .model import ExtractedSchema, ColumnSchema
+from .models import ExtractedSchema, ColumnSchema
 from .base import BaseConnector, ConnectorError
 
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from .model import ExtractedSchema
+from .models import ExtractedSchema
 
 class ConnectorError(Exception):
     pass

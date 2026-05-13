@@ -1,5 +1,5 @@
 from .postgres import PostgresConnector, PostgresConfig
-from .model import ExtractedSchema
+from .models import ExtractedSchema
 from pydantic_settings import BaseSettings
 
 

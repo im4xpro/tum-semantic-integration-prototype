@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from pipeline.connectors.base import BaseConnector
-from pipeline.connectors.model import ExtractedSchema
+from pipeline.connectors.models import ExtractedSchema
 
 
 class SchemaExtractor:
