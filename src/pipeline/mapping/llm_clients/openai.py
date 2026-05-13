@@ -1,0 +1,43 @@
+# clients/openai.py
+from openai import OpenAI
+from pydantic_settings import BaseSettings
+from .base import BaseLLMClient, LLMClientError
+
+
+class OpenAIConfig(BaseSettings):
+    api_key: str
+    model: str = "gpt-4o"
+    max_tokens: int = 4096
+
+    model_config = {"env_file": ".env", "env_prefix": "OPENAI_", "extra": "ignore"}
+
+
+class OpenAIClient(BaseLLMClient):
+
+    def __init__(self, config: OpenAIConfig):
+        self.config = config
+        self._client = OpenAI(api_key=config.api_key)
+
+    def complete(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.0,
+    ) -> tuple[str, int, int]:
+        try:
+            response = self._client.chat.completions.create(
+                model=self.config.model,
+                max_tokens=self.config.max_tokens,
+                temperature=temperature,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+            )
+            return (
+                response.choices[0].message.content,
+                response.usage.prompt_tokens,
+                response.usage.completion_tokens,
+            )
+        except Exception as e:
+            raise LLMClientError(f"OpenAI API call failed: {e}")
