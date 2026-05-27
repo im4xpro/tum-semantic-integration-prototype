@@ -5,21 +5,60 @@ import uuid
 
 from pipeline.mapping.llm_clients.factory import LLMProvider
 
+class PropertySource(BaseModel):
+    source: Literal["column", "constant"]
+    column_name: str | None = None
+    constant_value: str | None = None
 
-class FieldMapping(BaseModel):
-    source_field: str
-    target_class: str
-    target_property: str
-    confidence: float
-    reasoning: str
-    is_entity_creating: bool
-    unmapped: bool = False
+class CodeTransformation(BaseModel):
+    expression: str
+    language: Literal["python"] = "python"
 
-class RelationMapping(BaseModel):
-    subject_field: str
-    predicate: str
-    object_field: str
-    reasoning: str
+class TypeMapping(BaseModel):
+    class_uri: str
+
+class ValueType(BaseModel):
+    value_type: Literal["literal", "uri"]
+    type_mappings: list[TypeMapping] = []
+    property_mappings: list["PropertyMapping"] = []
+
+class ValueDefinition(BaseModel):
+    value_source: PropertySource
+    transformation: CodeTransformation | None = None
+    value_type: ValueType
+    
+class PropertyMapping(BaseModel):
+    property_uri: str
+    values: list[ValueDefinition]
+
+ValueType.model_rebuild()
+
+class SubjectMapping(BaseModel):
+    subject: PropertySource
+    subject_transformation: CodeTransformation | None = None
+    type_mappings: list[TypeMapping] = []
+    property_mappings: list[PropertyMapping] = []
+
+class MappingDocument(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    source_name: str
+    llm_model: str
+    strategy: str
+    ontology_format: str
+    rag_enabled: bool
+    base_uri: str = "https://thesis.tum.de/baltic-sea-monitoring/instances/"
+    namespaces: dict[str, str] = {
+        "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+    }
+    subject_mappings: list[SubjectMapping]
+    unmapped_fields: list[str] = []
+    generation_timestamp: datetime
+    prompt_tokens: int
+    completion_tokens: int
+    status: Literal["draft", "approved", "superseded", "rejected"] = "draft"
+    reviewed_by: str | None = None
+    reviewed_at: datetime | None = None
+    superseded_by: str | None = None  # ID of the newer mapping
 
 # TODO: Adjust the configuration if needed, maybe make it more flexible
 class MappingConfig(BaseModel):
@@ -29,22 +68,3 @@ class MappingConfig(BaseModel):
     ontology_format: Literal["turtle", "compact", "class_list"]
     rag_enabled: bool
     temperature: float = 0.0
-
-# Generated mapping with metadata for audit trail and versioning, will be stored in the database
-class GeneratedMapping(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    source_name: str
-    llm_model: str
-    strategy: str
-    ontology_format: str
-    rag_enabled: bool
-    field_mappings: list[FieldMapping]
-    relation_mappings: list[RelationMapping]
-    unmapped_fields: list[str] = []
-    generation_timestamp: datetime
-    prompt_tokens: int
-    completion_tokens: int
-    status: Literal["draft", "approved", "superseded", "rejected"] = "draft"
-    reviewed_by: str | None = None
-    reviewed_at: datetime | None = None
-    superseded_by: str | None = None  # ID of the newer mapping

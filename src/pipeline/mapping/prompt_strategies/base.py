@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from ..models import GeneratedMapping
 from ...connectors.models import ExtractedSchema
 from ...ontology.models import FormattedOntology
 

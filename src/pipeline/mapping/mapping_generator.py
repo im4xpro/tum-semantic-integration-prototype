@@ -1,7 +1,7 @@
 import json
 import datetime
 
-from .models import GeneratedMapping, MappingConfig, FieldMapping, RelationMapping
+from .models import MappingDocument, MappingConfig, SubjectMapping
 from .llm_clients.factory import LLMClientFactory
 from .prompt_strategies.zero_shot import ZeroShotStrategy
 from ..connectors.models import ExtractedSchema
@@ -34,10 +34,14 @@ class MappingGenerator:
         self,
         schema: ExtractedSchema,
         ontology_manager: OntologyManager,
-    ) -> GeneratedMapping:
+    ) -> MappingDocument:
         ontology = ontology_manager.get_formatted_ontology(self.config.ontology_format)
 
         system_prompt, user_prompt = self._strategy.build_prompt(schema, ontology)
+
+        print(f"Prompt size: {len(system_prompt) + len(user_prompt)} chars")
+        print(f"System prompt:\n{system_prompt}\n")
+        print(f"User prompt:\n{user_prompt}\n")
 
         response_text, prompt_tokens, completion_tokens = self._client.complete(
             system_prompt=system_prompt,
@@ -47,21 +51,17 @@ class MappingGenerator:
 
         raw = self._parse_json(response_text)
 
-        field_mappings = [
-            FieldMapping(**fm) for fm in raw.get("field_mappings", [])
-        ]
-        relation_mappings = [
-            RelationMapping(**rm) for rm in raw.get("relation_mappings", [])
+        subject_mappings = [
+            SubjectMapping(**sm) for sm in raw.get("subject_mappings", [])
         ]
 
-        return GeneratedMapping(
+        return MappingDocument(
             source_name=schema.source_name,
             llm_model=self.config.llm_model,
             strategy=self.config.strategy,
             ontology_format=self.config.ontology_format,
             rag_enabled=self.config.rag_enabled,
-            field_mappings=field_mappings,
-            relation_mappings=relation_mappings,
+            subject_mappings=subject_mappings,
             unmapped_fields=raw.get("unmapped_fields", []),
             generation_timestamp=datetime.datetime.now(),
             prompt_tokens=prompt_tokens,

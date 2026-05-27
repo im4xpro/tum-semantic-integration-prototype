@@ -1,32 +1,46 @@
 import json
 from .base import BaseStrategy
-from ..models import GeneratedMapping
 from ...connectors.models import ExtractedSchema
 from ...ontology.models import FormattedOntology
 
 
 OUTPUT_SCHEMA = {
-    "source_name": "string",
-    "field_mappings": [
+    "subject_mappings": [
         {
-            "source_field": "string — exact field name from source schema",
-            "target_class": "string — ontology class URI e.g. bsm:Organisation",
-            "target_property": "string — ontology property URI e.g. bsm:conceptName",
-            "confidence": "float between 0.0 and 1.0",
-            "reasoning": "string — one sentence explanation",
-            "is_entity_creating": "bool — does this field create a new node?",
-            "unmapped": "bool — true if no suitable ontology concept found"
+            "subject": {
+                "source": "column | constant",
+                "column_name": "string: column that provides the subject URI (omit if source=constant)",
+                "constant_value": "string: fixed URI for the subject (omit if source=column)"
+            },
+            "subject_transformation": {
+                "expression": "string: optional Python expression to build the URI, e.g. f'bsm:org/{value}'"
+            },
+            "type_mappings": [
+                {"class_uri": "string: ontology class URI e.g. bsm:Organisation"}
+            ],
+            "property_mappings": [
+                {
+                    "property_uri": "string: ontology property URI e.g. bsm:conceptName",
+                    "values": [
+                        {
+                            "value_source": {
+                                "source": "column | constant",
+                                "column_name": "string: source column name",
+                                "constant_value": "string: fixed value"
+                            },
+                            "transformation": None,
+                            "value_type": {
+                                "value_type": "literal | uri",
+                                "type_mappings": [],
+                                "property_mappings": []
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ],
-    "relation_mappings": [
-        {
-            "subject_field": "string — source field that is the subject",
-            "predicate": "string — ontology property URI e.g. bsm:involvedActor",
-            "object_field": "string — source field that is the object",
-            "reasoning": "string — one sentence explanation"
-        }
-    ],
-    "unmapped_fields": ["string — field names with no ontology match"]
+    "unmapped_fields": ["string: field names with no suitable ontology match"]
 }
 
 
@@ -37,19 +51,17 @@ class ZeroShotStrategy(BaseStrategy):
         schema: ExtractedSchema,
         ontology: FormattedOntology,
     ) -> tuple[str, str]:
-        system_prompt = f"""You are a semantic data integration expert. 
-Your task is to map a data source schema to an OWL ontology.
+        system_prompt = f"""You are a semantic data integration expert.
+Your task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.
 
-For each field in the schema, determine:
-- Which ontology class it helps instantiate (target_class)
-- Which ontology property it maps to (target_property)
-- Whether it creates a new node in the knowledge graph (is_entity_creating)
-- Your confidence in the mapping (0.0 to 1.0)
-- A brief reasoning for your decision
+Group fields by the entity they describe. For each entity type:
+- Identify which column or constant value serves as the subject (entity identifier).
+- Specify the ontology class (type_mappings).
+- Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.
+- If a value points to another entity, set value_type to "uri" and include nested type_mappings/property_mappings if applicable.
+- If a field cannot be mapped to any ontology concept, add it to unmapped_fields.
 
-For relations, identify which fields imply a relationship between two entities.
-
-If a field has no suitable match in the ontology, set unmapped=true and add it to unmapped_fields.
+Omit subject_transformation and transformation when no expression is needed.
 
 Return ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:
 {json.dumps(OUTPUT_SCHEMA, indent=2)}"""
