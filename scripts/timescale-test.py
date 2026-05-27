@@ -1,5 +1,5 @@
 from pipeline.connectors.timescale import TimescaleConnector, TimescaleConfig
-from pipeline.extraction.schema_extractor import SchemaExtractor
+from pipeline.connectors.schema_extractor import SchemaExtractor
 
 config = TimescaleConfig()
 

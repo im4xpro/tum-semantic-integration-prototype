@@ -1,5 +1,5 @@
 from pipeline.connectors.postgres import PostgresConnector, PostgresConfig
-from pipeline.extraction.schema_extractor import SchemaExtractor
+from pipeline.connectors.schema_extractor import SchemaExtractor
 
 config = PostgresConfig()
 

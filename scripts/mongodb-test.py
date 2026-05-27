@@ -1,7 +1,7 @@
 from pipeline.connectors.mongodb import MongoDBConnector, MongoDBConfig
 import ast
 
-from pipeline.extraction.schema_extractor import SchemaExtractor
+from pipeline.connectors.schema_extractor import SchemaExtractor
 
 config = MongoDBConfig()
 
