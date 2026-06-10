@@ -1,5 +1,7 @@
 # clients/factory.py
 from enum import Enum
+
+from .openrouter import OpenRouterClient, OpenRouterConfig
 from .base import BaseLLMClient
 from .anthropic import AnthropicClient, AnthropicConfig
 from .openai import OpenAIClient, OpenAIConfig
@@ -12,6 +14,7 @@ class LLMProvider(str, Enum):
     OPENAI = "openai"
     OLLAMA = "ollama"
     FORTISS = "fortiss"
+    OPENROUTER = "openrouter"
 
 
 class LLMClientFactory:
@@ -40,5 +43,10 @@ class LLMClientFactory:
             ollama_config.base_url = fortiss_config.base_url
             token_manager = TokenManager(fortiss_config)
             return OllamaClient(ollama_config, token_manager)
+
+        if provider == LLMProvider.OPENROUTER:
+            config = OpenRouterConfig()
+            config.model = model
+            return OpenRouterClient(config)
 
         raise ValueError(f"Unknown provider: {provider}")

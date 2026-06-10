@@ -12,8 +12,8 @@ schema = SchemaExtractor(None).load_schema(BASE_DIR / "data/schemas/postgres_sch
 ontology_manager = OntologyManager(BASE_DIR / "data/ontology/thesis_ontology.ttl")
 
 config = MappingConfig(
-    provider=LLMProvider.FORTISS,
-    llm_model="llama3.2:latest",
+    provider=LLMProvider.OPENROUTER,
+    llm_model="meta-llama/llama-3.3-70b-instruct",
     strategy="zero_shot",
     ontology_format="compact",
     rag_enabled=False,
@@ -44,4 +44,4 @@ for sm in mapping.subject_mappings:
     for pm in sm.property_mappings:
         for v in pm.values:
             col = v.value_source.column_name or v.value_source.constant_value
-            print(f"    {pm.property_uri:50s} <- {col} ({v.value_type.value_type})")
+            print(f"    {pm.property_uri:50s} <- {col} ({v.value_type.type})")
