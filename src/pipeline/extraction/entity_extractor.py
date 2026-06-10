@@ -30,7 +30,7 @@ class EntityExtractor:
                     value = self._resolve(vd.value_source.column_name, vd.value_source.constant_value, record)
                     if value is None:
                         continue
-                    if vd.value_type.value_type == "literal":
+                    if vd.value_type.type == "literal":
                         properties[pm.property_uri] = value
 
             entity = ExtractedEntity(
@@ -46,7 +46,7 @@ class EntityExtractor:
 
             for pm in sm.property_mappings:
                 for vd in pm.values:
-                    if vd.value_type.value_type == "uri" and vd.value_source.column_name:
+                    if vd.value_type.type == "iri" and vd.value_source.column_name:
                         pending_relations.append((entity.temp_id, pm.property_uri, vd.value_source.column_name))
 
         # Pass 2: resolve URI-type values as relations between entities

@@ -6,7 +6,7 @@ import uuid
 from pipeline.mapping.llm_clients.factory import LLMProvider
 
 class PropertySource(BaseModel):
-    source: Literal["column", "constant"]
+    source: Literal["column", "constant", "row_index"]
     column_name: str | None = None
     constant_value: str | None = None
 
@@ -18,7 +18,7 @@ class TypeMapping(BaseModel):
     class_uri: str
 
 class ValueType(BaseModel):
-    value_type: Literal["literal", "uri"]
+    type: Literal["literal", "iri"]
     type_mappings: list[TypeMapping] = []
     property_mappings: list["PropertyMapping"] = []
 
@@ -34,6 +34,7 @@ class PropertyMapping(BaseModel):
 ValueType.model_rebuild()
 
 class SubjectMapping(BaseModel):
+    label: str | None = None
     subject: PropertySource
     subject_transformation: CodeTransformation | None = None
     type_mappings: list[TypeMapping] = []
@@ -60,7 +61,6 @@ class MappingDocument(BaseModel):
     reviewed_at: datetime | None = None
     superseded_by: str | None = None  # ID of the newer mapping
 
-# TODO: Adjust the configuration if needed, maybe make it more flexible
 class MappingConfig(BaseModel):
     provider: LLMProvider
     llm_model: str

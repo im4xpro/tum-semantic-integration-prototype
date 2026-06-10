@@ -30,7 +30,7 @@ OUTPUT_SCHEMA = {
                             },
                             "transformation": None,
                             "value_type": {
-                                "value_type": "literal | uri",
+                                "type": "literal | iri",
                                 "type_mappings": [],
                                 "property_mappings": []
                             }
@@ -58,7 +58,7 @@ Group fields by the entity they describe. For each entity type:
 - Identify which column or constant value serves as the subject (entity identifier).
 - Specify the ontology class (type_mappings).
 - Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.
-- If a value points to another entity, set value_type to "uri" and include nested type_mappings/property_mappings if applicable.
+- If a value points to another entity, set value_type to "iri" and include nested type_mappings/property_mappings if applicable.
 - If a field cannot be mapped to any ontology concept, add it to unmapped_fields.
 
 Omit subject_transformation and transformation when no expression is needed.
