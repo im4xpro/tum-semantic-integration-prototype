@@ -4,6 +4,7 @@ from .models import ExtractedSchema
 class ConnectorError(Exception):
     pass
 
+# Base class for all connectors
 class BaseConnector(ABC):
     
     @abstractmethod

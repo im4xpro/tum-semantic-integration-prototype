@@ -34,10 +34,11 @@ class OpenAIClient(BaseLLMClient):
                     {"role": "user", "content": user_prompt},
                 ],
             )
+            content = response.choices[0].message.content or ""
             return (
-                response.choices[0].message.content,
-                response.usage.prompt_tokens,
-                response.usage.completion_tokens,
+                content,
+                response.usage.prompt_tokens if response.usage else 0,
+                response.usage.completion_tokens if response.usage else 0,
             )
         except Exception as e:
             raise LLMClientError(f"OpenAI API call failed: {e}")

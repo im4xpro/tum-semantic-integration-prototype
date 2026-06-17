@@ -26,6 +26,9 @@ class FortissTokenManager:
     def get_token(self) -> str:
         if self._token is None or time.time() >= self._expires_at - 60:
             self._refresh()
+        # At this point _refresh() should have set _token; guard for type checkers
+        if self._token is None:
+            raise FortissTokenManagerError("Token unavailable after refresh")
         return self._token
 
     def _refresh(self) -> None:

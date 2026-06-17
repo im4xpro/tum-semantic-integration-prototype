@@ -1,5 +1,6 @@
 # clients/anthropic.py
 from anthropic import Anthropic
+from anthropic.types import TextBlock
 from pydantic_settings import BaseSettings
 from .base import BaseLLMClient, LLMClientError
 
@@ -32,8 +33,11 @@ class AnthropicClient(BaseLLMClient):
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}],
             )
+            text = "".join(
+                block.text for block in response.content if isinstance(block, TextBlock)
+            )
             return (
-                response.content[0].text,
+                text,
                 response.usage.input_tokens,
                 response.usage.output_tokens,
             )

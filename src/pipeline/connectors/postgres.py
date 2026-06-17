@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings
 import psycopg2
 import psycopg2.extras
 import datetime
+from typing import Optional
 
 from .models import ExtractedSchema, ColumnSchema
 from .base import BaseConnector, ConnectorError
@@ -22,7 +23,7 @@ class PostgresConnector(BaseConnector):
 
     def __init__(self, config: PostgresConfig):
         self.config = config
-        self._conn = None
+        self._conn: Optional[psycopg2.extensions.connection] = None
 
     def connect(self) -> None:
         try:
@@ -43,7 +44,11 @@ class PostgresConnector(BaseConnector):
 
     def extract_schema(self) -> ExtractedSchema:
         try:
-            with self._conn.cursor() as cur:
+            conn = self._conn
+            if conn is None:
+                raise ConnectorError("Not connected to PostgreSQL")
+
+            with conn.cursor() as cur:
                 cur.execute(
                     """
                     SELECT column_name, data_type
@@ -58,7 +63,7 @@ class PostgresConnector(BaseConnector):
                     for row in cur.fetchall()
                 ]
 
-            with self._conn.cursor(
+            with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cur:
                 cur.execute(f"SELECT * FROM {self.config.table} LIMIT 5")
@@ -90,7 +95,11 @@ class PostgresConnector(BaseConnector):
 
     def fetch_records(self, limit: int) -> list[dict]:
         try:
-            with self._conn.cursor(
+            conn = self._conn
+            if conn is None:
+                raise ConnectorError("Not connected to PostgreSQL")
+
+            with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cur:
                 cur.execute(f"SELECT * FROM {self.config.table} LIMIT %s", (limit,))

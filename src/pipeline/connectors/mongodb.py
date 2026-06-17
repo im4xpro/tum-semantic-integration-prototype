@@ -58,6 +58,9 @@ class MongoDBConnector(BaseConnector):
 
     def extract_schema(self) -> ExtractedSchema:
         try:
+            if self._collection is None:
+                raise ConnectorError("Not connected to MongoDB")
+
             samples = list(self._collection.aggregate([
                 {"$sample": {"size": 50}}
             ]))
@@ -101,6 +104,9 @@ class MongoDBConnector(BaseConnector):
 
     def fetch_records(self, limit: int) -> list[dict]:
         try:
+            if self._collection is None:
+                raise ConnectorError("Not connected to MongoDB")
+
             docs = self._collection.find({}, limit=limit)
             return [self._serialize(doc) for doc in docs]
         except Exception as e:
