@@ -6,15 +6,14 @@ from .base import BaseLLMClient
 from .anthropic import AnthropicClient, AnthropicConfig
 from .openai import OpenAIClient, OpenAIConfig
 from .ollama import OllamaClient, OllamaConfig
-from .fortiss_token_manager import TokenManager, FortissConfig
+from .fortiss_token_manager import FortissTokenManager, FortissConfig
 
 
 class LLMProvider(str, Enum):
     ANTHROPIC = "anthropic"
     OPENAI = "openai"
     OLLAMA = "ollama"
-    FORTISS = "fortiss"
-    OPENROUTER = "openrouter"
+    FORTISS = "fortiss"    OPENROUTER = "openrouter"
 
 
 class LLMClientFactory:

@@ -4,7 +4,7 @@ import datetime
 from .models import MappingDocument, SubjectMapping, MappingConfig
 from .llm_clients.factory import LLMClientFactory
 
-from .prompt_strategies.zero_shot import ZeroShotStrategy
+from .prompt_strategies.zero_shot import ZeroShotPromptStrategy
 from ..connectors.models import ExtractedSchema
 from ..ontology.manager import OntologyManager
 
@@ -22,7 +22,7 @@ class MappingGenerator:
 
     def _build_strategy(self):
         strategies = {
-            "zero_shot": ZeroShotStrategy,
+            "zero_shot": ZeroShotPromptStrategy,
         }
         strategy_class = strategies.get(self.config.strategy)
         if not strategy_class:

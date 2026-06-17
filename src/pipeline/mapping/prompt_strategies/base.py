@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from ...connectors.models import ExtractedSchema
 from ...ontology.models import FormattedOntology
 
-class BaseStrategy(ABC):
+class BasePromptStrategy(ABC):
     
     @abstractmethod
     def build_prompt(

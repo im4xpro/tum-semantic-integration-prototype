@@ -1,5 +1,5 @@
 import json
-from .base import BaseStrategy
+from .base import BasePromptStrategy
 from ...connectors.models import ExtractedSchema
 from ...ontology.models import FormattedOntology
 
@@ -44,7 +44,7 @@ OUTPUT_SCHEMA = {
 }
 
 
-class ZeroShotStrategy(BaseStrategy):
+class ZeroShotPromptStrategy(BasePromptStrategy):
 
     def build_prompt(
         self,

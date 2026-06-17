@@ -2,7 +2,7 @@
 import requests
 from pydantic_settings import BaseSettings
 from .base import BaseLLMClient, LLMClientError
-from .fortiss_token_manager import TokenManager
+from .fortiss_token_manager import FortissTokenManager
 
 
 class OllamaConfig(BaseSettings):
@@ -15,7 +15,7 @@ class OllamaConfig(BaseSettings):
 
 class OllamaClient(BaseLLMClient):
 
-    def __init__(self, config: OllamaConfig, token_manager: TokenManager | None = None):
+    def __init__(self, config: OllamaConfig, token_manager: FortissTokenManager | None = None):
         self.config = config
         self._token_manager = token_manager
 

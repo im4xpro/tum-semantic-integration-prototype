@@ -12,11 +12,11 @@ class FortissConfig(BaseSettings):
     model_config = {"env_file": ".env", "env_prefix": "FORTISS_", "extra": "ignore"}
 
 
-class TokenManagerError(Exception):
+class FortissTokenManagerError(Exception):
     pass
 
 
-class TokenManager:
+class FortissTokenManager:
 
     def __init__(self, config: FortissConfig):
         self.config = config
@@ -38,4 +38,4 @@ class TokenManager:
             self._token = response.json()["access_token"]
             self._expires_at = time.time() + 3600
         except Exception as e:
-            raise TokenManagerError(f"Failed to refresh token: {e}")
+            raise FortissTokenManagerError(f"Failed to refresh token: {e}")
