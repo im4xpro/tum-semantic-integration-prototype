@@ -50,7 +50,7 @@ _DATE_RE     = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 _BOOL_MAP    = {"true": True, "false": False, "1": True, "0": False}
 
 
-def _infer_literal(value: str, xsd_type: URIRef | None = None) -> Literal:
+def infer_literal(value: str, xsd_type: URIRef | None = None) -> Literal:
     """
     Build an rdflib Literal with the best available datatype.
     If xsd_type is provided (from ontology range), use it directly.
@@ -87,6 +87,30 @@ def _infer_literal(value: str, xsd_type: URIRef | None = None) -> Literal:
     return Literal(value, datatype=_XSD.string)
 
 
+def build_namespaces(mapping: MappingDocument) -> dict[str, Namespace]:
+    """Merge rdflib's built-in prefixes (rdf/rdfs/owl/xsd) with a mapping's declared namespaces."""
+    namespaces: dict[str, Namespace] = dict(_BUILTIN)
+    for prefix, uri in mapping.namespaces.items():
+        namespaces[prefix] = Namespace(uri)
+    return namespaces
+
+
+def resolve_uri(compact: str, namespaces: dict[str, Namespace]) -> URIRef:
+    """
+    Expand a compact URI (bsm:Action, owl:Thing) to a full URIRef using the
+    given prefix -> Namespace map. Falls through to URIRef(uri) if no matching
+    prefix is found, which also handles already-expanded full URIs.
+    """
+    colon = compact.find(':')
+    if colon == -1:
+        return URIRef(compact)
+    prefix, local = compact[:colon], compact[colon + 1:]
+    ns = namespaces.get(prefix)
+    if ns is not None:
+        return ns[local]
+    return URIRef(compact)
+
+
 class RDFSerializer:
     """
     Converts ExtractionResult(s) → rdflib.Graph.
@@ -106,10 +130,7 @@ class RDFSerializer:
         property_ranges: dict[str, URIRef] | None = None,
     ):
         self.mapping = mapping
-        # Merge user-declared namespaces with built-ins
-        self._ns: dict[str, Namespace] = dict(_BUILTIN)
-        for prefix, uri in mapping.namespaces.items():
-            self._ns[prefix] = Namespace(uri)
+        self._ns: dict[str, Namespace] = build_namespaces(mapping)
         # predicate full-URI → xsd datatype URIRef
         self._property_ranges: dict[str, URIRef] = property_ranges or {}
 
@@ -152,7 +173,7 @@ class RDFSerializer:
                 pred = self._resolve(pred_compact)
                 xsd_type = self._property_ranges.get(str(pred))
                 for val in values:
-                    g.add((uri, pred, _infer_literal(str(val), xsd_type)))
+                    g.add((uri, pred, infer_literal(str(val), xsd_type)))
 
         # object-property triples (IRI → IRI)
         for rel in result.relations:
@@ -162,19 +183,7 @@ class RDFSerializer:
                 g.add((subj, self._resolve(rel.predicate_uri), obj))
 
     def _resolve(self, uri: str) -> URIRef:
-        """
-        Expand a compact URI (bsm:Action, owl:Thing) to a full URIRef.
-        Falls through to URIRef(uri) if no matching prefix is found,
-        which also handles already-expanded full URIs.
-        """
-        colon = uri.find(':')
-        if colon == -1:
-            return URIRef(uri)
-        prefix, local = uri[:colon], uri[colon + 1:]
-        ns = self._ns.get(prefix)
-        if ns is not None:
-            return ns[local]
-        return URIRef(uri)
+        return resolve_uri(uri, self._ns)
 
 
 # ── Convenience: build property_ranges from a loaded OntologyModel ────────────

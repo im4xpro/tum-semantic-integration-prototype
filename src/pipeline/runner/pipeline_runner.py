@@ -24,6 +24,7 @@ from typing import Literal, cast
 
 from pipeline.connectors.models import ExtractedSchema
 from pipeline.connectors.postgres import PostgresConfig, PostgresConnector
+from pipeline.connectors.sample_data import load_sample_records, load_schema
 from pipeline.extraction.entity_extractor import EntityExtractor
 from pipeline.extraction.models import ExtractionResult
 from pipeline.graph.graphdb_client import GraphDBClient, GraphDBConfig
@@ -93,7 +94,7 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
         if cancel.is_set():
             return _cancel(run, store)
 
-        client = GraphDBClient(_build_graphdb_config(run.config))
+        client = GraphDBClient(build_graphdb_config(run.config))
         client.replace_named_graph(graph, run.named_graph)
         run.stats.triples_in_db = client.count_triples(run.named_graph)
 
@@ -111,7 +112,7 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
     return run
 
 
-def _build_graphdb_config(run_config: RunConfig) -> GraphDBConfig:
+def build_graphdb_config(run_config: RunConfig) -> GraphDBConfig:
     """Build a GraphDBConfig from explicit run overrides, falling back to .env (GRAPHDB_*)."""
     overrides = run_config.graphdb.model_dump(exclude_none=True)
     return GraphDBConfig(**overrides)
@@ -164,38 +165,12 @@ def _resolve_mapping(run: Run, cancel: threading.Event, store: RunStore) -> Mapp
 
 
 def _load_schema(source_name: str) -> ExtractedSchema:
-    candidates = list(_SCHEMAS_DIR.glob("*.json"))
-    for p in candidates:
-        try:
-            raw = json.loads(p.read_text())
-            if raw.get("source_name") == source_name:
-                return ExtractedSchema.model_validate(raw)
-        except Exception:
-            pass
-    for p in candidates:
-        if source_name in p.stem:
-            return ExtractedSchema.model_validate(json.loads(p.read_text()))
-    raise FileNotFoundError(
-        f"No schema JSON found for source_name='{source_name}' in {_SCHEMAS_DIR}"
-    )
+    return load_schema(source_name, _SCHEMAS_DIR)
 
 
 def _load_records(run: Run) -> list[dict]:
     if run.config.use_sample_data:
-        schema_raw = None
-        for p in _SCHEMAS_DIR.glob("*.json"):
-            try:
-                raw = json.loads(p.read_text())
-                if raw.get("source_name") == run.config.source_name:
-                    schema_raw = raw
-                    break
-            except Exception:
-                pass
-        if schema_raw is None:
-            raise FileNotFoundError(
-                f"Schema not found for source '{run.config.source_name}'"
-            )
-        return schema_raw.get("sample_records", [])
+        return load_sample_records(run.config.source_name, _SCHEMAS_DIR)
 
     # All connection params come from .env via PostgresConfig (POSTGRES_* env vars);
     # only the table name varies per run, so it's the only explicit kwarg here.
