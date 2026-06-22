@@ -1,13 +1,15 @@
-from pydantic import BaseModel, Field
+import uuid
 from datetime import datetime
 from typing import Any
-import uuid
+
+from pydantic import BaseModel, Field
 
 
 class ExtractedEntity(BaseModel):
     temp_id: str = Field(default_factory=lambda: str(uuid.uuid4())[:8])
+    subject_uri: str
     class_uri: str
-    properties: dict[str, Any] = {}
+    properties: dict[str, list[Any]] = {}  # multi-value: one list per predicate URI
     source_name: str
     source_record_id: str
 
