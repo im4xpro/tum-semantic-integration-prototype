@@ -1,12 +1,11 @@
-# clients/factory.py
 from enum import Enum
 
-from .openrouter import OpenRouterClient, OpenRouterConfig
-from .base import BaseLLMClient
 from .anthropic import AnthropicClient, AnthropicConfig
-from .openai import OpenAIClient, OpenAIConfig
+from .base import BaseLLMClient
+from .fortiss_token_manager import FortissConfig, FortissTokenManager
 from .ollama import OllamaClient, OllamaConfig
-from .fortiss_token_manager import FortissTokenManager, FortissConfig
+from .openai import OpenAIClient, OpenAIConfig
+from .openrouter import OpenRouterClient, OpenRouterConfig
 
 
 class LLMProvider(str, Enum):
@@ -22,31 +21,20 @@ class LLMClientFactory:
     @staticmethod
     def create(provider: LLMProvider, model: str) -> BaseLLMClient:
         if provider == LLMProvider.ANTHROPIC:
-            config = AnthropicConfig.model_construct()
-            config.model = model
-            return AnthropicClient(config)
+            return AnthropicClient(AnthropicConfig(model=model))
 
         if provider == LLMProvider.OPENAI:
-            config = OpenAIConfig.model_construct()
-            config.model = model
-            return OpenAIClient(config)
+            return OpenAIClient(OpenAIConfig(model=model))
 
         if provider == LLMProvider.OLLAMA:
-            config = OllamaConfig.model_construct()
-            config.model = model
-            return OllamaClient(config)
+            return OllamaClient(OllamaConfig(model=model))
 
         if provider == LLMProvider.FORTISS:
-            ollama_config = OllamaConfig.model_construct()
-            ollama_config.model = model
-            fortiss_config = FortissConfig.model_construct()
-            ollama_config.base_url = fortiss_config.base_url
-            token_manager = FortissTokenManager(fortiss_config)
-            return OllamaClient(ollama_config, token_manager)
+            fortiss_config = FortissConfig()
+            ollama_config = OllamaConfig(model=model, base_url=fortiss_config.base_url)
+            return OllamaClient(ollama_config, FortissTokenManager(fortiss_config))
 
         if provider == LLMProvider.OPENROUTER:
-            config = OpenRouterConfig.model_construct()
-            config.model = model
-            return OpenRouterClient(config)
+            return OpenRouterClient(OpenRouterConfig(model=model))
 
         raise ValueError(f"Unknown provider: {provider}")

@@ -1,12 +1,12 @@
-# clients/ollama.py
 import requests
 from pydantic_settings import BaseSettings
+
 from .base import BaseLLMClient, LLMClientError
 from .fortiss_token_manager import FortissTokenManager
 
 
 class OllamaConfig(BaseSettings):
-    base_url: str = "http://localhost:11434/api/"
+    base_url: str
     model: str = "llama3.3:latest"
     max_tokens: int = 4096
 
