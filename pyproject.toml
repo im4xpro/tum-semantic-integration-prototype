@@ -23,6 +23,7 @@ dependencies = [
     "jinja2",
     "pandas",
     "pyyaml",
+    "tabulate",
 ]
 
 [project.optional-dependencies]

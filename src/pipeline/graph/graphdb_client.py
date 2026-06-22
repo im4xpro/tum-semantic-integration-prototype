@@ -91,6 +91,42 @@ class GraphDBClient:
         bindings = resp.json()["results"]["bindings"]
         return sorted(b["contextID"]["value"] for b in bindings)
 
+    def construct_named_graph(self, named_graph_uri: str) -> Graph:
+        """Fetch a named graph back out of the repository as an rdflib Graph."""
+        query = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ GRAPH <{named_graph_uri}> {{ ?s ?p ?o }} }}"
+        url = f"{self.config.url}/repositories/{self.config.repository}"
+        resp = requests.post(
+            url,
+            data=query.encode(),
+            headers={"Content-Type": "application/sparql-query", "Accept": "text/turtle"},
+            auth=self._auth,
+        )
+        if not resp.ok:
+            raise GraphDBError(f"CONSTRUCT failed [{resp.status_code}]: {resp.text[:200]}")
+        g = Graph()
+        g.parse(data=resp.text, format="turtle")
+        return g
+
+    def sparql_select(self, query: str) -> list[dict]:
+        """Run an arbitrary SPARQL SELECT, returning raw SPARQL-JSON bindings."""
+        return self._sparql_select(query)
+
+    def sparql_ask(self, query: str) -> bool:
+        """Run a SPARQL ASK query (the query must scope its own GRAPH clause)."""
+        url = f"{self.config.url}/repositories/{self.config.repository}"
+        resp = requests.post(
+            url,
+            data=query.encode(),
+            headers={
+                "Content-Type": "application/sparql-query",
+                "Accept": "application/sparql-results+json",
+            },
+            auth=self._auth,
+        )
+        if not resp.ok:
+            raise GraphDBError(f"SPARQL ASK failed [{resp.status_code}]: {resp.text[:200]}")
+        return resp.json()["boolean"]
+
     # ── Internals ─────────────────────────────────────────────────────────────
 
     def _get(self, path: str) -> requests.Response:
