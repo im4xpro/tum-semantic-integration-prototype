@@ -1,8 +1,9 @@
-from rdflib import Graph, RDF, OWL, Namespace, URIRef
-from rdflib.namespace import RDFS
 from pathlib import Path
 
-from .models import OntologyModel, OntologyClass, OntologyProperty
+from rdflib import OWL, RDF, Graph, Namespace, URIRef
+from rdflib.namespace import RDFS
+
+from .models import OntologyClass, OntologyModel, OntologyProperty
 
 NAMESPACE_STR = "https://thesis.tum.de/ontology#"
 PREFIX = "thesis"

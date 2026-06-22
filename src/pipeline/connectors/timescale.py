@@ -1,6 +1,7 @@
-from .postgres import PostgresConnector, PostgresConfig
-from .models import ExtractedSchema
 from pydantic_settings import BaseSettings
+
+from .models import ExtractedSchema
+from .postgres import PostgresConnector
 
 
 class TimescaleConfig(BaseSettings):

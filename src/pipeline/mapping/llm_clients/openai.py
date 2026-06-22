@@ -1,6 +1,6 @@
-# clients/openai.py
 from openai import OpenAI
 from pydantic_settings import BaseSettings
+
 from .base import BaseLLMClient, LLMClientError
 
 

@@ -1,6 +1,7 @@
 from pathlib import Path
+
+from ..models import FormattedOntology, OntologyModel
 from .base import BaseFormatter
-from ..models import OntologyModel, FormattedOntology
 
 
 class DefaultTurtleFormatter(BaseFormatter):

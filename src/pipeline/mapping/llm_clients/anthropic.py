@@ -1,7 +1,7 @@
-# clients/anthropic.py
 from anthropic import Anthropic
 from anthropic.types import TextBlock
 from pydantic_settings import BaseSettings
+
 from .base import BaseLLMClient, LLMClientError
 
 

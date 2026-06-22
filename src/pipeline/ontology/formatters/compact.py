@@ -1,6 +1,5 @@
-from pathlib import Path
+from ..models import FormattedOntology, OntologyClass, OntologyModel
 from .base import BaseFormatter
-from ..models import OntologyModel, FormattedOntology, OntologyClass
 
 
 class CompactFormatter(BaseFormatter):

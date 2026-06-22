@@ -1,12 +1,13 @@
 from pydantic import BaseModel
 
+
 class OntologyClass(BaseModel):
     uri: str
     label: str
     comment: str | None = None
     subclass_of: list[str] = []
     is_extension: bool = False
-    
+
 class OntologyProperty(BaseModel):
     uri: str
     label: str

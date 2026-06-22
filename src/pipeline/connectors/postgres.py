@@ -1,11 +1,12 @@
-from pydantic_settings import BaseSettings
-import psycopg2
-import psycopg2.extras
 import datetime
 from typing import Optional
 
-from .models import ExtractedSchema, ColumnSchema
+import psycopg2
+import psycopg2.extras
+from pydantic_settings import BaseSettings
+
 from .base import BaseConnector, ConnectorError
+from .models import ColumnSchema, ExtractedSchema
 
 
 class PostgresConfig(BaseSettings):

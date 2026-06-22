@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pipeline.ontology.manager import OntologyManager
 
 DATA_DIR = Path(__file__).parent.parent.parent / "data"

@@ -1,4 +1,3 @@
-# clients/base.py
 from abc import ABC, abstractmethod
 
 

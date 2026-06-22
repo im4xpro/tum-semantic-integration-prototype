@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
-from ..models import OntologyModel, FormattedOntology
+
+from ..models import FormattedOntology, OntologyModel
+
 
 class BaseFormatter(ABC):
 
