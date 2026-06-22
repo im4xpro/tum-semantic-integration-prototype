@@ -16,7 +16,7 @@ config = MappingConfig(
     llm_model="meta-llama/llama-3.3-70b-instruct",
     strategy="zero_shot",
     ontology_format="compact",
-    rag_enabled=False,
+    include_descriptions=False,
     temperature=0.0,
 )
 # config = MappingConfig(
@@ -24,7 +24,7 @@ config = MappingConfig(
 #     llm_model="llama3.2:latest ",
 #     strategy="zero_shot",
 #     ontology_format="compact",
-#     rag_enabled=False,
+#     include_descriptions=False,
 #     temperature=0.0,
 # )
 

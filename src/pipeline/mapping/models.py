@@ -1,9 +1,11 @@
-from pydantic import BaseModel, Field
-from typing import Literal
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import Literal
+
+from pydantic import BaseModel, Field
 
 from pipeline.mapping.llm_clients.factory import LLMProvider
+
 
 class PropertySource(BaseModel):
     source: Literal["column", "constant", "row_index"]
@@ -26,7 +28,7 @@ class ValueDefinition(BaseModel):
     value_source: PropertySource
     transformation: CodeTransformation | None = None
     value_type: ValueType
-    
+
 class PropertyMapping(BaseModel):
     property_uri: str
     values: list[ValueDefinition]
@@ -46,7 +48,7 @@ class MappingDocument(BaseModel):
     llm_model: str
     strategy: str
     ontology_format: str
-    rag_enabled: bool
+    include_descriptions: bool
     base_uri: str = "https://thesis.tum.de/baltic-sea-monitoring/instances/"
     namespaces: dict[str, str] = {
         "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
@@ -64,7 +66,7 @@ class MappingDocument(BaseModel):
 class MappingConfig(BaseModel):
     provider: LLMProvider
     llm_model: str
-    strategy: Literal["zero_shot", "few_shot", "chain_of_thought", "schema_guided"]
+    strategy: Literal["zero_shot", "few_shot", "chain_of_thought"]
     ontology_format: Literal["turtle", "compact", "class_list"]
-    rag_enabled: bool
+    include_descriptions: bool
     temperature: float = 0.0

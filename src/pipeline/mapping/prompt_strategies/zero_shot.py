@@ -1,8 +1,9 @@
 import json
-from .base import BasePromptStrategy
-from ...connectors.models import ExtractedSchema
-from ...ontology.models import FormattedOntology
 
+from ...connectors.models import ExtractedSchema
+from ...ontology.manager import OntologyManager
+from ...ontology.models import FormattedOntology
+from .base import BasePromptStrategy
 
 OUTPUT_SCHEMA = {
     "subject_mappings": [
@@ -50,6 +51,8 @@ class ZeroShotPromptStrategy(BasePromptStrategy):
         self,
         schema: ExtractedSchema,
         ontology: FormattedOntology,
+        column_descriptions: dict[str, str] | None = None,
+        ontology_manager: OntologyManager | None = None,
     ) -> tuple[str, str]:
         system_prompt = f"""You are a semantic data integration expert.
 Your task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.
@@ -66,7 +69,7 @@ Omit subject_transformation and transformation when no expression is needed.
 Return ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:
 {json.dumps(OUTPUT_SCHEMA, indent=2)}"""
 
-        schema_description = self._format_schema(schema)
+        schema_description = self._format_schema(schema, column_descriptions)
 
         user_prompt = f"""Map the following data source schema to the ontology.
 
@@ -82,16 +85,25 @@ Return the mapping as JSON."""
 
         return system_prompt, user_prompt
 
-    def _format_schema(self, schema: ExtractedSchema) -> str:
+    def _format_schema(
+        self,
+        schema: ExtractedSchema,
+        column_descriptions: dict[str, str] | None = None,
+    ) -> str:
         lines = []
+        descriptions = column_descriptions or {}
 
         if schema.columns:
             for col in schema.columns:
-                lines.append(f"  {col.name}: {col.data_type}")
+                desc = descriptions.get(col.name)
+                suffix = f" — {desc}" if desc else ""
+                lines.append(f"  {col.name}: {col.data_type}{suffix}")
 
         if schema.inferred_fields:
             for field in schema.inferred_fields:
-                lines.append(f"  {field.name}: {field.data_type}")
+                desc = descriptions.get(field.name)
+                suffix = f" — {desc}" if desc else ""
+                lines.append(f"  {field.name}: {field.data_type}{suffix}")
 
         if schema.sample_records:
             lines.append("\nSAMPLE RECORD:")

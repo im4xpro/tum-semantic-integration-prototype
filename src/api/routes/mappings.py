@@ -6,8 +6,9 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 
-from ..deps import MAPPINGS_DIR, get_ontology_manager
 from pipeline.mapping.models import MappingDocument
+
+from ..deps import MAPPINGS_DIR, get_ontology_manager
 
 router = APIRouter()
 
@@ -33,7 +34,7 @@ def _fill_defaults(body: dict) -> dict:
     body.setdefault("llm_model", "manual")
     body.setdefault("strategy", "manual")
     body.setdefault("ontology_format", "manual")
-    body.setdefault("rag_enabled", False)
+    body.setdefault("include_descriptions", False)
     body.setdefault("prompt_tokens", 0)
     body.setdefault("completion_tokens", 0)
     body.setdefault("base_uri", "https://thesis.tum.de/baltic-sea-monitoring/instances/")

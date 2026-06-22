@@ -1,12 +1,14 @@
-import json
 import datetime
+import json
+import re
 
-from .models import MappingDocument, SubjectMapping, MappingConfig
-from .llm_clients.factory import LLMClientFactory
-
-from .prompt_strategies.zero_shot import ZeroShotPromptStrategy
 from ..connectors.models import ExtractedSchema
 from ..ontology.manager import OntologyManager
+from .llm_clients.factory import LLMClientFactory
+from .models import MappingConfig, MappingDocument, SubjectMapping
+from .prompt_strategies.chain_of_thought import ChainOfThoughtPromptStrategy
+from .prompt_strategies.few_shot import FewShotPromptStrategy
+from .prompt_strategies.zero_shot import ZeroShotPromptStrategy
 
 
 class MappingGeneratorError(Exception):
@@ -23,6 +25,8 @@ class MappingGenerator:
     def _build_strategy(self):
         strategies = {
             "zero_shot": ZeroShotPromptStrategy,
+            "few_shot": FewShotPromptStrategy,
+            "chain_of_thought": ChainOfThoughtPromptStrategy,
         }
         strategy_class = strategies.get(self.config.strategy)
         if not strategy_class:
@@ -35,10 +39,14 @@ class MappingGenerator:
         self,
         schema: ExtractedSchema,
         ontology_manager: OntologyManager,
+        column_descriptions: dict[str, str] | None = None,
     ) -> MappingDocument:
         ontology = ontology_manager.get_formatted_ontology(self.config.ontology_format)
 
-        system_prompt, user_prompt = self._strategy.build_prompt(schema, ontology)
+        descriptions = column_descriptions if self.config.include_descriptions else None
+        system_prompt, user_prompt = self._strategy.build_prompt(
+            schema, ontology, descriptions, ontology_manager
+        )
 
         print(f"Prompt size: {len(system_prompt) + len(user_prompt)} chars")
         print(f"System prompt:\n{system_prompt}\n")
@@ -61,7 +69,7 @@ class MappingGenerator:
             llm_model=self.config.llm_model,
             strategy=self.config.strategy,
             ontology_format=self.config.ontology_format,
-            rag_enabled=self.config.rag_enabled,
+            include_descriptions=self.config.include_descriptions,
             subject_mappings=subject_mappings,
             unmapped_fields=raw.get("unmapped_fields", []),
             generation_timestamp=datetime.datetime.now(),
@@ -72,13 +80,13 @@ class MappingGenerator:
     def _parse_json(self, response_text: str) -> dict:
         text = response_text.strip()
 
-        if text.startswith("```"):
-            parts = text.split("```")
-            if len(parts) >= 2:
-                text = parts[1]
-                if text.startswith("json"):
-                    text = text[4:]
-            text = text.strip()
+        # Reasoning strategies (e.g. chain_of_thought) emit prose before a fenced
+        # ```json block; plain strategies emit pure JSON, optionally fenced.
+        fenced = re.search(r"```(?:json)?\s*(.*?)```", text, re.DOTALL)
+        if fenced:
+            text = fenced.group(1).strip()
+        elif not text.startswith("{"):
+            text = self._extract_first_json_object(text)
 
         try:
             return json.loads(text)
@@ -87,3 +95,34 @@ class MappingGenerator:
                 f"Failed to parse LLM response as JSON: {e}\n"
                 f"Response: {text[:500]}"
             )
+
+    @staticmethod
+    def _extract_first_json_object(text: str) -> str:
+        start = text.find("{")
+        if start == -1:
+            return text
+
+        depth = 0
+        in_string = False
+        escape = False
+        for i in range(start, len(text)):
+            char = text[i]
+            if in_string:
+                if escape:
+                    escape = False
+                elif char == "\\":
+                    escape = True
+                elif char == '"':
+                    in_string = False
+                continue
+
+            if char == '"':
+                in_string = True
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    return text[start : i + 1]
+
+        return text[start:]
