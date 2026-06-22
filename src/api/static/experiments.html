@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pipeline Experiments</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f1117; color: #e1e4e8; font-size: 14px; }
+    a { color: #58a6ff; text-decoration: none; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; align-items: center; gap: 16px; }
+    header h1 { font-size: 16px; font-weight: 600; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+    .panel h2 { font-size: 14px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+    label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 4px; margin-top: 12px; }
+    label:first-of-type { margin-top: 0; }
+    textarea { width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e1e4e8; padding: 10px; font-family: monospace; font-size: 12px; resize: vertical; }
+    textarea:focus { outline: none; border-color: #388bfd; }
+    input[type=text] { width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e1e4e8; padding: 8px 10px; font-size: 13px; }
+    input:focus { outline: none; border-color: #388bfd; }
+    button { padding: 8px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
+    button:hover { opacity: .85; }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-primary { background: #238636; color: #fff; }
+    .btn-secondary { background: #21262d; color: #e1e4e8; border: 1px solid #30363d; }
+    .btn-danger { background: #da3633; color: #fff; }
+    .btn-sm { padding: 4px 10px; font-size: 12px; }
+    .btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .s-queued      { background: #21262d; color: #8b949e; border: 1px solid #30363d; }
+    .s-mapping     { background: #0c2d6b; color: #58a6ff; }
+    .s-extracting  { background: #0c2d6b; color: #58a6ff; }
+    .s-completed   { background: #0f3e1a; color: #3fb950; }
+    .s-failed      { background: #3d1515; color: #f85149; }
+    .s-cancelled   { background: #21262d; color: #8b949e; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th { text-align: left; padding: 8px 10px; font-size: 11px; color: #8b949e; border-bottom: 1px solid #21262d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 8px 10px; border-bottom: 1px solid #21262d; font-size: 12px; vertical-align: middle; }
+    tr:hover td { background: #1c2128; }
+    .mono { font-family: monospace; font-size: 11px; color: #8b949e; }
+    .preview-box { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 12px; font-size: 12px; font-family: monospace; white-space: pre-wrap; color: #8b949e; max-height: 200px; overflow-y: auto; margin-top: 8px; }
+    .error-box { background: #3d1515; border: 1px solid #da3633; border-radius: 6px; padding: 12px; font-size: 12px; color: #f85149; margin-top: 8px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; }
+    .refresh-note { font-size: 11px; color: #8b949e; }
+    .run-detail { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-top: 16px; }
+    .run-detail h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .kv { display: grid; grid-template-columns: 160px 1fr; gap: 4px 12px; font-size: 12px; }
+    .kv .k { color: #8b949e; }
+    .kv .v { color: #e1e4e8; font-family: monospace; word-break: break-all; }
+    .spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid #388bfd; border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #status-msg { font-size: 12px; color: #3fb950; margin-top: 8px; }
+    select { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e1e4e8; padding: 7px 10px; font-size: 13px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Pipeline Experiments</h1>
+  <span class="refresh-note">Auto-refresh: <span id="refresh-label">5s</span></span>
+  <button class="btn-secondary btn-sm" onclick="toggleAutoRefresh()" id="refresh-btn">Pause</button>
+</header>
+
+<div class="container">
+  <div class="cols">
+    <!-- LEFT: Submit runs -->
+    <div>
+      <div class="panel">
+        <h2>Submit from YAML</h2>
+        <label>Experiment YAML</label>
+        <textarea id="yaml-input" rows="18" placeholder="Paste your experiment.yaml content here..."></textarea>
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="previewYaml()">Preview runs</button>
+          <button class="btn-primary" onclick="submitYaml()" id="submit-btn">Queue all runs</button>
+        </div>
+        <div id="preview-out"></div>
+        <div id="submit-out"></div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <h2>Quick single run</h2>
+        <label>Mapping ID (leave blank to generate)</label>
+        <input type="text" id="single-mapping-id" placeholder="e.g. acled-manual">
+        <label>Source name</label>
+        <input type="text" id="single-source" value="acled_data">
+        <label>Provider</label>
+        <input type="text" id="single-provider" value="anthropic">
+        <label>Model</label>
+        <input type="text" id="single-model" value="claude-sonnet-4-6">
+        <label>Strategy</label>
+        <input type="text" id="single-strategy" value="zero_shot">
+        <label>Ontology format</label>
+        <input type="text" id="single-format" value="turtle">
+        <label>Data limit (records)</label>
+        <input type="text" id="single-limit" value="5">
+        <label><input type="checkbox" id="single-sample" checked> Use sample data</label>
+        <label><input type="checkbox" id="single-descriptions"> Include column descriptions</label>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="submitSingle()">Submit run</button>
+        </div>
+        <div id="single-out"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Run list -->
+    <div>
+      <div class="panel">
+        <h2>Runs
+          <span id="live-indicator" style="display:none"><span class="spinner"></span></span>
+          <span id="total-count" style="font-size:11px;color:#8b949e;font-weight:normal;margin-left:8px"></span>
+        </h2>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <select id="filter-status" onchange="loadRuns()">
+            <option value="">All statuses</option>
+            <option value="queued">Queued</option>
+            <option value="mapping">Mapping</option>
+            <option value="extracting">Extracting</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select id="filter-experiment" onchange="loadRuns()">
+            <option value="">All experiments</option>
+          </select>
+          <button class="btn-secondary btn-sm" onclick="loadRuns()">Refresh</button>
+        </div>
+        <div id="runs-table">Loading…</div>
+      </div>
+
+      <div id="run-detail-container"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';  // same origin
+let autoRefresh = true;
+let refreshTimer = null;
+let selectedRunId = null;
+
+// ── Auto-refresh ──────────────────────────────────────────────────────────────
+function toggleAutoRefresh() {
+  autoRefresh = !autoRefresh;
+  document.getElementById('refresh-btn').textContent = autoRefresh ? 'Pause' : 'Resume';
+  if (autoRefresh) scheduleRefresh(); else clearTimeout(refreshTimer);
+}
+
+function scheduleRefresh() {
+  clearTimeout(refreshTimer);
+  if (autoRefresh) refreshTimer = setTimeout(() => { loadRuns(); scheduleRefresh(); }, 5000);
+}
+
+// ── Load runs ─────────────────────────────────────────────────────────────────
+async function loadRuns() {
+  const status = document.getElementById('filter-status').value;
+  const exp    = document.getElementById('filter-experiment').value;
+  let url = `${API}/api/experiments/runs?limit=200`;
+  if (status) url += `&status=${status}`;
+  if (exp)    url += `&experiment=${encodeURIComponent(exp)}`;
+
+  try {
+    const runs = await fetch(url).then(r => r.json());
+    renderRunsTable(runs);
+    document.getElementById('total-count').textContent = `${runs.length} run(s)`;
+
+    // Refresh detail panel if a run is selected
+    if (selectedRunId) {
+      const sel = runs.find(r => r.id === selectedRunId);
+      if (sel) renderRunDetail(sel);
+    }
+  } catch(e) {
+    document.getElementById('runs-table').innerHTML = `<div class="error-box">Cannot reach API: ${e.message}</div>`;
+  }
+}
+
+async function loadExperiments() {
+  try {
+    const names = await fetch(`${API}/api/experiments/experiments`).then(r => r.json());
+    const sel = document.getElementById('filter-experiment');
+    names.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value = n; opt.textContent = n;
+      sel.appendChild(opt);
+    });
+  } catch(e) {}
+}
+
+function renderRunsTable(runs) {
+  if (!runs.length) {
+    document.getElementById('runs-table').innerHTML = '<p style="color:#8b949e;font-size:13px">No runs yet.</p>';
+    return;
+  }
+  const activeStatuses = new Set(['queued','mapping','extracting']);
+  const rows = runs.map(r => {
+    const isActive = activeStatuses.has(r.status);
+    const spinner = isActive ? '<span class="spinner" style="vertical-align:middle"></span>' : '';
+    const dur = r.stats.duration_seconds ? `${r.stats.duration_seconds.toFixed(1)}s` : (isActive ? 'running…' : '—');
+    const triples = r.stats.triples_written || '—';
+    const ts = r.created_at ? new Date(r.created_at).toLocaleString() : '—';
+    return `<tr style="cursor:pointer" onclick="selectRun('${r.id}', this)">
+      <td class="mono">${r.id.substring(0,19)}</td>
+      <td>${spinner}<span class="status-badge s-${r.status}">${r.status}</span></td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.config.experiment_name}">${r.config.experiment_name}</td>
+      <td class="mono">${r.config.llm_model.split('/').pop()}</td>
+      <td>${r.config.ontology_format}</td>
+      <td style="text-align:right">${triples}</td>
+      <td style="text-align:right">${dur}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('runs-table').innerHTML = `
+    <table>
+      <thead><tr>
+        <th>ID</th><th>Status</th><th>Experiment</th><th>Model</th><th>Format</th><th style="text-align:right">Triples</th><th style="text-align:right">Duration</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function selectRun(runId, rowEl) {
+  selectedRunId = runId;
+  document.querySelectorAll('#runs-table tr').forEach(r => r.style.background = '');
+  if (rowEl) rowEl.style.background = '#1c2128';
+  const run = await fetch(`${API}/api/experiments/runs/${runId}`).then(r => r.json());
+  renderRunDetail(run);
+}
+
+function renderRunDetail(run) {
+  const c = run.config;
+  const s = run.stats;
+  const isActive = ['queued','mapping','extracting'].includes(run.status);
+  document.getElementById('run-detail-container').innerHTML = `
+    <div class="run-detail" style="margin-top:16px">
+      <h3>Run: <span class="mono">${run.id}</span>
+        <span class="status-badge s-${run.status}" style="margin-left:8px">${run.status}</span>
+      </h3>
+      <div class="kv">
+        <span class="k">Experiment</span><span class="v">${c.experiment_name}</span>
+        <span class="k">Mapping ID</span><span class="v">${run.mapping_id || (c.mapping_id ? c.mapping_id : '(generate)')}</span>
+        <span class="k">Provider / Model</span><span class="v">${c.provider} / ${c.llm_model}</span>
+        <span class="k">Strategy</span><span class="v">${c.strategy}</span>
+        <span class="k">Ontology format</span><span class="v">${c.ontology_format}</span>
+        <span class="k">Descriptions</span><span class="v">${c.include_descriptions}</span>
+        <span class="k">Source</span><span class="v">${c.source_name} (${c.use_sample_data ? 'sample' : 'live'}, limit=${c.data_limit ?? 'all'})</span>
+        <span class="k">Named graph</span><span class="v">${run.named_graph || '—'}</span>
+        <span class="k">Records</span><span class="v">${s.records_processed}</span>
+        <span class="k">Entities</span><span class="v">${s.entities_extracted}</span>
+        <span class="k">Triples written</span><span class="v">${s.triples_written}</span>
+        <span class="k">Triples in DB</span><span class="v">${s.triples_in_db}</span>
+        <span class="k">LLM tokens</span><span class="v">${s.prompt_tokens}+${s.completion_tokens}</span>
+        <span class="k">Duration</span><span class="v">${s.duration_seconds ? s.duration_seconds.toFixed(2)+'s' : '—'}</span>
+        <span class="k">Started</span><span class="v">${run.started_at ? new Date(run.started_at).toLocaleString() : '—'}</span>
+        <span class="k">Finished</span><span class="v">${run.finished_at ? new Date(run.finished_at).toLocaleString() : '—'}</span>
+      </div>
+      ${run.error ? `<div class="error-box" style="margin-top:12px">${escHtml(run.error)}</div>` : ''}
+      <div class="btn-row" style="margin-top:16px">
+        ${isActive ? `<button class="btn-danger btn-sm" onclick="cancelRun('${run.id}')">Cancel</button>` : ''}
+        ${!isActive ? `<button class="btn-secondary btn-sm" onclick="deleteRun('${run.id}')">Delete</button>` : ''}
+      </div>
+    </div>`;
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+async function previewYaml() {
+  const yaml_content = document.getElementById('yaml-input').value.trim();
+  if (!yaml_content) { alert('Paste YAML first'); return; }
+  try {
+    const configs = await fetch(`${API}/api/experiments/preview-yaml`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({yaml_content})
+    }).then(r => r.json());
+    if (configs.detail) {
+      document.getElementById('preview-out').innerHTML = `<div class="error-box">${escHtml(JSON.stringify(configs.detail,null,2))}</div>`;
+    } else {
+      const lines = configs.map((c,i) =>
+        `${i+1}. ${c.provider}/${c.llm_model} | ${c.strategy} | ${c.ontology_format} | descriptions=${c.include_descriptions} | src=${c.source_name} limit=${c.data_limit??'all'}`
+      ).join('\n');
+      document.getElementById('preview-out').innerHTML = `<div class="preview-box">${escHtml(`${configs.length} run(s):\n${lines}`)}</div>`;
+    }
+  } catch(e) { document.getElementById('preview-out').innerHTML = `<div class="error-box">${e.message}</div>`; }
+}
+
+async function submitYaml() {
+  const yaml_content = document.getElementById('yaml-input').value.trim();
+  if (!yaml_content) { alert('Paste YAML first'); return; }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Queueing…';
+  try {
+    const runs = await fetch(`${API}/api/experiments/submit-yaml`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({yaml_content})
+    }).then(r => r.json());
+    if (runs.detail) {
+      document.getElementById('submit-out').innerHTML = `<div class="error-box">${escHtml(JSON.stringify(runs.detail,null,2))}</div>`;
+    } else {
+      document.getElementById('submit-out').innerHTML = `<div class="preview-box">Queued ${runs.length} run(s).</div>`;
+      await loadRuns();
+    }
+  } catch(e) { document.getElementById('submit-out').innerHTML = `<div class="error-box">${e.message}</div>`; }
+  finally { btn.disabled = false; btn.textContent = 'Queue all runs'; }
+}
+
+async function submitSingle() {
+  const config = {
+    source_name: document.getElementById('single-source').value,
+    provider: document.getElementById('single-provider').value,
+    llm_model: document.getElementById('single-model').value,
+    strategy: document.getElementById('single-strategy').value,
+    ontology_format: document.getElementById('single-format').value,
+    use_sample_data: document.getElementById('single-sample').checked,
+    include_descriptions: document.getElementById('single-descriptions').checked,
+    data_limit: parseInt(document.getElementById('single-limit').value) || null,
+    mapping_id: document.getElementById('single-mapping-id').value || null,
+    experiment_name: 'manual',
+  };
+  try {
+    const run = await fetch(`${API}/api/experiments/submit`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(config)
+    }).then(r => r.json());
+    document.getElementById('single-out').innerHTML = `<div class="preview-box">Queued: ${run.id}</div>`;
+    await loadRuns();
+  } catch(e) { document.getElementById('single-out').innerHTML = `<div class="error-box">${e.message}</div>`; }
+}
+
+// ── Control ───────────────────────────────────────────────────────────────────
+async function cancelRun(id) {
+  if (!confirm(`Cancel run ${id}?`)) return;
+  await fetch(`${API}/api/experiments/runs/${id}/cancel`, {method:'POST'});
+  loadRuns();
+}
+
+async function deleteRun(id) {
+  if (!confirm(`Delete run ${id}?`)) return;
+  await fetch(`${API}/api/experiments/runs/${id}`, {method:'DELETE'});
+  selectedRunId = null;
+  document.getElementById('run-detail-container').innerHTML = '';
+  loadRuns();
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadExperiments();
+loadRuns();
+scheduleRefresh();
+</script>
+</body>
+</html>

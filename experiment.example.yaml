@@ -1,0 +1,49 @@
+# Pipeline Experiment Configuration
+# ----------------------------------
+# Drop this file (renamed) into the project root, then POST it to
+# /api/experiments/submit-yaml  or  /api/experiments/preview-yaml
+#
+# The `matrix` section expands into all combinations:
+#   len(provider_models) × len(strategies) × len(ontology_formats) × len(include_descriptions)
+# This example: 3 × 1 × 3 × 1 = 9 runs
+
+name: "LLM Mapping Comparison – ACLED"
+description: >
+  Compare three LLMs (Claude, GPT-4o, Llama) on the ACLED data source
+  across three ontology presentation formats (zero-shot, no column descriptions).
+
+data:
+  source_name: acled_data
+  limit: 50              # records per run (null = all available)
+  use_sample_data: true  # true = use sample_records in schema JSON (no DB needed)
+                         # false = connect to PostgreSQL via env vars
+
+graphdb:
+  url: http://localhost:7200
+  repository: bsm
+  # username: admin
+  # password: secret
+
+mapping:
+  mode: generate  # "generate" = LLM call; "use_existing" = skip LLM
+  # mapping_id: acled-manual  # only when mode=use_existing
+
+matrix:
+  provider_models:
+    - [anthropic, claude-sonnet-4-6]
+    - [openai, gpt-4o]
+    - [openrouter, meta-llama/llama-3.1-70b-instruct]
+
+  strategies:
+    - zero_shot
+    # - few_shot
+    # - chain_of_thought
+
+  ontology_formats:
+    - turtle
+    - compact
+    - class_list
+
+  include_descriptions:
+    - false
+    # - true            # requires data/descriptions/<source_name>.json to be filled in
