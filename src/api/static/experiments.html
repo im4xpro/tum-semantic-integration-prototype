@@ -255,6 +255,7 @@ function renderRunDetail(run) {
       <div class="btn-row" style="margin-top:16px">
         ${isActive ? `<button class="btn-danger btn-sm" onclick="cancelRun('${run.id}')">Cancel</button>` : ''}
         ${!isActive ? `<button class="btn-secondary btn-sm" onclick="deleteRun('${run.id}')">Delete</button>` : ''}
+        ${!isActive ? `<button class="btn-primary btn-sm" onclick="rerunRun('${run.id}')">Rerun</button>` : ''}
       </div>
     </div>`;
 }
@@ -335,6 +336,19 @@ async function deleteRun(id) {
   selectedRunId = null;
   document.getElementById('run-detail-container').innerHTML = '';
   loadRuns();
+}
+
+async function rerunRun(id) {
+  const run = await fetch(`${API}/api/experiments/runs/${id}`).then(r => r.json());
+  // Strip mapping_id so the LLM regenerates the mapping fresh
+  const config = { ...run.config, mapping_id: null };
+  const newRun = await fetch(`${API}/api/experiments/submit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(config),
+  }).then(r => r.json());
+  await loadRuns();
+  selectRun(newRun.id, null);
 }
 
 function escHtml(s) {
