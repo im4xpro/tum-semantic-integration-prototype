@@ -1,0 +1,257 @@
+{
+  "source_name": "acled_data",
+  "source_type": "relational",
+  "columns": [
+    {
+      "name": "event_id_cnty",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "event_date",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "year",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "time_precision",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "disorder_type",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "event_type",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "sub_event_type",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "actor1",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "assoc_actor_1",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "inter1",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "actor2",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "assoc_actor_2",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "inter2",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "interaction",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "civilian_targeting",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "iso",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "region",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "country",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "admin1",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "admin2",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "admin3",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "location",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "latitude",
+      "data_type": "double precision",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "longitude",
+      "data_type": "double precision",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "geo_precision",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "source",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "source_scale",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "notes",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "fatalities",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "tags",
+      "data_type": "text",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "timestamp",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "population_1km",
+      "data_type": "double precision",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "population_2km",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "population_5km",
+      "data_type": "bigint",
+      "is_primary_key": false,
+      "is_nullable": true
+    },
+    {
+      "name": "population_best",
+      "data_type": "double precision",
+      "is_primary_key": false,
+      "is_nullable": true
+    }
+  ],
+  "inferred_fields": [],
+  "sample_records": [
+    {
+      "event_id_cnty": "ESP105",
+      "event_date": "2020-01-20",
+      "year": 2020,
+      "time_precision": 1,
+      "disorder_type": "Demonstrations",
+      "event_type": "Protests",
+      "sub_event_type": "Peaceful protest",
+      "actor1": "Protesters (Spain)",
+      "assoc_actor_1": "Teachers (Spain)",
+      "inter1": "Protesters",
+      "actor2": null,
+      "assoc_actor_2": null,
+      "inter2": null,
+      "interaction": "Protesters only",
+      "civilian_targeting": null,
+      "iso": 724,
+      "region": "Europe",
+      "country": "Spain",
+      "admin1": "Galicia",
+      "admin2": "A Coruna",
+      "admin3": null,
+      "location": "Culleredo",
+      "latitude": 43.2895,
+      "longitude": -8.3894,
+      "geo_precision": 1,
+      "source": "La Opinion A Coruna",
+      "source_scale": "Subnational",
+      "notes": "On 20 January 2020, the educational community of the University Laboral institute in Culleredo protested against suppressing high school training at that center.",
+      "fatalities": 0,
+      "tags": "crowd size=no report",
+      "timestamp": 1729023384,
+      "population_1km": 1238.0,
+      "population_2km": 2352,
+      "population_5km": 33686,
+      "population_best": 1238.0
+    }
+  ],
+  "extraction_timestamp": "2026-05-12 17:08:59.477741"
+}

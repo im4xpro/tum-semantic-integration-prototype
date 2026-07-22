@@ -2,6 +2,14 @@
 .env
 __pycache__/
 *.pyc
-data/
+
+# data/ontology, data/gold_standard, data/schemas, data/descriptions, and the
+# hand-authored gold mapping are versioned — they define the experiment and
+# must ship with the code. Everything else under data/ is generated at
+# runtime and is not reproducible-input, so it stays ignored.
+data/runs/
+data/output/
+data/mappings/*
+!data/mappings/acled-manual.json
 
 .DS_Store

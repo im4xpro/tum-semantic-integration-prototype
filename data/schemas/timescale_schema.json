@@ -1,0 +1,152 @@
+{
+    "source_name": "adsb_events",
+    "source_type": "timeseries",
+    "columns": [
+        {
+            "name": "time",
+            "data_type": "timestamp with time zone",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "icao24",
+            "data_type": "text",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "lat",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "lon",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "velocity",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "heading",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "vertrate",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "callsign",
+            "data_type": "text",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "onground",
+            "data_type": "boolean",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "squawk",
+            "data_type": "text",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "baroaltitude",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        },
+        {
+            "name": "geoaltitude",
+            "data_type": "double precision",
+            "is_primary_key": false,
+            "is_nullable": true
+        }
+    ],
+    "inferred_fields": [],
+    "sample_records": [
+        {
+            "time": "2022-06-27 23:00:00+00:00",
+            "icao24": "ab58b2",
+            "lat": 31.046356201171875,
+            "lon": -82.84369973575366,
+            "velocity": 234.9747959962898,
+            "heading": 354.97592474146046,
+            "vertrate": 0.0,
+            "callsign": "DAL595",
+            "onground": null,
+            "squawk": "6132.0",
+            "baroaltitude": 10058.4,
+            "geoaltitude": 10660.38
+        },
+        {
+            "time": "2022-06-27 23:00:00+00:00",
+            "icao24": "406814",
+            "lat": 43.58024597167969,
+            "lon": -71.20705538017802,
+            "velocity": 276.6895817349964,
+            "heading": 34.546928656204585,
+            "vertrate": 0.32512,
+            "callsign": "VIR4C",
+            "onground": null,
+            "squawk": "3056.0",
+            "baroaltitude": 11277.6,
+            "geoaltitude": 11734.8
+        },
+        {
+            "time": "2022-06-27 23:00:00+00:00",
+            "icao24": "ab2729",
+            "lat": 40.97383117675781,
+            "lon": -74.6591796875,
+            "velocity": 231.79227671809437,
+            "heading": 98.16606956820934,
+            "vertrate": -0.97536,
+            "callsign": "AAL1092",
+            "onground": null,
+            "squawk": "7126.0",
+            "baroaltitude": 6111.240000000001,
+            "geoaltitude": 6370.320000000001
+        },
+        {
+            "time": "2022-06-27 23:00:00+00:00",
+            "icao24": "a4fdb1",
+            "lat": 30.097976943193853,
+            "lon": -81.70043334960934,
+            "velocity": 200.0261211077434,
+            "heading": 339.8406380654657,
+            "vertrate": 0.0,
+            "callsign": "TMB197",
+            "onground": null,
+            "squawk": "1363.0",
+            "baroaltitude": 11277.6,
+            "geoaltitude": 11925.3
+        },
+        {
+            "time": "2022-06-27 23:00:00+00:00",
+            "icao24": "c066b0",
+            "lat": 29.77674865722656,
+            "lon": -81.09769381009613,
+            "velocity": 253.16185968242752,
+            "heading": 183.84505389562028,
+            "vertrate": 0.0,
+            "callsign": "SWG626",
+            "onground": null,
+            "squawk": "6340.0",
+            "baroaltitude": 10972.8,
+            "geoaltitude": 11612.88
+        }
+    ],
+    "extraction_timestamp": "2026-05-12 17:18:05.886477"
+}

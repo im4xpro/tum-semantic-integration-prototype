@@ -1,0 +1,934 @@
+@prefix bsm:    <https://thesis.tum.de/baltic-sea-monitoring/ontology#> .
+@prefix mim:    <https://mimworld.org/mim/5.3/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix sosa:   <http://www.w3.org/ns/sosa/> .
+@prefix ssn:    <http://www.w3.org/ns/ssn/> .
+@prefix geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/ontology>
+    a owl:Ontology ;
+    dcterms:title "Baltic Sea Monitoring Ontology" ;
+    dcterms:creator "Maximilian Kaiser" .
+
+bsm:isExtension a owl:AnnotationProperty ;
+    rdfs:label "is thesis extension" ;
+    rdfs:comment "True when the annotated class/property is an addition not present in MIM 5.3" .
+
+bsm:Concept a owl:Class ;
+    rdfs:label "Concept" ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/Concept#ConceptType> .
+
+bsm:BattlespaceConcept a owl:Class ;
+    rdfs:label "Battlespace Concept" ;
+    rdfs:subClassOf bsm:Concept ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept#BattlespaceConceptType> .
+
+bsm:Object a owl:Class ;
+    rdfs:label "Object" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object#ObjectType> .
+
+bsm:Action a owl:Class ;
+    rdfs:label "Action" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "An activity (or the occurrence of one) that may use resources and may be focused against an objective. Used for conflict events, incidents, movements and aircraft activities." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionType> .
+
+bsm:Actor a owl:Class ;
+    rdfs:label "Actor" ;
+    rdfs:subClassOf bsm:Object ;
+    rdfs:comment "A person or a group of persons able to perform actions." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor#ActorType> .
+
+bsm:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:subClassOf bsm:Actor ;
+    rdfs:comment "A human being of military or civilian significance." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonType> .
+
+bsm:Organisation a owl:Class ;
+    rdfs:label "Organisation" ;
+    rdfs:subClassOf bsm:Actor ;
+    rdfs:comment "An administrative or functional structure." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Organisation#OrganisationType> .
+
+bsm:Materiel a owl:Class ;
+    rdfs:label "Materiel" ;
+    rdfs:subClassOf bsm:Object ;
+    rdfs:comment "Superclass for military supplies, vehicles, and other tools" ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel#MaterielType> .
+
+bsm:ConsumableMateriel a owl:Class ;
+    rdfs:label "ConsumableMateriel" ;
+    rdfs:subClassOf bsm:Materiel ;
+    rdfs:comment "Consumable goods, food, ammunition, etc." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/ConsumableMateriel> .
+
+
+bsm:Equipment a owl:Class ;
+    rdfs:label "Equipment" ;
+    rdfs:subClassOf bsm:Materiel ;
+    rdfs:comment "Materiel that is neither intended for consumption nor an unexploded piece of ordnance." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#EquipmentType> .
+
+bsm:Vehicle a owl:Class ;
+    rdfs:label "Vehicle" ;
+    rdfs:subClassOf bsm:Equipment ;
+    rdfs:comment "A conveyance for transporting persons or things. Common parent of Aircraft, Vessel and LandVehicle." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#VehicleType> .
+
+bsm:Aircraft a owl:Class ;
+    rdfs:label "Aircraft" ;
+    rdfs:subClassOf bsm:Vehicle ;
+    rdfs:comment "A Vehicle designed to fly within the earth's atmosphere." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Aircraft#AircraftType> .
+
+bsm:Vessel a owl:Class ;
+    rdfs:label "Vessel" ;
+    rdfs:subClassOf bsm:Vehicle ;
+    rdfs:comment "A Vehicle designed to operate on or under the water surface." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Vessel#VesselType> .
+
+bsm:LandVehicle a owl:Class ;
+    rdfs:label "Land Vehicle" ;
+    rdfs:subClassOf bsm:Vehicle ;
+    rdfs:comment "A vehicle designed to operate on the ground." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/LandVehicle#LandVehicleType> .
+
+bsm:Location a owl:Class ;
+    rdfs:label "Location" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "A position and geometry with respect to a horizontal frame of reference and a vertical datum. The MIM-standard wrapper around a Geometry." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LocationType> .
+
+bsm:Geometry a owl:Class ;
+    rdfs:label "Geometry" ;
+    rdfs:comment "Measurements and relationships of points, lines, surfaces and volumes. Abstract parent of Point, Line, Surface in MIM." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#GeometryType> .
+
+bsm:Point a owl:Class ;
+    rdfs:label "Point" ;
+    rdfs:subClassOf bsm:Geometry ;
+    rdfs:comment "A zero-dimensional location." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#PointType> .
+
+bsm:AbsolutePoint a owl:Class ;
+    rdfs:label "Absolute Point" ;
+    rdfs:subClassOf bsm:Point ;
+    rdfs:comment "A Point with its position specified in WGS-84 latitude, longitude and vertical distance." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#AbsolutePointType> .
+
+bsm:Line a owl:Class ;
+    rdfs:label "Line" ;
+    rdfs:subClassOf bsm:Geometry ;
+    rdfs:comment "A one-dimensional location, ordered sequence of points." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LineType> .
+
+bsm:Surface a owl:Class ;
+    rdfs:label "Surface" ;
+    rdfs:subClassOf bsm:Geometry ;
+    rdfs:comment "A two-dimensional location. Mirrors mim:SurfaceType." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#SurfaceType> .
+
+bsm:Velocity a owl:Class ;
+    rdfs:label "Velocity" ;
+    rdfs:comment "The movement of an Object in terms of speed, course and inclination." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#VelocityType> .
+
+bsm:Orientation a owl:Class ;
+    rdfs:label "Orientation" ;
+    rdfs:comment "Inclination of the three principal axes of an Object (longitudinal, lateral, vertical) with respect to the geographic coordinate system." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#OrientationType> .
+
+bsm:Altitude a owl:Class ;
+    rdfs:label "Altitude" ;
+    rdfs:comment "Altitude of an object (Extension)" ;
+    bsm:isExtension true .
+
+bsm:Affiliation a owl:Class ;
+    rdfs:label "Affiliation" ;
+    rdfs:comment "Membership or allegiance to an ethnic group, country, functional group, exercise group or religion." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Affiliation#AffiliationType> .
+
+bsm:Mobility a owl:Class ;
+    rdfs:label "Mobility" ;
+    rdfs:comment "Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Mobility#MobilityType> .
+
+bsm:AlternateIdentifier a owl:Class ;
+    rdfs:label "Alternate Identifier" ;
+    rdfs:comment "The alternate identification of a BattlespaceConcept used to communicate using another standard." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept#AlternateIdentifierType> .
+
+bsm:PersonNationality a owl:Class ;
+    rdfs:label "Person Nationality" ;
+    rdfs:comment "A citizenship description for a Person" ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonNationalityType> .
+
+bsm:PersonIdentificationDocument a owl:Class ;
+    rdfs:label "Person Identification Document" ;
+    rdfs:comment "A formal identification document held by a Person like passport, national ID, driver's licence, etc." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonIdentificationDocumentType> .
+
+bsm:ActionEffect a owl:Class ;
+    rdfs:label "Action Effect" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "The effectiveness of an Action against an Object or type of Object: fatalities, casualties, damage, destruction." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionEffectType> .
+
+bsm:ActionResource a owl:Class ;
+    rdfs:label "Action Resource" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "An Object (or type of Object) used in conducting an Action." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionResourceType> .
+
+bsm:ActionObjective a owl:Class ;
+    rdfs:label "Action Objective" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "The intended focus of an Action." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionObjectiveType> .
+
+# --------------------------------------------------
+#  Datatype properties
+
+bsm:conceptName a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:domain bsm:Concept ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Primary name of the Concept. Mandatory in MIM." .
+
+bsm:alternateName a owl:DatatypeProperty ;
+    rdfs:label "alternate name" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range xsd:string ;
+    rdfs:comment "An additional name by which the concept is known — aliases, callsigns, transponder-broadcast names, vessel AIS names." .
+
+bsm:additionalInformationText a owl:DatatypeProperty ;
+    rdfs:label "additional information" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Free-text additional information about the concept that does not fit any structured attribute." .
+
+bsm:hostilityCode a owl:DatatypeProperty ;
+    rdfs:label "hostility code" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Perceived hostility from following values (Friend, Hostile, Neutral, Suspect, Unknown, Pending, Assumed-Friend, Joker, Faker)." .
+
+bsm:sourceIdentifier a owl:DatatypeProperty ;
+    rdfs:label "source identifier" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range xsd:string ;
+    rdfs:comment "EXTENSION: the primary key or row identifier from the originating dataset that produced this concept instance, enabling traceability back to the source record." ;
+    bsm:isExtension true .
+
+bsm:typeName a owl:DatatypeProperty ;
+    rdfs:label "type name" ;
+    rdfs:domain bsm:Object ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Free-text name of the Object's type. Used for category strings that do not map to a closed MIM code list (e.g. vessel-type strings broadcast by maritime navigation systems, aircraft model designations)." .
+
+#----- Person ------------------------------------------------------------------
+
+bsm:birthDate a owl:DatatypeProperty ;
+    rdfs:label "birth date" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Date of birth of the Person." .
+
+bsm:deathDate a owl:DatatypeProperty ;
+    rdfs:label "death date" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Date of death of the Person, if applicable." .
+
+bsm:genderCode a owl:DatatypeProperty ;
+    rdfs:label "gender code" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Gender of the Person. Backed by the MIM GenderCode enumeration." .
+
+bsm:militaryStatusCode a owl:DatatypeProperty ;
+    rdfs:label "military status code" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Whether the Person is civilian, military or paramilitary. Backed by the MIM PersonMilitaryStatusCode enumeration." .
+
+bsm:characteristicCode a owl:DatatypeProperty ;
+    rdfs:label "characteristic code" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Profession, social status or legal/military involvement of the Person. Backed by the MIM PersonCharacteristicCode enumeration." .
+
+bsm:dutyStatusCode a owl:DatatypeProperty ;
+    rdfs:label "duty status code" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Current duty status of the Person (active, on leave, retired, …)." .
+
+#----- Person Nationality ------------------------------------------------------
+
+bsm:nationalityCountryCode a owl:DatatypeProperty ;
+    rdfs:label "nationality country code" ;
+    rdfs:domain bsm:PersonNationality ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Country code of the Person's nationality. Backed by the MIM CountryCode enumeration." .
+
+bsm:nationalityReasonCode a owl:DatatypeProperty ;
+    rdfs:label "nationality reason code" ;
+    rdfs:domain bsm:PersonNationality ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Reason for which the nationality is held (birth, naturalisation, marriage, …)." .
+
+#----- Person Identification Document ------------------------------------------
+
+bsm:identificationDocumentCategoryCode a owl:DatatypeProperty ;
+    rdfs:label "ID document category" ;
+    rdfs:domain bsm:PersonIdentificationDocument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Type of identification document (passport, national ID card, driver's licence, …)." .
+
+bsm:identificationDocumentIdentifier a owl:DatatypeProperty ;
+    rdfs:label "ID document number" ;
+    rdfs:domain bsm:PersonIdentificationDocument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Reference number on the identification document." .
+
+#----- Organisation ------------------------------------------------------------
+
+bsm:descriptionText a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:domain bsm:Organisation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Free-text description of the Organisation." .
+
+bsm:mainActivityCode a owl:DatatypeProperty ;
+    rdfs:label "main activity code" ;
+    rdfs:domain bsm:Organisation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Primary activity sector of the Organisation. Like industry, NGO." .
+
+#----- Materiel / Equipment / Vehicle ------------------------------------------
+
+bsm:serialNumberIdentifier a owl:DatatypeProperty ;
+    rdfs:label "serial number" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Serial number assigned by the manufacturer or operator." .
+
+bsm:modelName a owl:DatatypeProperty ;
+    rdfs:label "model name" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Manufacturer's model designation." .
+
+bsm:isActiveIndicator a owl:DatatypeProperty ;
+    rdfs:label "is active" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "True if the Materiel is currently active (in service)." .
+
+bsm:operatingModeCode a owl:DatatypeProperty ;
+    rdfs:label "operating mode code" ;
+    rdfs:domain bsm:Vehicle ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Operating mode of the Vehicle: manned, unmanned, autonomous, remotely piloted." .
+
+#----- Aircraft ----------------------------------------------------------------
+
+bsm:designRangeCode a owl:DatatypeProperty ;
+    rdfs:label "design range code" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Range category of the Aircraft." .
+
+bsm:designRoleCode a owl:DatatypeProperty ;
+    rdfs:label "design role code" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Primary design role of the Aircraft (fighter, transport, surveillance, …)." .
+
+bsm:typeMainPurposeCode a owl:DatatypeProperty ;
+    rdfs:label "type main purpose code" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Main purpose of the Aircraft type." .
+
+bsm:militaryCivilianCode a owl:DatatypeProperty ;
+    rdfs:label "military/civilian code" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Whether the Aircraft is military or civilian." .
+
+bsm:wingSpanDimension a owl:DatatypeProperty ;
+    rdfs:label "wing span" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Wing span of the Aircraft." .
+
+bsm:weaponTypeCode a owl:DatatypeProperty ;
+    rdfs:label "weapon type code" ;
+    rdfs:domain bsm:Aircraft ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Type of weapons the Aircraft is armed with." .
+
+#----- Vessel ------------------------------------------------------------------
+
+bsm:vesselCategoryCode a owl:DatatypeProperty ;
+    rdfs:label "vessel category code" ;
+    rdfs:domain bsm:Vessel ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Category of the Vessel: cargo, tanker, fishing, passenger, military, special-craft." .
+
+bsm:vesselMaximumSpeed a owl:DatatypeProperty ;
+    rdfs:label "vessel maximum speed" ;
+    rdfs:domain bsm:Vessel ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Maximum design speed of the Vessel. Mirrors mim:Vessel.maximumSpeed." .
+
+#----- Action ------------------------------------------------------------------
+
+bsm:actionDescriptionText a owl:DatatypeProperty ;
+    rdfs:label "action description" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Free-text description of the Action." .
+
+bsm:classificationCode a owl:DatatypeProperty ;
+    rdfs:label "classification code" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Classification of the Action." .
+
+bsm:eventStartDateTime a owl:DatatypeProperty ;
+    rdfs:label "event start time" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Event Start Timestamp" ;
+    bsm:isExtension true .
+
+bsm:eventEndDateTime a owl:DatatypeProperty ;
+    rdfs:label "event end time" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Event End Timestamp" ;
+    bsm:isExtension true .
+
+#----- Action Effect -----------------------------------------------------------
+
+bsm:effectDescriptionCode a owl:DatatypeProperty ;
+    rdfs:label "effect description code" ;
+    rdfs:domain bsm:ActionEffect ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Type of outcome (Fatalities, Casualties, Damaged, Destroyed, …)." .
+
+bsm:effectQuantityNumber a owl:DatatypeProperty ;
+    rdfs:label "effect quantity" ;
+    rdfs:domain bsm:ActionEffect ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Aggregated count for the effect, e.g. number of fatalities. Mirrors mim:ActionEffect.quantityNumber." .
+
+bsm:effectSeverityCode a owl:DatatypeProperty ;
+    rdfs:label "effect severity code" ;
+    rdfs:domain bsm:ActionEffect ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Severity grade of the effect." .
+
+#----- Geometry / Location -----------------------------------------------------
+
+bsm:latitudeDecimal a owl:DatatypeProperty ;
+    rdfs:label "latitude (decimal degrees, WGS84)" ;
+    rdfs:domain bsm:AbsolutePoint ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Latitude of the AbsolutePoint in decimal degrees." ;
+    owl:equivalentProperty geo:lat .
+
+bsm:longitudeDecimal a owl:DatatypeProperty ;
+    rdfs:label "longitude (decimal degrees, WGS84)" ;
+    rdfs:domain bsm:AbsolutePoint ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Longitude of the AbsolutePoint in decimal degrees" ;
+    owl:equivalentProperty geo:long .
+
+bsm:locationName a owl:DatatypeProperty ;
+    rdfs:label "location name" ;
+    rdfs:domain bsm:Location ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Human-readable name of the Location." .
+
+#----- Velocity / Orientation / Altitude --------------------------------------------------
+
+bsm:speedMetersPerSecond a owl:DatatypeProperty ;
+    rdfs:label "speed (m/s)" ;
+    rdfs:domain bsm:Velocity ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Speed of the Object" .
+
+bsm:absoluteBearingAngle a owl:DatatypeProperty ;
+    rdfs:label "absolute bearing angle" ;
+    rdfs:domain bsm:Velocity ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Course over ground / track angle, degrees clockwise from true north." .
+
+bsm:inclinationAngle a owl:DatatypeProperty ;
+    rdfs:label "inclination angle" ;
+    rdfs:domain bsm:Velocity ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Vertical inclination of the velocity vector, in degrees (positive climbing)." .
+
+bsm:headingAngle a owl:DatatypeProperty ;
+    rdfs:label "heading angle" ;
+    rdfs:domain bsm:Orientation ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Heading (direction the longitudinal axis points), degrees true." .
+
+bsm:altitudeMeters a owl:DatatypeProperty ;
+    rdfs:label "altitude in meters" ;
+    rdfs:domain bsm:Altitude ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Altitude of the object in meters." .
+
+#----- AlternateIdentifier -----------------------------------------------------
+
+bsm:alternateIdentifierStandardCode a owl:DatatypeProperty ;
+    rdfs:label "alternate identifier standard code" ;
+    rdfs:domain bsm:AlternateIdentifier ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The identifier authority/standard" .
+
+bsm:alternateIdentifierValue a owl:DatatypeProperty ;
+    rdfs:label "alternate identifier value" ;
+    rdfs:domain bsm:AlternateIdentifier ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The identifier value itself, as a string." .
+
+#----- Affiliation -------------------------------------------------------------
+
+bsm:geopoliticalAffiliationCode a owl:DatatypeProperty ;
+    rdfs:label "geopolitical affiliation code" ;
+    rdfs:domain bsm:GeopoliticalAffiliation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Country or political-entity code." .
+
+bsm:affiliationEthnicGroupCode a owl:DatatypeProperty ;
+    rdfs:label "ethnic group code" ;
+    rdfs:domain bsm:EthnicAffiliation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Ethnic group identifier." .
+
+bsm:affiliationReligionCode a owl:DatatypeProperty ;
+    rdfs:label "religion code" ;
+    rdfs:domain bsm:ReligiousAffiliation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Religion identifier." .
+
+###############################################################################
+#  Object properties (relationships)
+###############################################################################
+
+#----- Spatial / kinematic -----------------------------------------------------
+
+bsm:hasGeographicLocation a owl:ObjectProperty ;
+    rdfs:label "has geographic location" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range bsm:Location ;
+    rdfs:comment "Position of the BattlespaceConcept, expressed as a Location (which in turn carries a Geometry)." .
+
+bsm:hasGeometry a owl:ObjectProperty ;
+    rdfs:label "has geometry" ;
+    rdfs:domain bsm:Location ;
+    rdfs:range bsm:Geometry ;
+    rdfs:comment "Geometry component of a Location" .
+
+bsm:hasVelocity a owl:ObjectProperty ;
+    rdfs:label "has velocity" ;
+    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;
+    rdfs:range bsm:Velocity ;
+    rdfs:comment "Current velocity vector of the Object." .
+
+bsm:hasOrientation a owl:ObjectProperty ;
+    rdfs:label "has orientation" ;
+    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;
+    rdfs:range bsm:Orientation ;
+    rdfs:comment "Current orientation of the Object's principal axes." .
+
+bsm:hasAltitude a owl:ObjectProperty ;
+    rdfs:label "has altitude" ;
+    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;
+    rdfs:range bsm:Altitude ;
+    rdfs:comment "Current altitude of the Object" .
+
+bsm:hasMobility a owl:ObjectProperty ;
+    rdfs:label "has mobility" ;
+    rdfs:domain bsm:Equipment ;
+    rdfs:range bsm:Mobility ;
+    rdfs:comment "Mobility characteristics of the Equipment." .
+
+#----- Identification & classification -----------------------------------------
+
+bsm:hasAlternateIdentifier a owl:ObjectProperty ;
+    rdfs:label "has alternate identifier" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:range bsm:AlternateIdentifier ;
+    rdfs:comment "Attaches a structured AlternateIdentifier (scheme + value) to the BattlespaceConcept." .
+
+bsm:hasAffiliation a owl:ObjectProperty ;
+    rdfs:label "has affiliation" ;
+    rdfs:domain bsm:Object ;
+    rdfs:range bsm:Affiliation ;
+    rdfs:comment "Geopolitical, ethnic, religious or other affiliation of the Object: captures flag-state of vessels, origin-country of aircraft, nationality of persons." .
+
+#----- Person ↔ Organisation associations --------------------------------------
+
+bsm:isMemberOf a owl:ObjectProperty ;
+    rdfs:label "is member of" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Organisation ;
+    rdfs:comment "Person is a formal member of the Organisation." ;
+    owl:inverseOf bsm:hasMember .
+
+bsm:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:domain bsm:Organisation ;
+    rdfs:range bsm:Person ;
+    rdfs:comment "Inverse of bsm:isMemberOf." .
+
+bsm:isAssignedTo a owl:ObjectProperty ;
+    rdfs:label "is assigned to" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Organisation ;
+    rdfs:comment "Long-term assignment of a Person to an Organisation." ;
+    owl:inverseOf bsm:hasAssignedPerson .
+
+bsm:hasAssignedPerson a owl:ObjectProperty ;
+    rdfs:label "has assigned person" ;
+    rdfs:domain bsm:Organisation ;
+    rdfs:range bsm:Person ;
+    rdfs:comment "Inverse of bsm:isAssignedTo." .
+
+bsm:isAttachedTo a owl:ObjectProperty ;
+    rdfs:label "is attached to" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Organisation ;
+    rdfs:comment "Temporary attachment of a Person to an Organisation." .
+
+bsm:hasSuperior a owl:ObjectProperty ;
+    rdfs:label "has superior" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Person ;
+    rdfs:comment "Direct superior of the Person in a chain of command." ;
+    owl:inverseOf bsm:hasSubordinate .
+
+bsm:hasSubordinate a owl:ObjectProperty ;
+    rdfs:label "has subordinate" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Person ;
+    rdfs:comment "Direct subordinate of the Person." .
+
+bsm:isOperativeOf a owl:ObjectProperty ;
+    rdfs:label "is operative of" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:Organisation ;
+    rdfs:comment "Person used as a secret or trusted agent of an Organisation." .
+
+bsm:hasNationality a owl:ObjectProperty ;
+    rdfs:label "has nationality" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:PersonNationality ;
+    rdfs:comment "Attaches a PersonNationality (country + reason) to the Person." .
+
+bsm:hasIdentificationDocument a owl:ObjectProperty ;
+    rdfs:label "has identification document" ;
+    rdfs:domain bsm:Person ;
+    rdfs:range bsm:PersonIdentificationDocument ;
+    rdfs:comment "Attaches an identification document held by the Person." .
+
+#----- Materiel control / operation / ownership --------------------
+
+bsm:hasController a owl:ObjectProperty ;
+    rdfs:label "has controller" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Actor ;
+    rdfs:comment "The Actor that has authority over the Materiel." .
+
+bsm:hasOperator a owl:ObjectProperty ;
+    rdfs:label "has operator" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Actor ;
+    rdfs:comment "The Actor that operates the Materiel (uses it in practice, distinct from owning or controlling)." ;
+    owl:inverseOf bsm:operatesMateriel .
+
+bsm:operatesMateriel a owl:ObjectProperty ;
+    rdfs:label "operates materiel" ;
+    rdfs:domain bsm:Actor ;
+    rdfs:range bsm:Materiel ;
+    rdfs:comment "Mirrors mim:Actor.employedMateriel directly." .
+
+bsm:hasOwner a owl:ObjectProperty ;
+    rdfs:label "has owner" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Actor ;
+    rdfs:comment "The Actor that owns the Materiel." ;
+    owl:inverseOf bsm:ownsMateriel .
+
+bsm:ownsMateriel a owl:ObjectProperty ;
+    rdfs:label "owns materiel" ;
+    rdfs:domain bsm:Actor ;
+    rdfs:range bsm:Materiel ;
+    rdfs:comment "Mirrors mim:Actor.ownedMateriel directly. Inverse of bsm:hasOwner." .
+
+bsm:isOnAccountOf a owl:ObjectProperty ;
+    rdfs:label "is on account of" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Actor ;
+    rdfs:comment "The Actor that holds accounting authority over the Materiel." .
+
+bsm:transportsActor a owl:ObjectProperty ;
+    rdfs:label "transports actor" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Person ;
+    rdfs:comment "The Materiel is responsible for movement of the Person." .
+
+bsm:isLoadedOn a owl:ObjectProperty ;
+    rdfs:label "is loaded on" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Materiel ;
+    rdfs:comment "Materiel that is loaded onto another (carrying) Materiel. Mirrors mim:Materiel.loadedMateriel." ;
+    owl:inverseOf bsm:carries .
+
+bsm:carries a owl:ObjectProperty ;
+    rdfs:label "carries" ;
+    rdfs:domain bsm:Materiel ;
+    rdfs:range bsm:Materiel ;
+    rdfs:comment "Carrying Materiel. Mirrors mim:Materiel.carryingMateriel. Inverse of bsm:isLoadedOn." .
+
+#----- Action — focus / requirement / result -----------------------------------
+
+bsm:hasFocus a owl:ObjectProperty ;
+    rdfs:label "has focus" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:ActionObjective ;
+    rdfs:comment "ActionObjective the Action is directed at." .
+
+bsm:hasRequirement a owl:ObjectProperty ;
+    rdfs:label "has requirement" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:ActionResource ;
+    rdfs:comment "ActionResource(s) required/requested/allocated by the Action." .
+
+bsm:hasResult a owl:ObjectProperty ;
+    rdfs:label "has result" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:ActionEffect ;
+    rdfs:comment "ActionEffect resulting from the Action, like fatalities, damage, casualties." .
+
+bsm:hasSubAction a owl:ObjectProperty ;
+    rdfs:label "has sub-action" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:Action ;
+    rdfs:comment "Sub-action of the Action." .
+
+bsm:isCausedBy a owl:ObjectProperty ;
+    rdfs:label "is caused by" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:Action ;
+    rdfs:comment "The subject Action is carried out in reaction to the object Action." ;
+    owl:inverseOf bsm:hasResponse .
+
+bsm:hasResponse a owl:ObjectProperty ;
+    rdfs:label "has response" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:Action ;
+    rdfs:comment "Inverse of bsm:isCausedBy." .
+
+bsm:targetsObject a owl:ObjectProperty ;
+    rdfs:label "targets object" ;
+    rdfs:domain bsm:ActionObjective ;
+    rdfs:range bsm:Object ;
+    rdfs:comment "Bridge from ActionObjective to the targeted Object." .
+
+bsm:resourceObject a owl:ObjectProperty ;
+    rdfs:label "resource object" ;
+    rdfs:domain bsm:ActionResource ;
+    rdfs:range bsm:Object ;
+    rdfs:comment "Bridge from ActionResource to the participating Object (actor or piece of materiel)." .
+
+bsm:effectOnObject a owl:ObjectProperty ;
+    rdfs:label "effect on object" ;
+    rdfs:domain bsm:ActionEffect ;
+    rdfs:range bsm:Object ;
+    rdfs:comment "Object that the ActionEffect was observed on." .
+
+bsm:involvedActor a owl:ObjectProperty ;
+    rdfs:label "involved actor" ;
+    rdfs:domain bsm:Action ;
+    rdfs:range bsm:Actor ;
+    rdfs:comment "EXTENSION: direct association between an Action and an involved Actor." ;
+    bsm:isExtension true .
+
+###############################################################################
+#  Extension: Sanction Designation
+###############################################################################
+
+bsm:SanctionDesignation a owl:Class ;
+    rdfs:label "Sanction Designation" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    rdfs:comment "EXTENSION: a formal designation/listing of an Actor under a sanctions, watch-list or debarment regime." ;
+    bsm:isExtension true .
+
+bsm:hasSanctionDesignation a owl:ObjectProperty ;
+    rdfs:label "has sanction designation" ;
+    rdfs:domain bsm:Actor ;
+    rdfs:range bsm:SanctionDesignation ;
+    rdfs:comment "Attaches a SanctionDesignation to an Actor." ;
+    bsm:isExtension true .
+
+bsm:listingAuthority a owl:ObjectProperty ;
+    rdfs:label "listing authority" ;
+    rdfs:domain bsm:SanctionDesignation ;
+    rdfs:range bsm:Organisation ;
+    rdfs:comment "Organisation that issued the sanction listing." ;
+    bsm:isExtension true .
+
+bsm:listingDate a owl:DatatypeProperty ;
+    rdfs:label "listing date" ;
+    rdfs:domain bsm:SanctionDesignation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Date on which the designation was issued." ;
+    bsm:isExtension true .
+
+bsm:delistingDate a owl:DatatypeProperty ;
+    rdfs:label "delisting date" ;
+    rdfs:domain bsm:SanctionDesignation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Date on which the designation was lifted, if applicable." ;
+    bsm:isExtension true .
+
+bsm:sanctionReason a owl:DatatypeProperty ;
+    rdfs:label "sanction reason" ;
+    rdfs:domain bsm:SanctionDesignation ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Free-text reason for which the designation was made." ;
+    bsm:isExtension true .
+
+bsm:sourceUrl a owl:DatatypeProperty ;
+    rdfs:label "source URL" ;
+    rdfs:domain bsm:SanctionDesignation ;
+    rdfs:range xsd:anyURI ;
+    rdfs:comment "URL pointing to the public listing document." ;
+    bsm:isExtension true .
+
+###############################################################################
+#  Facility hierarchy
+###############################################################################
+
+bsm:Facility a owl:Class ;
+    rdfs:label "Facility" ;
+    rdfs:subClassOf bsm:Object ;
+    rdfs:comment "An Object that is built, installed or established to serve a particular purpose and is identified by the service it provides rather than by its content." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#FacilityType> .
+
+bsm:TransportFacility a owl:Class ;
+    rdfs:label "Transport Facility" ;
+    rdfs:subClassOf bsm:Facility ;
+    rdfs:comment "Facility supporting the movement of vehicles, persons or goods. Parent of air, maritime and ground transport facilities." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#TransportFacilityType> .
+
+bsm:MaritimeTransportFacility a owl:Class ;
+    rdfs:label "Maritime Transport Facility" ;
+    rdfs:subClassOf bsm:TransportFacility ;
+    rdfs:comment "Maritime transport infrastructure — ports, harbours, piers, anchorages, naval bases." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MaritimeTransportFacilityType> .
+
+bsm:Port a owl:Class ;
+    rdfs:label "Port" ;
+    rdfs:subClassOf bsm:MaritimeTransportFacility ;
+    rdfs:comment "Civilian or commercial port. Mirrors mim:PortType." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PortType> .
+
+bsm:MilitarySeaportOrNavalBase a owl:Class ;
+    rdfs:label "Military Seaport or Naval Base" ;
+    rdfs:subClassOf bsm:MaritimeTransportFacility ;
+    rdfs:comment "Military seaport or naval base." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MilitarySeaportOrNavalBaseType> .
+
+bsm:Harbour a owl:Class ;
+    rdfs:label "Harbour" ;
+    rdfs:subClassOf bsm:MaritimeTransportFacility ;
+    rdfs:comment "Harbour" ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#HarbourType> .
+
+bsm:AirTransportFacility a owl:Class ;
+    rdfs:label "Air Transport Facility" ;
+    rdfs:subClassOf bsm:TransportFacility ;
+    rdfs:comment "Air transport infrastructure." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirTransportFacilityType> .
+
+bsm:AirportOrAirbase a owl:Class ;
+    rdfs:label "Airport or Airbase" ;
+    rdfs:subClassOf bsm:AirTransportFacility ;
+    rdfs:comment "Civilian airport or military airbase." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirportOrAirbaseType> .
+
+bsm:EnergyFacility a owl:Class ;
+    rdfs:label "Energy Facility" ;
+    rdfs:subClassOf bsm:Facility ;
+    rdfs:comment "Energy generation, transmission or storage infrastructure like power plants, substations, offshore wind farms, gas terminals." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#EnergyFacilityType> .
+
+bsm:PetroleumProductionComplex a owl:Class ;
+    rdfs:label "Petroleum Production Complex" ;
+    rdfs:subClassOf bsm:Facility ;
+    rdfs:comment "Refineries, oil terminals and gas terminals." ;
+    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PetroleumProductionComplexType> .
+
+#----- Facility attributes -----------------------------------------------------
+
+bsm:facilityIsActiveIndicator a owl:DatatypeProperty ;
+    rdfs:label "facility is active" ;
+    rdfs:domain bsm:Facility ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "True if the Facility is currently in active operation." .
+
+bsm:facilityAccessRestrictionCode a owl:DatatypeProperty ;
+    rdfs:label "facility access restriction code" ;
+    rdfs:domain bsm:Facility ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Access-restriction class for the Facility (e.g. unrestricted, restricted, prohibited)." .
+
+bsm:hasControlledFacility a owl:ObjectProperty ;
+    rdfs:label "has controlled facility" ;
+    rdfs:domain bsm:Actor ;
+    rdfs:range bsm:Facility ;
+    rdfs:comment "Facility under the control of the Actor." .
+
+# ADSB Extensions
+
+bsm:Observation a owl:Class ;
+    rdfs:label "Observation" ;
+    rdfs:subClassOf bsm:BattlespaceConcept ;
+    bsm:isExtension true .
+
+bsm:hasObservation a owl:ObjectProperty ;
+    rdfs:label "has observation" ;
+    rdfs:domain bsm:Vehicle ;
+    rdfs:range bsm:Observation ;
+    bsm:isExtension true .
+
+bsm:observationDateTime a owl:DatatypeProperty ;
+    rdfs:label "observation date time" ;
+    rdfs:domain bsm:Observation ;
+    rdfs:range xsd:string ;
+    bsm:isExtension true .
+
+bsm:partOf a owl:ObjectProperty ;
+    rdfs:label "part of" ;
+    rdfs:domain bsm:BattlespaceConcept ;
+    rdfs:comment "Indicates that an entity is a subpart of a higher concept, added initially for location hierarchy: City, Region, Country" ;
+    bsm:isExtension true .

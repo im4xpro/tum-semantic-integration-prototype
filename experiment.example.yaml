@@ -19,6 +19,9 @@ data:
                          # false = connect to PostgreSQL via env vars
 
 graphdb:
+  # Omit this whole block to fall back to GRAPHDB_URL/GRAPHDB_REPOSITORY from
+  # .env instead — required if you run the app via docker-compose, where
+  # "localhost" from inside the app container is not the graphdb container.
   url: http://localhost:7200
   repository: bsm
   # username: admin

@@ -19,7 +19,7 @@ dependencies = [
     "rapidfuzz",
     "chromadb",
     "fastapi",
-    "uvicorn",
+    "uvicorn[standard]",
     "jinja2",
     "pandas",
     "pyyaml",

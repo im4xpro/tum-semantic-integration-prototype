@@ -1,0 +1,40 @@
+# RDF4J-style repository config for GraphDB Free, creating the "bsm"
+# repository the app expects (GRAPHDB_REPOSITORY in .env). Posted to
+# /rest/repositories by the graphdb-init service in docker-compose.yml.
+#
+# This template is stable across GraphDB 8.x-10.x's REST API, but repo
+# config schemas do occasionally shift between versions. If graphdb-init
+# fails, create the repository by hand instead (one-time, ~1 minute):
+#   http://localhost:7200 -> Setup -> Repositories -> Create new repository
+#   -> GraphDB Free -> Repository ID "bsm" -> Create.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rep: <http://www.openrdf.org/config/repository#> .
+@prefix sr: <http://www.openrdf.org/config/repository/sail#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix graphdb: <http://www.ontotext.com/config/graphdb#> .
+
+[] a rep:Repository ;
+    rep:repositoryID "bsm" ;
+    rdfs:label "Thesis semantic integration repository" ;
+    rep:repositoryImpl [
+        rep:repositoryType "graphdb:SailRepository" ;
+        sr:sailImpl [
+            sail:sailType "graphdb:Sail" ;
+            graphdb:ruleset "empty" ;
+            graphdb:storage-folder "storage" ;
+            graphdb:base-URL "http://example.org/owlim#" ;
+            graphdb:defaultNS "" ;
+            graphdb:entity-index-size "10000000" ;
+            graphdb:entity-id-size "32" ;
+            graphdb:enable-context-index "true" ;
+            graphdb:enablePredicateList "true" ;
+            graphdb:in-memory-literal-properties "true" ;
+            graphdb:enable-literal-index "true" ;
+            graphdb:check-for-inconsistencies "false" ;
+            graphdb:disable-sameAs "true" ;
+            graphdb:query-timeout "0" ;
+            graphdb:query-limit-results "0" ;
+            graphdb:throw-QueryEvaluationException-on-timeout "false" ;
+            graphdb:read-only "false" ;
+        ]
+    ] .
