@@ -16,7 +16,6 @@ class MappingGeneratorError(Exception):
 
 
 class MappingGenerator:
-
     def __init__(self, config: MappingConfig):
         self.config = config
         self._client = LLMClientFactory.create(config.provider, config.llm_model)
@@ -47,10 +46,6 @@ class MappingGenerator:
         system_prompt, user_prompt = self._strategy.build_prompt(
             schema, ontology, descriptions, ontology_manager
         )
-
-        print(f"Prompt size: {len(system_prompt) + len(user_prompt)} chars")
-        print(f"System prompt:\n{system_prompt}\n")
-        print(f"User prompt:\n{user_prompt}\n")
 
         response_text, prompt_tokens, completion_tokens = self._client.complete(
             system_prompt=system_prompt,
@@ -92,8 +87,7 @@ class MappingGenerator:
             return json.loads(text)
         except json.JSONDecodeError as e:
             raise MappingGeneratorError(
-                f"Failed to parse LLM response as JSON: {e}\n"
-                f"Response: {text[:500]}"
+                f"Failed to parse LLM response as JSON: {e}\nResponse: {text[:500]}"
             )
 
     @staticmethod

@@ -17,7 +17,6 @@ class MongoDBConfig(BaseSettings):
 
 
 class MongoDBConnector(BaseConnector):
-
     def __init__(self, config: MongoDBConfig):
         self.config = config
         self._client = None
@@ -48,8 +47,10 @@ class MongoDBConnector(BaseConnector):
                 result[k] = self._serialize(v)
             elif isinstance(v, list):
                 result[k] = [
-                    self._serialize(i) if isinstance(i, dict)
-                    else str(i) if isinstance(i, ObjectId)
+                    self._serialize(i)
+                    if isinstance(i, dict)
+                    else str(i)
+                    if isinstance(i, ObjectId)
                     else i
                     for i in v
                 ]
@@ -62,9 +63,7 @@ class MongoDBConnector(BaseConnector):
             if self._collection is None:
                 raise ConnectorError("Not connected to MongoDB")
 
-            samples = list(self._collection.aggregate([
-                {"$sample": {"size": 50}}
-            ]))
+            samples = list(self._collection.aggregate([{"$sample": {"size": 50}}]))
 
             schema_properties: dict[str, set] = {}
             for doc in samples:
@@ -79,10 +78,7 @@ class MongoDBConnector(BaseConnector):
                         schema_properties[schema_type].add(key)
 
             inferred_fields = [
-                ColumnSchema(
-                    name=f"{schema_type}.{field}",
-                    data_type="list"
-                )
+                ColumnSchema(name=f"{schema_type}.{field}", data_type="list")
                 for schema_type, fields in schema_properties.items()
                 for field in sorted(fields)
             ]

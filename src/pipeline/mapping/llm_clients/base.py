@@ -6,7 +6,6 @@ class LLMClientError(Exception):
 
 
 class BaseLLMClient(ABC):
-
     @abstractmethod
     def complete(
         self,

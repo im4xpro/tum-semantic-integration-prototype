@@ -8,6 +8,7 @@ class OntologyClass(BaseModel):
     subclass_of: list[str] = []
     is_extension: bool = False
 
+
 class OntologyProperty(BaseModel):
     uri: str
     label: str
@@ -17,11 +18,13 @@ class OntologyProperty(BaseModel):
     is_object_property: bool = False
     is_extension: bool = False
 
+
 class OntologyModel(BaseModel):
     classes: list[OntologyClass] = []
     properties: list[OntologyProperty] = []
     prefix: str
     namespace: str
+
 
 class FormattedOntology(BaseModel):
     format: str

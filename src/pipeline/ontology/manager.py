@@ -28,7 +28,9 @@ class OntologyManager:
     def get_formatted_ontology(self, format: str) -> FormattedOntology:
         formatter = self._formatters.get(format)
         if not formatter:
-            raise ValueError(f"Unknown format: {format}. Choose from: {list(self._formatters.keys())}")
+            raise ValueError(
+                f"Unknown format: {format}. Choose from: {list(self._formatters.keys())}"
+            )
         return formatter.format(self.ontology)
 
     def get_class(self, uri: str) -> OntologyClass | None:

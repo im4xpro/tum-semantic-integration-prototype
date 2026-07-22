@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+"""Manual check: render the ontology through each prompt formatter."""
+
 from pathlib import Path
+
 from pipeline.ontology.manager import OntologyManager
 
 BASE_DIR = Path(__file__).parent.parent

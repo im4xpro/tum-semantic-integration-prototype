@@ -16,7 +16,6 @@ class TimescaleConfig(BaseSettings):
 
 
 class TimescaleConnector(PostgresConnector):
-
     def __init__(self, config: TimescaleConfig):
         self.config = config
         self._conn = None

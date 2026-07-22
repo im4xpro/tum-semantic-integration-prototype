@@ -12,28 +12,35 @@ class PropertySource(BaseModel):
     column_name: str | None = None
     constant_value: str | None = None
 
+
 class CodeTransformation(BaseModel):
     expression: str
     language: Literal["python"] = "python"
 
+
 class TypeMapping(BaseModel):
     class_uri: str
+
 
 class ValueType(BaseModel):
     type: Literal["literal", "iri"]
     type_mappings: list[TypeMapping] = []
     property_mappings: list["PropertyMapping"] = []
 
+
 class ValueDefinition(BaseModel):
     value_source: PropertySource
     transformation: CodeTransformation | None = None
-    value_type: ValueType
+    value_type: ValueType = Field(default_factory=lambda: ValueType(type="literal"))
+
 
 class PropertyMapping(BaseModel):
     property_uri: str
     values: list[ValueDefinition]
 
+
 ValueType.model_rebuild()
+
 
 class SubjectMapping(BaseModel):
     label: str | None = None
@@ -41,6 +48,7 @@ class SubjectMapping(BaseModel):
     subject_transformation: CodeTransformation | None = None
     type_mappings: list[TypeMapping] = []
     property_mappings: list[PropertyMapping] = []
+
 
 class MappingDocument(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -58,10 +66,7 @@ class MappingDocument(BaseModel):
     generation_timestamp: datetime
     prompt_tokens: int
     completion_tokens: int
-    status: Literal["draft", "approved", "superseded", "rejected"] = "draft"
-    reviewed_by: str | None = None
-    reviewed_at: datetime | None = None
-    superseded_by: str | None = None  # ID of the newer mapping
+
 
 class MappingConfig(BaseModel):
     provider: LLMProvider

@@ -17,7 +17,6 @@ class LLMProvider(str, Enum):
 
 
 class LLMClientFactory:
-
     @staticmethod
     def create(provider: LLMProvider, model: str) -> BaseLLMClient:
         if provider == LLMProvider.ANTHROPIC:

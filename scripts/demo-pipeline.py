@@ -23,37 +23,37 @@ logging.getLogger("rdflib").setLevel(logging.ERROR)
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from rdflib import RDF, URIRef
-from pipeline.mapping.models import MappingDocument
-from pipeline.ontology.manager import OntologyManager
-from pipeline.extraction.entity_extractor import EntityExtractor
-from pipeline.extraction.models import ExtractionResult
-from pipeline.graph.rdf_serializer import RDFSerializer, build_property_ranges
+from rdflib import RDF  # noqa: E402
+from pipeline.mapping.models import MappingDocument  # noqa: E402
+from pipeline.ontology.manager import OntologyManager  # noqa: E402
+from pipeline.extraction.entity_extractor import EntityExtractor  # noqa: E402
+from pipeline.extraction.models import ExtractionResult  # noqa: E402
+from pipeline.graph.rdf_serializer import RDFSerializer, build_property_ranges  # noqa: E402
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-BASE    = Path(__file__).parent.parent
+BASE = Path(__file__).parent.parent
 MAPPING = BASE / "data/mappings/acled-manual.json"
-SCHEMA  = BASE / "data/schemas/postgres_schema.json"
-ONTOLOGY= BASE / "data/ontology/thesis_ontology.ttl"
+SCHEMA = BASE / "data/schemas/postgres_schema.json"
+ONTOLOGY = BASE / "data/ontology/thesis_ontology.ttl"
 OUT_DIR = BASE / "data/output"
 OUT_TTL = OUT_DIR / "demo.ttl"
 
 # ── Load ──────────────────────────────────────────────────────────────────────
 
-mapping  = MappingDocument.model_validate(json.loads(MAPPING.read_text()))
+mapping = MappingDocument.model_validate(json.loads(MAPPING.read_text()))
 ontology = OntologyManager(ONTOLOGY).ontology
-records  = json.loads(SCHEMA.read_text()).get("sample_records", [])
+records = json.loads(SCHEMA.read_text()).get("sample_records", [])
 
 prop_ranges = build_property_ranges(ontology)
-extractor   = EntityExtractor(mapping)
-serializer  = RDFSerializer(mapping, property_ranges=prop_ranges)
+extractor = EntityExtractor(mapping)
+serializer = RDFSerializer(mapping, property_ranges=prop_ranges)
 
-print(f"\n{'─'*64}")
+print(f"\n{'─' * 64}")
 print(f"  Mapping : {MAPPING.name}")
 print(f"  Records : {len(records)} sample records from {SCHEMA.name}")
 print(f"  Prop. ranges resolved from ontology: {len(prop_ranges)}")
-print(f"{'─'*64}\n")
+print(f"{'─' * 64}\n")
 
 # ── Per-record extraction ─────────────────────────────────────────────────────
 
@@ -65,16 +65,17 @@ for i, record in enumerate(records, 1):
 
     entity_labels = []
     for e in result.entities:
-        cls   = e.class_uri.split(":")[-1].split("#")[-1]
+        cls = e.class_uri.split(":")[-1].split("#")[-1]
         local = e.subject_uri.split("/")[-1]
         entity_labels.append(f"{cls}({local[:30]})")
 
     skipped_cols = [
-        col for col in ["actor2", "assoc_actor_1", "assoc_actor_2"]
+        col
+        for col in ["actor2", "assoc_actor_1", "assoc_actor_2"]
         if not record.get(col)
     ]
 
-    print(f"  Record {i}  [{record['event_id_cnty']}]  {record.get('country','')}")
+    print(f"  Record {i}  [{record['event_id_cnty']}]  {record.get('country', '')}")
     print(f"    entities  : {len(result.entities)}")
     print(f"    relations : {len(result.relations)}")
     if skipped_cols:
@@ -89,36 +90,36 @@ graph = serializer.serialize_all(results)
 
 # ── Stats ─────────────────────────────────────────────────────────────────────
 
-subjects  = set(s for s, p, o in graph)
-types_map = defaultdict(set)   # class_uri → set of subject URIs
-preds_map = defaultdict(int)   # predicate → count
+subjects = set(s for s, p, o in graph)
+types_map = defaultdict(set)  # class_uri → set of subject URIs
+preds_map = defaultdict(int)  # predicate → count
 
 for s, p, o in graph:
     preds_map[str(p)] += 1
     if p == RDF.type:
         types_map[str(o)].add(str(s))
 
-print(f"{'─'*64}")
-print(f"  Combined graph")
-print(f"{'─'*64}")
+print(f"{'─' * 64}")
+print("  Combined graph")
+print(f"{'─' * 64}")
 print(f"  Total triples   : {len(graph)}")
 print(f"  Unique subjects : {len(subjects)}")
 print()
 
-print(f"  Instances by type:")
+print("  Instances by type:")
 for class_uri, instances in sorted(types_map.items(), key=lambda x: -len(x[1])):
     label = class_uri.split("#")[-1].split(":")[-1]
     print(f"    {label:<24} {len(instances):>3} instance(s)")
 print()
 
-print(f"  Triples by predicate:")
+print("  Triples by predicate:")
 for pred, count in sorted(preds_map.items(), key=lambda x: -x[1]):
     label = pred.split("#")[-1].split(":")[-1]
     print(f"    {label:<36} {count:>3}")
 print()
 
 # Note on Unix timestamps
-ts_vals = [str(r.get("timestamp","")) for r in records]
+ts_vals = [str(r.get("timestamp", "")) for r in records]
 if any(v.isdigit() for v in ts_vals):
     print("  NOTE: 'timestamp' column contains Unix epoch integers.")
     print("        eventEndDateTime triples use xsd:dateTime datatype but the")
@@ -132,5 +133,5 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 turtle = graph.serialize(format="turtle")
 OUT_TTL.write_text(turtle)
 print(f"  Turtle written → {OUT_TTL.relative_to(BASE)}")
-print(f"{'─'*64}\n")
+print(f"{'─' * 64}\n")
 print(turtle)

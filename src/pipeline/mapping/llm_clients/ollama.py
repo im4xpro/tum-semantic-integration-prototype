@@ -14,8 +14,9 @@ class OllamaConfig(BaseSettings):
 
 
 class OllamaClient(BaseLLMClient):
-
-    def __init__(self, config: OllamaConfig, token_manager: FortissTokenManager | None = None):
+    def __init__(
+        self, config: OllamaConfig, token_manager: FortissTokenManager | None = None
+    ):
         self.config = config
         self._token_manager = token_manager
 
@@ -43,7 +44,7 @@ class OllamaClient(BaseLLMClient):
                     "stream": False,
                     "options": {"temperature": temperature},
                 },
-                timeout=120
+                timeout=120,
             )
             response.raise_for_status()
             data = response.json()

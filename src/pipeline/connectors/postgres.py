@@ -1,5 +1,4 @@
 import datetime
-from typing import Optional
 
 import psycopg2
 import psycopg2.extras
@@ -21,10 +20,9 @@ class PostgresConfig(BaseSettings):
 
 
 class PostgresConnector(BaseConnector):
-
     def __init__(self, config: PostgresConfig):
         self.config = config
-        self._conn: Optional[psycopg2.extensions.connection] = None
+        self._conn: psycopg2.extensions.connection | None = None
 
     def connect(self) -> None:
         try:
@@ -64,9 +62,7 @@ class PostgresConnector(BaseConnector):
                     for row in cur.fetchall()
                 ]
 
-            with conn.cursor(
-                cursor_factory=psycopg2.extras.RealDictCursor
-            ) as cur:
+            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
                 cur.execute(f"SELECT * FROM {self.config.table} LIMIT 5")
                 rows = cur.fetchall()
 
@@ -100,9 +96,7 @@ class PostgresConnector(BaseConnector):
             if conn is None:
                 raise ConnectorError("Not connected to PostgreSQL")
 
-            with conn.cursor(
-                cursor_factory=psycopg2.extras.RealDictCursor
-            ) as cur:
+            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
                 cur.execute(f"SELECT * FROM {self.config.table} LIMIT %s", (limit,))
                 rows = cur.fetchall()
 

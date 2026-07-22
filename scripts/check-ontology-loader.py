@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+"""Manual check: parse the ontology TTL and print class/property counts."""
+
 from pathlib import Path
+
 from pipeline.ontology.ontology_loader import OntologyLoader
 
 BASE_DIR = Path(__file__).parent.parent

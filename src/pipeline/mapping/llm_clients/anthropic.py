@@ -14,7 +14,6 @@ class AnthropicConfig(BaseSettings):
 
 
 class AnthropicClient(BaseLLMClient):
-
     def __init__(self, config: AnthropicConfig):
         self.config = config
         self._client = Anthropic(api_key=config.api_key)

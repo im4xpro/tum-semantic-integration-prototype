@@ -10,44 +10,44 @@ from pipeline.mapping.models import MappingDocument
 
 # ── Built-in namespace prefixes rdflib already knows ─────────────────────────
 _BUILTIN: dict[str, Namespace] = {
-    "rdf":  cast(Namespace, RDF),
+    "rdf": cast(Namespace, RDF),
     "rdfs": cast(Namespace, RDFS),
-    "owl":  cast(Namespace, OWL),
-    "xsd":  cast(Namespace, _XSD),
+    "owl": cast(Namespace, OWL),
+    "xsd": cast(Namespace, _XSD),
 }
 
 # ── XSD datatypes mapped from ontology range URIs ────────────────────────────
 # Covers the most common OWL/XSD range declarations.
 _RANGE_TO_XSD: dict[str, URIRef] = {
-    str(_XSD.string):      _XSD.string,
-    str(_XSD.integer):     _XSD.integer,
-    str(_XSD.int):         _XSD.integer,
-    str(_XSD.long):        _XSD.integer,
-    str(_XSD.boolean):     _XSD.boolean,
-    str(_XSD.dateTime):    _XSD.dateTime,
-    str(_XSD.date):        _XSD.date,
-    str(_XSD.anyURI):      _XSD.anyURI,
+    str(_XSD.string): _XSD.string,
+    str(_XSD.integer): _XSD.integer,
+    str(_XSD.int): _XSD.integer,
+    str(_XSD.long): _XSD.integer,
+    str(_XSD.boolean): _XSD.boolean,
+    str(_XSD.dateTime): _XSD.dateTime,
+    str(_XSD.date): _XSD.date,
+    str(_XSD.anyURI): _XSD.anyURI,
     # Map float/double → decimal so rdflib preserves the original string
     # representation (e.g. "9.0300" stays "9.0300", not "9.03e+00").
-    str(_XSD.decimal):     _XSD.decimal,
-    str(_XSD.float):       _XSD.decimal,
-    str(_XSD.double):      _XSD.decimal,
-    "http://www.w3.org/2001/XMLSchema#string":   _XSD.string,
-    "http://www.w3.org/2001/XMLSchema#integer":  _XSD.integer,
-    "http://www.w3.org/2001/XMLSchema#decimal":  _XSD.decimal,
-    "http://www.w3.org/2001/XMLSchema#float":    _XSD.decimal,
-    "http://www.w3.org/2001/XMLSchema#double":   _XSD.decimal,
+    str(_XSD.decimal): _XSD.decimal,
+    str(_XSD.float): _XSD.decimal,
+    str(_XSD.double): _XSD.decimal,
+    "http://www.w3.org/2001/XMLSchema#string": _XSD.string,
+    "http://www.w3.org/2001/XMLSchema#integer": _XSD.integer,
+    "http://www.w3.org/2001/XMLSchema#decimal": _XSD.decimal,
+    "http://www.w3.org/2001/XMLSchema#float": _XSD.decimal,
+    "http://www.w3.org/2001/XMLSchema#double": _XSD.decimal,
     "http://www.w3.org/2001/XMLSchema#dateTime": _XSD.dateTime,
-    "http://www.w3.org/2001/XMLSchema#date":     _XSD.date,
-    "http://www.w3.org/2001/XMLSchema#boolean":  _XSD.boolean,
+    "http://www.w3.org/2001/XMLSchema#date": _XSD.date,
+    "http://www.w3.org/2001/XMLSchema#boolean": _XSD.boolean,
 }
 
 # ── Value-string heuristics (fallback when no range declared) ─────────────────
-_INT_RE      = re.compile(r'^-?\d+$')
-_DECIMAL_RE  = re.compile(r'^-?\d*\.\d+$')
-_DATETIME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}')
-_DATE_RE     = re.compile(r'^\d{4}-\d{2}-\d{2}$')
-_BOOL_MAP    = {"true": True, "false": False, "1": True, "0": False}
+_INT_RE = re.compile(r"^-?\d+$")
+_DECIMAL_RE = re.compile(r"^-?\d*\.\d+$")
+_DATETIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}")
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_BOOL_MAP = {"true": True, "false": False, "1": True, "0": False}
 
 
 def infer_literal(value: str, xsd_type: URIRef | None = None) -> Literal:
@@ -101,10 +101,10 @@ def resolve_uri(compact: str, namespaces: dict[str, Namespace]) -> URIRef:
     given prefix -> Namespace map. Falls through to URIRef(uri) if no matching
     prefix is found, which also handles already-expanded full URIs.
     """
-    colon = compact.find(':')
+    colon = compact.find(":")
     if colon == -1:
         return URIRef(compact)
-    prefix, local = compact[:colon], compact[colon + 1:]
+    prefix, local = compact[:colon], compact[colon + 1 :]
     ns = namespaces.get(prefix)
     if ns is not None:
         return ns[local]
@@ -178,7 +178,7 @@ class RDFSerializer:
         # object-property triples (IRI → IRI)
         for rel in result.relations:
             subj = entity_uri.get(rel.subject_temp_id)
-            obj  = entity_uri.get(rel.object_temp_id)
+            obj = entity_uri.get(rel.object_temp_id)
             if subj and obj:
                 g.add((subj, self._resolve(rel.predicate_uri), obj))
 
@@ -187,6 +187,7 @@ class RDFSerializer:
 
 
 # ── Convenience: build property_ranges from a loaded OntologyModel ────────────
+
 
 def build_property_ranges(ontology) -> dict[str, URIRef]:
     """

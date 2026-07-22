@@ -10,10 +10,13 @@ class ColumnSchema(BaseModel):
     is_primary_key: bool = False
     is_nullable: bool = True
 
+
 class ExtractedSchema(BaseModel):
     source_name: str
     source_type: Literal["relational", "document", "timeseries", "stream"]
     columns: list[ColumnSchema]
-    inferred_fields: list[ColumnSchema] # Used for fields not explicitly in the source schema but inferred from data entries
+    inferred_fields: list[
+        ColumnSchema
+    ]  # Used for fields not explicitly in the source schema but inferred from data entries
     sample_records: list[dict]
     extraction_timestamp: datetime.datetime

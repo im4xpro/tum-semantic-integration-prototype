@@ -6,8 +6,8 @@ from .models import ExtractedSchema
 class ConnectorError(Exception):
     pass
 
-class BaseConnector(ABC):
 
+class BaseConnector(ABC):
     @abstractmethod
     def connect(self) -> None:
         pass

@@ -25,4 +25,3 @@ class ExtractionResult(BaseModel):
     entities: list[ExtractedEntity] = []
     relations: list[ExtractedRelation] = []
     extraction_timestamp: datetime = Field(default_factory=datetime.now)
-    mapping_path: str

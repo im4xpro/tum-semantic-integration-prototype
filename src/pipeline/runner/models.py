@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 class RunStatus(str, Enum):
     queued = "queued"
-    mapping = "mapping"        # LLM generating the mapping
+    mapping = "mapping"  # LLM generating the mapping
     extracting = "extracting"  # extraction + serialization + upload
     completed = "completed"
     failed = "failed"
@@ -20,6 +20,7 @@ class RunStatus(str, Enum):
 
 class GraphDBTargetConfig(BaseModel):
     """GraphDB target override; unset fields fall back to GRAPHDB_* in .env."""
+
     url: str | None = None
     repository: str | None = None
     username: str | None = None
@@ -28,9 +29,12 @@ class GraphDBTargetConfig(BaseModel):
 
 class RunConfig(BaseModel):
     """Configuration for a single pipeline run."""
+
     experiment_name: str = "unnamed"
     source_name: str
-    use_sample_data: bool = True  # True = use schema's sample_records; False = connect to DB
+    use_sample_data: bool = (
+        True  # True = use schema's sample_records; False = connect to DB
+    )
     data_limit: int | None = None
 
     # Mapping: either reuse an existing mapping or generate via LLM
@@ -58,9 +62,11 @@ class RunStats(BaseModel):
 
 
 class Run(BaseModel):
-    id: str = Field(default_factory=lambda: (
-        datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + str(uuid.uuid4())[:8]
-    ))
+    id: str = Field(
+        default_factory=lambda: (
+            datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + str(uuid.uuid4())[:8]
+        )
+    )
     config: RunConfig
     status: RunStatus = RunStatus.queued
     mapping_id: str | None = None  # resolved after mapping step
@@ -80,8 +86,10 @@ class Run(BaseModel):
 
 # ── YAML experiment config ────────────────────────────────────────────────────
 
+
 class MatrixConfig(BaseModel):
     """Defines the combinatorial space for an experiment."""
+
     provider_models: list[list[str]]  # [[provider, model], ...]
     strategies: list[str] = ["zero_shot"]
     ontology_formats: list[str] = ["turtle"]
@@ -101,6 +109,7 @@ class MappingStrategyConfig(BaseModel):
 
 class ExperimentConfig(BaseModel):
     """Loaded from experiment YAML. Expands into individual RunConfigs."""
+
     name: str
     description: str = ""
     data: DataConfig
@@ -118,21 +127,21 @@ class ExperimentConfig(BaseModel):
             self.matrix.include_descriptions,
         ):
             existing_id = (
-                self.mapping.mapping_id
-                if self.mapping.mode == "use_existing"
-                else None
+                self.mapping.mapping_id if self.mapping.mode == "use_existing" else None
             )
-            configs.append(RunConfig(
-                experiment_name=self.name,
-                source_name=self.data.source_name,
-                use_sample_data=self.data.use_sample_data,
-                data_limit=self.data.limit,
-                mapping_id=existing_id,
-                provider=provider,
-                llm_model=model,
-                strategy=strategy,
-                ontology_format=fmt,
-                include_descriptions=include_desc,
-                graphdb=self.graphdb,
-            ))
+            configs.append(
+                RunConfig(
+                    experiment_name=self.name,
+                    source_name=self.data.source_name,
+                    use_sample_data=self.data.use_sample_data,
+                    data_limit=self.data.limit,
+                    mapping_id=existing_id,
+                    provider=provider,
+                    llm_model=model,
+                    strategy=strategy,
+                    ontology_format=fmt,
+                    include_descriptions=include_desc,
+                    graphdb=self.graphdb,
+                )
+            )
         return configs

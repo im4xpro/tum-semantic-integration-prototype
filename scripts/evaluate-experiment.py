@@ -12,6 +12,7 @@ Writes <output-dir>/<experiment_name>_evaluation.{csv,md} and prints the
 table plus a best/worst-by-F1 summary. Requires GraphDB to be running and
 reachable, and at least one completed run for the experiment.
 """
+
 import argparse
 import logging
 import sys
@@ -22,7 +23,11 @@ logging.getLogger("rdflib").setLevel(logging.ERROR)
 BASE = Path(__file__).parent.parent
 sys.path.insert(0, str(BASE / "src"))
 
-from pipeline.evaluation.report import evaluate_experiment, resolve_source_name, write_report  # noqa: E402
+from pipeline.evaluation.report import (  # noqa: E402
+    evaluate_experiment,
+    resolve_source_name,
+    write_report,
+)
 
 SCHEMAS_DIR = BASE / "data" / "schemas"
 ONTOLOGY_PATH = BASE / "data" / "ontology" / "thesis_ontology.ttl"
@@ -33,8 +38,16 @@ DEFAULT_OUTPUT_DIR = BASE / "data" / "output"
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("experiment_name")
-    parser.add_argument("--gold", type=Path, help="Gold MappingDocument JSON (default: inferred from source_name)")
-    parser.add_argument("--cq", type=Path, help="Competency questions YAML (default: inferred from source_name)")
+    parser.add_argument(
+        "--gold",
+        type=Path,
+        help="Gold MappingDocument JSON (default: inferred from source_name)",
+    )
+    parser.add_argument(
+        "--cq",
+        type=Path,
+        help="Competency questions YAML (default: inferred from source_name)",
+    )
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     args = parser.parse_args()
 
@@ -52,7 +65,9 @@ def main() -> None:
     print(f"\n{'─' * 64}")
     print(f"  Experiment : {args.experiment_name}")
     print(f"  Gold       : {gold_path.relative_to(BASE)}")
-    print(f"  CQs        : {cq_path.relative_to(BASE) if cq_path.exists() else '(none found)'}")
+    print(
+        f"  CQs        : {cq_path.relative_to(BASE) if cq_path.exists() else '(none found)'}"
+    )
     print(f"{'─' * 64}\n")
 
     df = evaluate_experiment(
@@ -77,10 +92,14 @@ def main() -> None:
     if not scored.empty:
         best = scored.loc[scored["f1"].idxmax()]
         worst = scored.loc[scored["f1"].idxmin()]
-        print(f"\n  Best  (F1={best['f1']:.3f}): {best['provider']}/{best['llm_model']}, "
-              f"{best['strategy']}, {best['ontology_format']}")
-        print(f"  Worst (F1={worst['f1']:.3f}): {worst['provider']}/{worst['llm_model']}, "
-              f"{worst['strategy']}, {worst['ontology_format']}")
+        print(
+            f"\n  Best  (F1={best['f1']:.3f}): {best['provider']}/{best['llm_model']}, "
+            f"{best['strategy']}, {best['ontology_format']}"
+        )
+        print(
+            f"  Worst (F1={worst['f1']:.3f}): {worst['provider']}/{worst['llm_model']}, "
+            f"{worst['strategy']}, {worst['ontology_format']}"
+        )
     print()
 
 

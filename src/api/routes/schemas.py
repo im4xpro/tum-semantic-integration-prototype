@@ -13,12 +13,14 @@ def list_schemas():
     for path in sorted(SCHEMAS_DIR.glob("*.json")):
         try:
             data = json.loads(path.read_text())
-            result.append({
-                "source_name": data.get("source_name"),
-                "source_type": data.get("source_type"),
-                "column_count": len(data.get("columns", [])),
-                "filename": path.name,
-            })
+            result.append(
+                {
+                    "source_name": data.get("source_name"),
+                    "source_type": data.get("source_type"),
+                    "column_count": len(data.get("columns", [])),
+                    "filename": path.name,
+                }
+            )
         except Exception:
             pass
     return result

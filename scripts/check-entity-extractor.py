@@ -9,6 +9,7 @@ Exercises:
   - null optional column skipped cleanly
   - multi-value literal storage (list per predicate)
 """
+
 import sys
 import json
 from pathlib import Path
@@ -30,7 +31,7 @@ SAMPLE_RECORD = {
     "actor1": "Ethiopian National Defence Force",
     "assoc_actor_1": "Federal Police",
     "actor2": "Tigray People Liberation Front",
-    "assoc_actor_2": "",   # intentionally empty → entity + relation must be skipped
+    "assoc_actor_2": "",  # intentionally empty → entity + relation must be skipped
 }
 
 
@@ -39,10 +40,10 @@ def main():
     extractor = EntityExtractor(mapping)
     result = extractor.extract(SAMPLE_RECORD, mapping.source_name)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Entities:  {len(result.entities)}")
     print(f"  Relations: {len(result.relations)}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     entity_by_temp = {e.temp_id: e for e in result.entities}
 
@@ -57,22 +58,23 @@ def main():
     print("  Relations:")
     for r in result.relations:
         subj = entity_by_temp[r.subject_temp_id].subject_uri
-        obj  = entity_by_temp[r.object_temp_id].subject_uri
+        obj = entity_by_temp[r.object_temp_id].subject_uri
         pred = r.predicate_uri.split("#")[-1].split(":")[-1]
-        print(f"    <.../{subj.split('/')[-1]}> --[{pred}]--> <.../{obj.split('/')[-1]}>")
+        print(
+            f"    <.../{subj.split('/')[-1]}> --[{pred}]--> <.../{obj.split('/')[-1]}>"
+        )
     print()
 
     # ── Assertions ────────────────────────────────────────────────────────────
     uris = {e.subject_uri for e in result.entities}
 
-    assert any("action_ETH1234" in u for u in uris), \
-        f"Action URI missing. URIs: {uris}"
+    assert any("action_ETH1234" in u for u in uris), f"Action URI missing. URIs: {uris}"
 
-    assert any("loc_" in u for u in uris), \
-        f"Location URI missing. URIs: {uris}"
+    assert any("loc_" in u for u in uris), f"Location URI missing. URIs: {uris}"
 
-    assert any("pt_9.0300" in u for u in uris), \
+    assert any("pt_9.0300" in u for u in uris), (
         "Point URI missing — expression-only subject (pt_{{lat}}/{{lon}}) not evaluated"
+    )
 
     org_entities = [e for e in result.entities if "Organisation" in e.class_uri]
     assert len(org_entities) == 3, (
@@ -89,9 +91,12 @@ def main():
         f"Expected 1 hasGeometry (Location→Point), got {len(geo_rels)}"
     )
 
-    loc_rels = [r for r in result.relations if "hasGeographicLocation" in r.predicate_uri]
-    assert len(loc_rels) == 1, \
+    loc_rels = [
+        r for r in result.relations if "hasGeographicLocation" in r.predicate_uri
+    ]
+    assert len(loc_rels) == 1, (
         f"Expected 1 hasGeographicLocation (Action→Location), got {len(loc_rels)}"
+    )
 
     print("  All assertions passed.")
 

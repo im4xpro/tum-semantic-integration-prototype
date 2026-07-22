@@ -37,8 +37,12 @@ def _fill_defaults(body: dict) -> dict:
     body.setdefault("include_descriptions", False)
     body.setdefault("prompt_tokens", 0)
     body.setdefault("completion_tokens", 0)
-    body.setdefault("base_uri", "https://thesis.tum.de/baltic-sea-monitoring/instances/")
-    body.setdefault("namespaces", {"bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"})
+    body.setdefault(
+        "base_uri", "https://thesis.tum.de/baltic-sea-monitoring/instances/"
+    )
+    body.setdefault(
+        "namespaces", {"bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"}
+    )
     body.setdefault("subject_mappings", [])
     body.setdefault("unmapped_fields", [])
     return body
@@ -50,15 +54,16 @@ def list_mappings():
     for p in sorted(MAPPINGS_DIR.glob("*.json")):
         try:
             d = json.loads(p.read_text())
-            result.append({
-                "id": d.get("id"),
-                "filename": p.name,
-                "source_name": d.get("source_name"),
-                "status": d.get("status"),
-                "generation_timestamp": d.get("generation_timestamp"),
-                "llm_model": d.get("llm_model"),
-                "strategy": d.get("strategy"),
-            })
+            result.append(
+                {
+                    "id": d.get("id"),
+                    "filename": p.name,
+                    "source_name": d.get("source_name"),
+                    "generation_timestamp": d.get("generation_timestamp"),
+                    "llm_model": d.get("llm_model"),
+                    "strategy": d.get("strategy"),
+                }
+            )
         except Exception:
             pass
     return result
@@ -79,7 +84,7 @@ def validate_mapping(body: dict):
     def resolve(uri: str) -> str:
         for prefix, ns in doc.namespaces.items():
             if uri.startswith(f"{prefix}:"):
-                return ns + uri[len(f"{prefix}:"):]
+                return ns + uri[len(f"{prefix}:") :]
         return uri
 
     errors: list[str] = []
@@ -92,16 +97,25 @@ def validate_mapping(body: dict):
         for tm in sm.type_mappings:
             r = resolve(tm.class_uri)
             if r not in class_uris:
-                warnings.append(f"Subject {i}: class '{tm.class_uri}' not found in ontology")
+                warnings.append(
+                    f"Subject {i}: class '{tm.class_uri}' not found in ontology"
+                )
         if sm.subject.source == "column" and not sm.subject.column_name:
             errors.append(f"Subject {i}: subject source column not set")
         for pm in sm.property_mappings:
             r = resolve(pm.property_uri)
             if r not in prop_uris:
-                warnings.append(f"Subject {i}: property '{pm.property_uri}' not in ontology")
+                warnings.append(
+                    f"Subject {i}: property '{pm.property_uri}' not in ontology"
+                )
             for val in pm.values:
-                if val.value_source.source == "column" and not val.value_source.column_name:
-                    warnings.append(f"Subject {i} / '{pm.property_uri}': source column not set")
+                if (
+                    val.value_source.source == "column"
+                    and not val.value_source.column_name
+                ):
+                    warnings.append(
+                        f"Subject {i} / '{pm.property_uri}': source column not set"
+                    )
 
     return {"valid": not errors, "errors": errors, "warnings": warnings}
 

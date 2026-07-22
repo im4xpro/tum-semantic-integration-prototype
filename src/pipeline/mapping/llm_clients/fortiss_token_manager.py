@@ -17,7 +17,6 @@ class FortissTokenManagerError(Exception):
 
 
 class FortissTokenManager:
-
     def __init__(self, config: FortissConfig):
         self.config = config
         self._token: str | None = None

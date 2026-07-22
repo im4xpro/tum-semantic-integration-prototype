@@ -12,6 +12,7 @@ GET    /api/experiments/runs/{id}       Get single run details
 POST   /api/experiments/runs/{id}/cancel  Cancel an active run
 DELETE /api/experiments/runs/{id}       Delete a finished run record
 """
+
 from __future__ import annotations
 
 import yaml
@@ -30,6 +31,7 @@ router = APIRouter()
 
 
 # ── Submit ────────────────────────────────────────────────────────────────────
+
 
 @router.post("/submit", response_model=Run, status_code=202)
 def submit_run(config: RunConfig):
@@ -64,13 +66,16 @@ def submit_yaml(body: YamlBody):
 
 # ── Query ─────────────────────────────────────────────────────────────────────
 
+
 @router.get("/runs", response_model=list[Run])
 def list_runs(
     experiment: str | None = Query(None, description="Filter by experiment name"),
     status: RunStatus | None = Query(None, description="Filter by status"),
     limit: int = Query(200, le=1000),
 ):
-    return get_manager().list_runs(experiment_name=experiment, status=status, limit=limit)
+    return get_manager().list_runs(
+        experiment_name=experiment, status=status, limit=limit
+    )
 
 
 @router.get("/experiments", response_model=list[str])
@@ -88,6 +93,7 @@ def get_run(run_id: str):
 
 
 # ── Control ───────────────────────────────────────────────────────────────────
+
 
 @router.post("/runs/{run_id}/cancel", response_model=dict)
 def cancel_run(run_id: str):
@@ -109,6 +115,7 @@ def delete_run(run_id: str):
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _parse_experiment_yaml(yaml_content: str) -> ExperimentConfig:
     try:

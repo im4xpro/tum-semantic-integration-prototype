@@ -3,7 +3,6 @@ from .base import BaseFormatter
 
 
 class ClassListFormatter(BaseFormatter):
-
     def format(self, ontology: OntologyModel) -> FormattedOntology:
         lines = []
 

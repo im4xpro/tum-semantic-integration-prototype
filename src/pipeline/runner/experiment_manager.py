@@ -5,12 +5,12 @@ ExperimentManager: singleton that owns the thread pool and run lifecycle.
 - Supports cancellation via per-run threading.Event
 - Persists all state through RunStore (survives API restarts)
 """
+
 from __future__ import annotations
 
 import logging
 import threading
 from concurrent.futures import Future, ThreadPoolExecutor
-from typing import Optional
 
 from .models import Run, RunConfig, RunStatus
 from .pipeline_runner import execute_run
@@ -18,10 +18,11 @@ from .run_store import RunStore
 
 
 class ExperimentManager:
-
     def __init__(self, max_concurrent: int = 2):
         self._store = RunStore()
-        self._pool = ThreadPoolExecutor(max_workers=max_concurrent, thread_name_prefix="pipeline")
+        self._pool = ThreadPoolExecutor(
+            max_workers=max_concurrent, thread_name_prefix="pipeline"
+        )
         self._cancel_events: dict[str, threading.Event] = {}
         self._futures: dict[str, Future] = {}
         self._lock = threading.Lock()
@@ -30,7 +31,9 @@ class ExperimentManager:
         interrupted = self._store.mark_interrupted_as_failed()
         if interrupted:
             logging.getLogger(__name__).warning(
-                "Marked %d interrupted runs as failed: %s", len(interrupted), interrupted
+                "Marked %d interrupted runs as failed: %s",
+                len(interrupted),
+                interrupted,
             )
 
     # ── Submit ────────────────────────────────────────────────────────────────
@@ -128,7 +131,7 @@ class ExperimentManager:
 
 # ── Module-level singleton ────────────────────────────────────────────────────
 
-_manager: Optional[ExperimentManager] = None
+_manager: ExperimentManager | None = None
 
 
 def get_manager() -> ExperimentManager:

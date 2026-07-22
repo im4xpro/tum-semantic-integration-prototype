@@ -11,6 +11,7 @@ Phases:
 The cancel_event is checked between phases; if set the run is marked
 cancelled and the function returns early.
 """
+
 from __future__ import annotations
 
 import json
@@ -22,7 +23,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal, cast
 
-from pipeline.connectors.models import ExtractedSchema
 from pipeline.connectors.postgres import PostgresConfig, PostgresConnector
 from pipeline.connectors.sample_data import load_sample_records, load_schema
 from pipeline.extraction.entity_extractor import EntityExtractor
@@ -51,7 +51,7 @@ sys.path.insert(0, str(_BASE / "src"))
 def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
     """Run the full pipeline for one RunConfig. Mutates and persists *run*."""
     run.started_at = datetime.now()
-    _save(run, store)
+    store.save(run)
 
     try:
         mapping = _resolve_mapping(run, cancel, store)
@@ -61,13 +61,13 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
         run.mapping_id = mapping.id
         base_uri = mapping.base_uri.rstrip("/") + "/"
         run.named_graph = f"{base_uri}runs/{run.id}"
-        _save(run, store)
+        store.save(run)
 
         if cancel.is_set():
             return _cancel(run, store)
 
         run.status = RunStatus.extracting
-        _save(run, store)
+        store.save(run)
 
         records = _load_records(run)
         if run.config.data_limit:
@@ -107,7 +107,7 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
     finally:
         run.finished_at = datetime.now()
         run.stats.duration_seconds = (run.finished_at - run.started_at).total_seconds()
-        _save(run, store)
+        store.save(run)
 
     return run
 
@@ -118,7 +118,9 @@ def build_graphdb_config(run_config: RunConfig) -> GraphDBConfig:
     return GraphDBConfig(**overrides)
 
 
-def _resolve_mapping(run: Run, cancel: threading.Event, store: RunStore) -> MappingDocument | None:
+def _resolve_mapping(
+    run: Run, cancel: threading.Event, store: RunStore
+) -> MappingDocument | None:
     """Return a MappingDocument, or None if the run was cancelled."""
     if run.config.mapping_id:
         path = _find_mapping(run.config.mapping_id)
@@ -129,28 +131,30 @@ def _resolve_mapping(run: Run, cancel: threading.Event, store: RunStore) -> Mapp
         return MappingDocument.model_validate(json.loads(path.read_text()))
 
     run.status = RunStatus.mapping
-    _save(run, store)
+    store.save(run)
 
     if cancel.is_set():
         _cancel(run, store)
         return None
 
-    schema = _load_schema(run.config.source_name)
+    schema = load_schema(run.config.source_name, _SCHEMAS_DIR)
     descriptions = load_column_descriptions(run.config.source_name, _DESCRIPTIONS_DIR)
-    generator = MappingGenerator(MappingConfig(
-        provider=LLMProvider(run.config.provider),
-        llm_model=run.config.llm_model,
-        strategy=cast(
-            Literal["zero_shot", "few_shot", "chain_of_thought"],
-            run.config.strategy,
-        ),
-        ontology_format=cast(
-            Literal["turtle", "compact", "class_list"],
-            run.config.ontology_format,
-        ),
-        include_descriptions=run.config.include_descriptions,
-        temperature=0.0,
-    ))
+    generator = MappingGenerator(
+        MappingConfig(
+            provider=LLMProvider(run.config.provider),
+            llm_model=run.config.llm_model,
+            strategy=cast(
+                Literal["zero_shot", "few_shot", "chain_of_thought"],
+                run.config.strategy,
+            ),
+            ontology_format=cast(
+                Literal["turtle", "compact", "class_list"],
+                run.config.ontology_format,
+            ),
+            include_descriptions=run.config.include_descriptions,
+            temperature=0.0,
+        )
+    )
     ontology_manager = OntologyManager(_ONTOLOGY_PATH)
     mapping = generator.generate(schema, ontology_manager, descriptions)
 
@@ -162,10 +166,6 @@ def _resolve_mapping(run: Run, cancel: threading.Event, store: RunStore) -> Mapp
     run.stats.prompt_tokens = mapping.prompt_tokens
     run.stats.completion_tokens = mapping.completion_tokens
     return mapping
-
-
-def _load_schema(source_name: str) -> ExtractedSchema:
-    return load_schema(source_name, _SCHEMAS_DIR)
 
 
 def _load_records(run: Run) -> list[dict]:
@@ -189,10 +189,6 @@ def _find_mapping(mapping_id: str) -> Path | None:
         except Exception:
             pass
     return None
-
-
-def _save(run: Run, store: RunStore) -> None:
-    store.save(run)
 
 
 def _cancel(run: Run, store: RunStore) -> Run:

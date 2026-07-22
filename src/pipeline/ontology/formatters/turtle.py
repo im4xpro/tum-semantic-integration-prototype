@@ -5,7 +5,6 @@ from .base import BaseFormatter
 
 
 class DefaultTurtleFormatter(BaseFormatter):
-
     def __init__(self, ontology_path: Path):
         self.ontology_path = ontology_path
 

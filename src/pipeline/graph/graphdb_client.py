@@ -17,12 +17,13 @@ class GraphDBError(Exception):
 
 
 class GraphDBClient:
-
     def __init__(self, config: GraphDBConfig):
         self.config = config
         # requests.auth expects a (user, password) tuple of strings or None.
         # Ensure we never pass a None password in the tuple to satisfy type checkers.
-        self._auth = (config.username, config.password or "") if config.username else None
+        self._auth = (
+            (config.username, config.password or "") if config.username else None
+        )
 
     # ── Connection ────────────────────────────────────────────────────────────
 
@@ -38,7 +39,9 @@ class GraphDBClient:
                     f"Available: {[r['id'] for r in repos]}"
                 )
             if not info.get("writable"):
-                raise GraphDBError(f"Repository '{self.config.repository}' is read-only")
+                raise GraphDBError(
+                    f"Repository '{self.config.repository}' is read-only"
+                )
             return info
         except requests.RequestException as e:
             raise GraphDBError(f"Cannot reach GraphDB at {self.config.url}: {e}")
@@ -85,9 +88,13 @@ class GraphDBClient:
     def list_named_graphs(self) -> list[str]:
         """Return all named graph URIs in the repository."""
         url = f"{self.config.url}/repositories/{self.config.repository}/contexts"
-        resp = requests.get(url, headers={"Accept": "application/sparql-results+json"}, auth=self._auth)
+        resp = requests.get(
+            url, headers={"Accept": "application/sparql-results+json"}, auth=self._auth
+        )
         if not resp.ok:
-            raise GraphDBError(f"Contexts query failed [{resp.status_code}]: {resp.text[:200]}")
+            raise GraphDBError(
+                f"Contexts query failed [{resp.status_code}]: {resp.text[:200]}"
+            )
         bindings = resp.json()["results"]["bindings"]
         return sorted(b["contextID"]["value"] for b in bindings)
 
@@ -98,11 +105,16 @@ class GraphDBClient:
         resp = requests.post(
             url,
             data=query.encode(),
-            headers={"Content-Type": "application/sparql-query", "Accept": "text/turtle"},
+            headers={
+                "Content-Type": "application/sparql-query",
+                "Accept": "text/turtle",
+            },
             auth=self._auth,
         )
         if not resp.ok:
-            raise GraphDBError(f"CONSTRUCT failed [{resp.status_code}]: {resp.text[:200]}")
+            raise GraphDBError(
+                f"CONSTRUCT failed [{resp.status_code}]: {resp.text[:200]}"
+            )
         g = Graph()
         g.parse(data=resp.text, format="turtle")
         return g
@@ -124,7 +136,9 @@ class GraphDBClient:
             auth=self._auth,
         )
         if not resp.ok:
-            raise GraphDBError(f"SPARQL ASK failed [{resp.status_code}]: {resp.text[:200]}")
+            raise GraphDBError(
+                f"SPARQL ASK failed [{resp.status_code}]: {resp.text[:200]}"
+            )
         return resp.json()["boolean"]
 
     # ── Internals ─────────────────────────────────────────────────────────────
@@ -132,7 +146,9 @@ class GraphDBClient:
     def _get(self, path: str) -> requests.Response:
         resp = requests.get(f"{self.config.url}{path}", auth=self._auth)
         if not resp.ok:
-            raise GraphDBError(f"GET {path} failed [{resp.status_code}]: {resp.text[:200]}")
+            raise GraphDBError(
+                f"GET {path} failed [{resp.status_code}]: {resp.text[:200]}"
+            )
         return resp
 
     def _post_statements(self, data: bytes, content_type: str, params: dict) -> None:
@@ -159,5 +175,7 @@ class GraphDBClient:
             auth=self._auth,
         )
         if not resp.ok:
-            raise GraphDBError(f"SPARQL query failed [{resp.status_code}]: {resp.text[:200]}")
+            raise GraphDBError(
+                f"SPARQL query failed [{resp.status_code}]: {resp.text[:200]}"
+            )
         return resp.json()["results"]["bindings"]

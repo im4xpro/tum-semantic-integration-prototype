@@ -1,4 +1,5 @@
 """Persistent run store backed by one JSON file per run in data/runs/."""
+
 from __future__ import annotations
 
 import json
@@ -57,11 +58,9 @@ class RunStore:
         return runs
 
     def list_by_experiment(self, experiment_name: str) -> list[Run]:
-        return [r for r in self.list_all() if r.config.experiment_name == experiment_name]
-
-    def list_by_status(self, *statuses: RunStatus) -> list[Run]:
-        status_set = set(statuses)
-        return [r for r in self.list_all() if r.status in status_set]
+        return [
+            r for r in self.list_all() if r.config.experiment_name == experiment_name
+        ]
 
     # ── Startup recovery ──────────────────────────────────────────────────────
 

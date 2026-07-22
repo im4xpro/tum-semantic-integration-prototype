@@ -13,7 +13,6 @@ class OpenAIConfig(BaseSettings):
 
 
 class OpenAIClient(BaseLLMClient):
-
     def __init__(self, config: OpenAIConfig):
         self.config = config
         self._client = OpenAI(api_key=config.api_key)

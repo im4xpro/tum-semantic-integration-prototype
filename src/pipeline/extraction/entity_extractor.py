@@ -11,7 +11,6 @@ from pipeline.mapping.models import CodeTransformation, MappingDocument, Propert
 
 
 class EntityExtractor:
-
     def __init__(self, mapping: MappingDocument):
         self.mapping = mapping
 
@@ -22,7 +21,9 @@ class EntityExtractor:
         # Keyed by local URI fragment (evaluated expression or raw column value),
         # so expression-only subjects like pt_{latitude}/{longitude} are reachable.
         entity_by_local_id: dict[str, ExtractedEntity] = {}
-        pending_relations: list[tuple[str, str, str]] = []  # (temp_id, predicate_uri, object_local_id)
+        pending_relations: list[
+            tuple[str, str, str]
+        ] = []  # (temp_id, predicate_uri, object_local_id)
 
         # create all entities and collect pending IRI relations
         for sm in self.mapping.subject_mappings:
@@ -31,14 +32,18 @@ class EntityExtractor:
                 continue
 
             subject_uri = self.mapping.base_uri + local_id
-            class_uri = sm.type_mappings[0].class_uri if sm.type_mappings else "owl:Thing"
+            class_uri = (
+                sm.type_mappings[0].class_uri if sm.type_mappings else "owl:Thing"
+            )
             properties: dict[str, list] = {}
 
             for pm in sm.property_mappings:
                 for vd in pm.values:
                     if vd.value_type.type != "literal":
                         continue
-                    value = self._literal_value(vd.value_source, vd.transformation, record)
+                    value = self._literal_value(
+                        vd.value_source, vd.transformation, record
+                    )
                     if value is None:
                         continue
                     properties.setdefault(pm.property_uri, []).append(value)
@@ -57,28 +62,33 @@ class EntityExtractor:
                 for vd in pm.values:
                     if vd.value_type.type != "iri":
                         continue
-                    ref_local_id = self._local_id(vd.value_source, vd.transformation, record)
+                    ref_local_id = self._local_id(
+                        vd.value_source, vd.transformation, record
+                    )
                     if ref_local_id is None:
                         continue
-                    pending_relations.append((entity.temp_id, pm.property_uri, ref_local_id))
+                    pending_relations.append(
+                        (entity.temp_id, pm.property_uri, ref_local_id)
+                    )
 
         # resolve IRI references to relations between entities
         relations: list[ExtractedRelation] = []
         for subject_temp_id, predicate_uri, object_local_id in pending_relations:
             object_entity = entity_by_local_id.get(object_local_id)
             if object_entity and object_entity.temp_id != subject_temp_id:
-                relations.append(ExtractedRelation(
-                    subject_temp_id=subject_temp_id,
-                    predicate_uri=predicate_uri,
-                    object_temp_id=object_entity.temp_id,
-                ))
+                relations.append(
+                    ExtractedRelation(
+                        subject_temp_id=subject_temp_id,
+                        predicate_uri=predicate_uri,
+                        object_temp_id=object_entity.temp_id,
+                    )
+                )
 
         return ExtractionResult(
             source_record=record,
             entities=entities,
             relations=relations,
             extraction_timestamp=datetime.now(),
-            mapping_path=f"data/mappings/{self.mapping.source_name}_manual.json",
         )
 
     # ── URI local-id computation ──────────────────────────────────────────────
@@ -133,7 +143,7 @@ class EntityExtractor:
         Returns None if any referenced column is absent or empty so callers
         can skip the entity/value rather than producing a broken URI.
         """
-        keys = re.findall(r'\{(\w+)\}', expression)
+        keys = re.findall(r"\{(\w+)\}", expression)
         for key in keys:
             val = record.get(key)
             if val is None or str(val).strip() == "":

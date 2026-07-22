@@ -8,13 +8,12 @@ class OpenRouterConfig(BaseSettings):
     api_key: str
     base_url: str = "https://openrouter.ai/api/v1"
     model: str = "meta-llama/llama-3.3-70b-instruct"
-    max_tokens: int = 4096
+    max_tokens: int = 16000
 
     model_config = {"env_file": ".env", "env_prefix": "OPENROUTER_", "extra": "ignore"}
 
 
 class OpenRouterClient(BaseLLMClient):
-
     def __init__(self, config: OpenRouterConfig):
         self.config = config
         self._client = OpenAI(
