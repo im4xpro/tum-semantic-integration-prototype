@@ -45,21 +45,6 @@ class EvaluationMetrics(BaseModel):
     entities_unmatched_generated: int
 
 
-class CQDefinition(BaseModel):
-    id: str
-    description: str = ""
-    query_type: Literal["ask", "select"]
-    query: str  # SPARQL with a {{graph}} placeholder
-    expected: bool | list[dict[str, str]]
-
-
-class CQResult(BaseModel):
-    id: str
-    passed: bool
-    actual: bool | list[dict[str, Any]] | None = None
-    error: str | None = None
-
-
 class FieldDiff(BaseModel):
     source_fields: list[str]
     gold_predicate: str | None
@@ -135,7 +120,4 @@ class EvaluationResult(BaseModel):
     entities_matched: int | None = None
     entities_unmatched_gold: int | None = None
     entities_unmatched_generated: int | None = None
-    cq_pass_rate: float | None = None
-    n_cqs: int = 0
-    n_cqs_passed: int = 0
     error: str | None = None

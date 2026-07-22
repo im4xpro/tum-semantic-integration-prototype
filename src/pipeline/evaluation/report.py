@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 
 import pandas as pd
@@ -12,13 +11,10 @@ from pipeline.runner.models import Run, RunStatus
 from pipeline.runner.pipeline_runner import build_graphdb_config
 from pipeline.runner.run_store import RunStore
 
-from .competency_questions import load_cq_file, run_competency_questions
 from .gold_graph import build_gold_extraction_results
-from .models import CQDefinition, EvaluationResult
+from .models import EvaluationResult
 from .signatures import entities_from_extraction, entities_from_graph, match_entities
 from .triple_metrics import compute_metrics
-
-logger = logging.getLogger(__name__)
 
 
 def evaluate_run(
@@ -26,7 +22,6 @@ def evaluate_run(
     gold_results: list[ExtractionResult],
     gold_mapping: MappingDocument,
     gold_property_ranges: dict[str, URIRef],
-    cqs: list[CQDefinition] | None,
 ) -> EvaluationResult:
     base = {
         "run_id": run.id,
@@ -58,18 +53,6 @@ def evaluate_run(
     match = match_entities(gold_entities, generated_entities)
     metrics = compute_metrics(match, gold_relations, generated_relations)
 
-    cq_pass_rate = None
-    n_cqs = 0
-    n_cqs_passed = 0
-    if cqs:
-        try:
-            cq_results = run_competency_questions(client, run.named_graph, cqs)
-            n_cqs = len(cq_results)
-            n_cqs_passed = sum(1 for r in cq_results if r.passed)
-            cq_pass_rate = n_cqs_passed / n_cqs if n_cqs else None
-        except Exception as e:
-            logger.warning("CQ evaluation failed for run %s: %s", run.id, e)
-
     return EvaluationResult(
         **base,
         precision=metrics.precision,
@@ -82,9 +65,6 @@ def evaluate_run(
         entities_matched=metrics.entities_matched,
         entities_unmatched_gold=metrics.entities_unmatched_gold,
         entities_unmatched_generated=metrics.entities_unmatched_generated,
-        cq_pass_rate=cq_pass_rate,
-        n_cqs=n_cqs,
-        n_cqs_passed=n_cqs_passed,
     )
 
 
@@ -114,7 +94,6 @@ def evaluate_experiment(
     gold_mapping_path: Path,
     schemas_dir: Path,
     ontology_path: Path,
-    cq_path: Path | None = None,
     run_store: RunStore | None = None,
 ) -> pd.DataFrame:
     store = run_store or RunStore()
@@ -127,12 +106,9 @@ def evaluate_experiment(
     gold_results, gold_mapping, gold_property_ranges = build_gold_extraction_results(
         gold_mapping_path, schemas_dir, ontology_path
     )
-    cqs = load_cq_file(cq_path) if cq_path and cq_path.exists() else None
 
     rows = [
-        evaluate_run(
-            run, gold_results, gold_mapping, gold_property_ranges, cqs
-        ).model_dump()
+        evaluate_run(run, gold_results, gold_mapping, gold_property_ranges).model_dump()
         for run in runs
     ]
     df = pd.DataFrame(rows)

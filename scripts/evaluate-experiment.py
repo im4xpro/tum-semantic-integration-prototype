@@ -5,7 +5,6 @@ Evaluate every completed run in an experiment against a gold standard.
 Usage:
     PYTHONPATH=src python scripts/evaluate-experiment.py <experiment_name> \
         [--gold data/gold_standard/<source>.gold.json] \
-        [--cq data/gold_standard/<source>.cq.yaml] \
         [--output-dir data/output]
 
 Writes <output-dir>/<experiment_name>_evaluation.{csv,md} and prints the
@@ -43,11 +42,6 @@ def main() -> None:
         type=Path,
         help="Gold MappingDocument JSON (default: inferred from source_name)",
     )
-    parser.add_argument(
-        "--cq",
-        type=Path,
-        help="Competency questions YAML (default: inferred from source_name)",
-    )
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     args = parser.parse_args()
 
@@ -60,14 +54,10 @@ def main() -> None:
             print(f"Error: {e}")
             sys.exit(1)
         gold_path = GOLD_STANDARD_DIR / f"{source_name}.gold.json"
-    cq_path = args.cq or _infer_cq_path(gold_path)
 
     print(f"\n{'─' * 64}")
     print(f"  Experiment : {args.experiment_name}")
     print(f"  Gold       : {gold_path.relative_to(BASE)}")
-    print(
-        f"  CQs        : {cq_path.relative_to(BASE) if cq_path.exists() else '(none found)'}"
-    )
     print(f"{'─' * 64}\n")
 
     df = evaluate_experiment(
@@ -75,7 +65,6 @@ def main() -> None:
         gold_mapping_path=gold_path,
         schemas_dir=SCHEMAS_DIR,
         ontology_path=ONTOLOGY_PATH,
-        cq_path=cq_path,
     )
 
     if df.empty:
@@ -101,11 +90,6 @@ def main() -> None:
             f"{worst['strategy']}, {worst['ontology_format']}"
         )
     print()
-
-
-def _infer_cq_path(gold_path: Path) -> Path:
-    """acled_data.gold.json -> acled_data.cq.yaml"""
-    return gold_path.parent / gold_path.name.replace(".gold.json", ".cq.yaml")
 
 
 if __name__ == "__main__":

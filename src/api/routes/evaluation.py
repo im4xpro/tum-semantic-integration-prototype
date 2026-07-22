@@ -3,7 +3,6 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from pipeline.evaluation.competency_questions import load_cq_file
 from pipeline.evaluation.diff import diff_mappings, diff_run
 from pipeline.evaluation.gold_graph import (
     build_gold_extraction_results,
@@ -65,13 +64,9 @@ def compare_runs(req: CompareRequest) -> list[dict]:
     gold_results, gold_mapping, gold_property_ranges = build_gold_extraction_results(
         gp, _SCHEMAS_DIR, _ONTOLOGY_PATH
     )
-    cq_path = gp.parent / gp.name.replace(".gold.json", ".cq.yaml")
-    cqs = load_cq_file(cq_path) if cq_path.exists() else None
 
     return [
-        evaluate_run(
-            run, gold_results, gold_mapping, gold_property_ranges, cqs
-        ).model_dump()
+        evaluate_run(run, gold_results, gold_mapping, gold_property_ranges).model_dump()
         for run in runs
     ]
 
