@@ -11,7 +11,7 @@ OUTPUT_SCHEMA = {
             "subject": {
                 "source": "column | constant",
                 "column_name": "string: column that provides the subject URI (omit if source=constant)",
-                "constant_value": "string: fixed URI for the subject (omit if source=column)"
+                "constant_value": "string: fixed URI for the subject (omit if source=column)",
             },
             "subject_transformation": {
                 "expression": "string: optional Python expression to build the URI, e.g. f'bsm:org/{value}'"
@@ -27,26 +27,25 @@ OUTPUT_SCHEMA = {
                             "value_source": {
                                 "source": "column | constant",
                                 "column_name": "string: source column name",
-                                "constant_value": "string: fixed value"
+                                "constant_value": "string: fixed value",
                             },
                             "transformation": None,
                             "value_type": {
                                 "type": "literal | iri",
                                 "type_mappings": [],
-                                "property_mappings": []
-                            }
+                                "property_mappings": [],
+                            },
                         }
-                    ]
+                    ],
                 }
-            ]
+            ],
         }
     ],
-    "unmapped_fields": ["string: field names with no suitable ontology match"]
+    "unmapped_fields": ["string: field names with no suitable ontology match"],
 }
 
 
 class ZeroShotPromptStrategy(BasePromptStrategy):
-
     def build_prompt(
         self,
         schema: ExtractedSchema,
@@ -81,9 +80,12 @@ SCHEMA:
 ONTOLOGY:
 {ontology.content}
 
-Return the mapping as JSON."""
+{self._closing_instruction()}"""
 
         return system_prompt, user_prompt
+
+    def _closing_instruction(self) -> str:
+        return "Return the mapping as JSON."
 
     def _format_schema(
         self,
@@ -93,22 +95,15 @@ Return the mapping as JSON."""
         lines = []
         descriptions = column_descriptions or {}
 
-        if schema.columns:
-            for col in schema.columns:
-                desc = descriptions.get(col.name)
-                suffix = f" — {desc}" if desc else ""
-                lines.append(f"  {col.name}: {col.data_type}{suffix}")
-
-        if schema.inferred_fields:
-            for field in schema.inferred_fields:
-                desc = descriptions.get(field.name)
-                suffix = f" — {desc}" if desc else ""
-                lines.append(f"  {field.name}: {field.data_type}{suffix}")
+        for field in [*schema.columns, *schema.inferred_fields]:
+            desc = descriptions.get(field.name)
+            suffix = f" — {desc}" if desc else ""
+            lines.append(f"  {field.name}: {field.data_type}{suffix}")
 
         if schema.sample_records:
             lines.append("\nSAMPLE RECORD:")
             sample = schema.sample_records[0]
-            for k, v in list(sample.items())[:10]:
+            for k, v in sample.items():
                 lines.append(f"  {k}: {repr(v)[:100]}")
 
         return "\n".join(lines)

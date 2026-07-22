@@ -7,11 +7,8 @@ from .zero_shot import OUTPUT_SCHEMA, ZeroShotPromptStrategy
 
 
 class ChainOfThoughtPromptStrategy(ZeroShotPromptStrategy):
-    """
-    Same task as zero-shot, but instructed to reason in prose before emitting
-    JSON. Unlike zero-shot, the response is not pure JSON, so
-    MappingGenerator._parse_json() must extract the trailing JSON block.
-    """
+    # Unlike zero-shot, the response is not pure JSON — MappingGenerator._parse_json()
+    # must extract the trailing ```json block from the prose reasoning.
 
     def build_prompt(
         self,
@@ -35,18 +32,10 @@ After your reasoning, output the final mapping as a JSON code block (```json ...
 
 Omit subject_transformation and transformation when no expression is needed."""
 
-        schema_description = self._format_schema(schema, column_descriptions)
-
-        user_prompt = f"""Map the following data source schema to the ontology.
-
-DATA SOURCE: {schema.source_name} (type: {schema.source_type})
-
-SCHEMA:
-{schema_description}
-
-ONTOLOGY:
-{ontology.content}
-
-Think step by step, then return the mapping as a JSON code block."""
-
+        _, user_prompt = super().build_prompt(
+            schema, ontology, column_descriptions, ontology_manager
+        )
         return system_prompt, user_prompt
+
+    def _closing_instruction(self) -> str:
+        return "Think step by step, then return the mapping as a JSON code block."

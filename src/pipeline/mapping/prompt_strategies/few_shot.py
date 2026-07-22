@@ -26,9 +26,16 @@ _EXAMPLE_MAPPING = {
                     "property_uri": "ex:totalAmount",
                     "values": [
                         {
-                            "value_source": {"source": "column", "column_name": "total_amount"},
+                            "value_source": {
+                                "source": "column",
+                                "column_name": "total_amount",
+                            },
                             "transformation": None,
-                            "value_type": {"type": "literal", "type_mappings": [], "property_mappings": []},
+                            "value_type": {
+                                "type": "literal",
+                                "type_mappings": [],
+                                "property_mappings": [],
+                            },
                         }
                     ],
                 },
@@ -36,11 +43,18 @@ _EXAMPLE_MAPPING = {
                     "property_uri": "ex:placedBy",
                     "values": [
                         {
-                            "value_source": {"source": "column", "column_name": "customer_email"},
+                            "value_source": {
+                                "source": "column",
+                                "column_name": "customer_email",
+                            },
                             # Must match the Customer subject's own subject_transformation below,
                             # otherwise this relation will silently fail to resolve at extraction time.
                             "transformation": {"expression": "cust_{customer_email}"},
-                            "value_type": {"type": "iri", "type_mappings": [{"class_uri": "ex:Customer"}], "property_mappings": []},
+                            "value_type": {
+                                "type": "iri",
+                                "type_mappings": [{"class_uri": "ex:Customer"}],
+                                "property_mappings": [],
+                            },
                         }
                     ],
                 },
@@ -55,9 +69,16 @@ _EXAMPLE_MAPPING = {
                     "property_uri": "ex:name",
                     "values": [
                         {
-                            "value_source": {"source": "column", "column_name": "customer_name"},
+                            "value_source": {
+                                "source": "column",
+                                "column_name": "customer_name",
+                            },
                             "transformation": None,
-                            "value_type": {"type": "literal", "type_mappings": [], "property_mappings": []},
+                            "value_type": {
+                                "type": "literal",
+                                "type_mappings": [],
+                                "property_mappings": [],
+                            },
                         }
                     ],
                 }
@@ -69,7 +90,6 @@ _EXAMPLE_MAPPING = {
 
 
 class FewShotPromptStrategy(ZeroShotPromptStrategy):
-
     def build_prompt(
         self,
         schema: ExtractedSchema,

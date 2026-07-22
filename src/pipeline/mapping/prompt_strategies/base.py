@@ -6,7 +6,6 @@ from ...ontology.models import FormattedOntology
 
 
 class BasePromptStrategy(ABC):
-
     @abstractmethod
     def build_prompt(
         self,
@@ -15,5 +14,4 @@ class BasePromptStrategy(ABC):
         column_descriptions: dict[str, str] | None = None,
         ontology_manager: OntologyManager | None = None,
     ) -> tuple[str, str]:
-        # returns (system_prompt, user_prompt)
         pass
