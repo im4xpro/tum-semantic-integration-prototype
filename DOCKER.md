@@ -18,11 +18,11 @@
    ```
 
    If auto-creation failed (GraphDB REST API shape can differ by version), create the
-   repository by hand — it's a one-time, ~1 minute step: open http://localhost:7200 →
+   repository by hand — it's a one-time, ~1 minute step: open http://localhost:7210 →
    Setup → Repositories → Create new repository → GraphDB Free → Repository ID `bsm` → Create.
 
-3. Open http://localhost:8000/experiments to run experiments, or http://localhost:8000/evaluation
-   and http://localhost:8000/diff to inspect results.
+3. Open http://localhost:8420/experiments to run experiments, or http://localhost:8420/evaluation
+   and http://localhost:8420/diff to inspect results.
 
 ## Editing prompts / mapping logic without rebuilding
 
@@ -34,25 +34,14 @@ Rebuild (`docker compose build app`) only when you change `pyproject.toml` depen
 ## Live database sources (optional)
 
 The thesis experiment config (`experiment_thesis.yaml`) uses `use_sample_data: true`,
-which reads records embedded in `data/schemas/*.json` — no live DB required. Postgres/
-MongoDB/TimescaleDB are only needed if you set `use_sample_data: false` to pull fresh
-data from a real source. They're behind a compose profile so they don't start by default:
-
-```
-docker compose --profile live-data up -d
-```
-
-These start with empty databases — you'd need to load data into them yourself before
-extraction would find anything.
+which reads records embedded in `data/schemas/*.json` — no live DB required. If you set
+`use_sample_data: false` to pull fresh data from a real source, the app connects out to
+Postgres/MongoDB/TimescaleDB instances running on the host machine (not in this compose
+file) via `host.docker.internal`, at the same ports `.env` already points at. No compose
+service to start — just make sure those instances are up.
 
 ## Running the CLI scripts inside the container
 
 ```
 docker compose exec app python scripts/evaluate-experiment.py thesis_eval_acled
 ```
-
-## Known caveat
-
-The GraphDB image tag pinned in `docker-compose.yml` (`ontotext/graphdb:10.7.0`) was
-picked without network access to verify it's current — if `docker compose pull` fails,
-check https://hub.docker.com/r/ontotext/graphdb/tags and update the tag.

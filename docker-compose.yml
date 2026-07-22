@@ -3,16 +3,19 @@ services:
   app:
     build: .
     ports:
-      - "8000:8000"
+      - "8420:8000"
     env_file:
       - .env
     environment:
-      # Override host-based .env values with in-network service names.
+      # Override .env's host-based values so the connectors reach GraphDB (in
+      # this compose network) and Postgres/MongoDB/TimescaleDB (running as
+      # separate instances on the host machine, not in this compose file) —
+      # "localhost" from inside the container means the container itself.
       # Only takes effect for connectors actually used at runtime.
       GRAPHDB_URL: http://graphdb:7200
-      POSTGRES_HOST: postgres
-      TIMESCALE_HOST: timescale
-      MONGODB_URI: mongodb://thesis:thesis@mongodb:27017
+      POSTGRES_HOST: host.docker.internal
+      TIMESCALE_HOST: host.docker.internal
+      MONGODB_URI: mongodb://thesis:thesis@host.docker.internal:27017
     volumes:
       # Bind-mount source + data so prompt edits and new runs/mappings show up
       # without a rebuild. Drop --reload from CMD in prod if you don't want
@@ -26,9 +29,9 @@ services:
     restart: unless-stopped
 
   graphdb:
-    image: ontotext/graphdb:10.7.0
+    image: ontotext/graphdb:11.4.2
     ports:
-      - "7200:7200"
+      - "7210:7200"
     volumes:
       - graphdb_data:/opt/graphdb/home
     healthcheck:
@@ -38,7 +41,7 @@ services:
       retries: 30
 
   graphdb-init:
-    image: curlimages/curl:8.10.1
+    image: curlimages/curl:8.21.0
     depends_on:
       graphdb:
         condition: service_healthy
@@ -49,51 +52,9 @@ services:
         if curl -sf http://graphdb:7200/rest/repositories/bsm >/dev/null 2>&1; then
           echo 'repository bsm already exists, skipping';
         else
-          curl -sf -X POST http://graphdb:7200/rest/repositories -F config=@/repo-config.ttl && echo 'repository bsm created' || echo 'auto-create failed - create it manually via http://localhost:7200 (see docker/graphdb/repo-config.ttl)';
+          curl -sf -X POST http://graphdb:7200/rest/repositories -F config=@/repo-config.ttl && echo 'repository bsm created' || echo 'auto-create failed - create it manually via http://localhost:7210 (see docker/graphdb/repo-config.ttl)';
         fi
       "
 
-  # Only needed if an experiment sets data.use_sample_data: false and reads
-  # live from a database. The thesis experiment config uses sample data
-  # embedded in data/schemas/*.json, so these are opt-in:
-  #   docker compose --profile live-data up -d
-  postgres:
-    profiles: ["live-data"]
-    image: postgres:16
-    environment:
-      POSTGRES_DB: thesis
-      POSTGRES_USER: thesis
-      POSTGRES_PASSWORD: thesis
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  mongodb:
-    profiles: ["live-data"]
-    image: mongo:7
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: thesis
-      MONGO_INITDB_ROOT_PASSWORD: thesis
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
-  timescale:
-    profiles: ["live-data"]
-    image: timescale/timescaledb:latest-pg16
-    environment:
-      POSTGRES_DB: thesis
-      POSTGRES_USER: thesis
-      POSTGRES_PASSWORD: thesis
-    ports:
-      - "5433:5432"
-    volumes:
-      - timescale_data:/var/lib/postgresql/data
-
 volumes:
   graphdb_data:
-  postgres_data:
-  mongo_data:
-  timescale_data:
