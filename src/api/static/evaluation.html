@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluation – Run Comparison</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f1117; color: #e1e4e8; font-size: 14px; }
+    a { color: #58a6ff; text-decoration: none; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; align-items: center; gap: 24px; }
+    header h1 { font-size: 16px; font-weight: 600; }
+    header nav a { font-size: 13px; color: #8b949e; }
+    header nav a:hover { color: #e1e4e8; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    .panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .panel h2 { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    button { padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
+    button:hover { opacity: .85; }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-primary { background: #238636; color: #fff; }
+    .btn-secondary { background: #21262d; color: #e1e4e8; border: 1px solid #30363d; }
+    .btn-sm { padding: 4px 10px; font-size: 12px; }
+    .btn-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    select { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e1e4e8; padding: 6px 10px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 8px 10px; font-size: 11px; color: #8b949e; border-bottom: 1px solid #21262d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    td { padding: 7px 10px; border-bottom: 1px solid #21262d; font-size: 12px; vertical-align: middle; }
+    tr:hover td { background: #1c2128; }
+    .mono { font-family: monospace; font-size: 11px; color: #8b949e; }
+    .s-completed { color: #3fb950; }
+    .s-failed { color: #f85149; }
+    .badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: #0f3e1a; color: #3fb950; }
+    .badge-red { background: #3d1515; color: #f85149; }
+    .badge-grey { background: #21262d; color: #8b949e; }
+    .bar-wrap { width: 80px; height: 8px; background: #21262d; border-radius: 4px; display: inline-block; vertical-align: middle; margin-left: 6px; }
+    .bar-fill { height: 100%; border-radius: 4px; background: #238636; }
+    .bar-fill.mid { background: #d29922; }
+    .bar-fill.low { background: #da3633; }
+    .msg { font-size: 13px; color: #8b949e; padding: 20px 0; text-align: center; }
+    .err { color: #f85149; font-size: 12px; padding: 8px; background: #3d1515; border-radius: 6px; margin-top: 8px; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #388bfd; border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .sel-count { font-size: 12px; color: #8b949e; }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { color: #e1e4e8; }
+    th.sort-asc::after { content: ' ↑'; }
+    th.sort-desc::after { content: ' ↓'; }
+    .check-col { width: 32px; }
+    .result-best td { background: rgba(35,134,54,0.08); }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Evaluation</h1>
+  <nav style="display:flex;gap:16px">
+    <a href="/experiments">← Experiments</a>
+    <a href="/evaluation" style="color:#e1e4e8;font-weight:600">Evaluation</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- Run selector -->
+  <div class="panel">
+    <h2>
+      Select runs to compare
+      <span class="sel-count" id="sel-count"></span>
+    </h2>
+    <div class="btn-row" style="margin-bottom:14px">
+      <select id="filter-exp" onchange="loadRuns()">
+        <option value="">All experiments</option>
+      </select>
+      <button class="btn-secondary btn-sm" onclick="loadRuns()">Refresh</button>
+      <button class="btn-secondary btn-sm" onclick="selectAll()">Select all</button>
+      <button class="btn-secondary btn-sm" onclick="clearSelection()">Clear</button>
+      <div style="flex:1"></div>
+      <button class="btn-primary" id="compare-btn" onclick="runComparison()" disabled>
+        Compare selected
+      </button>
+    </div>
+    <div id="run-table"><div class="msg">Loading runs…</div></div>
+  </div>
+
+  <!-- Results -->
+  <div class="panel" id="results-panel" style="display:none">
+    <h2>
+      Results
+      <span id="results-subtitle" style="font-weight:400;font-size:12px;color:#8b949e"></span>
+    </h2>
+    <div id="results-table"></div>
+  </div>
+
+</div>
+
+<script>
+const API = '';
+let allRuns = [];
+let sortCol = null;
+let sortDir = 1;
+
+// ── Load runs ─────────────────────────────────────────────────────────────────
+async function loadExperiments() {
+  const resp = await fetch(`${API}/api/experiments/experiments`);
+  const names = await resp.json();
+  const sel = document.getElementById('filter-exp');
+  names.forEach(n => {
+    const o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    sel.appendChild(o);
+  });
+}
+
+async function loadRuns() {
+  const exp = document.getElementById('filter-exp').value;
+  let url = `${API}/api/experiments/runs?status=completed&limit=500`;
+  if (exp) url += `&experiment=${encodeURIComponent(exp)}`;
+  const resp = await fetch(url);
+  allRuns = await resp.json();
+  renderRunTable(allRuns);
+  if (exp) selectAll();
+}
+
+function renderRunTable(runs) {
+  const container = document.getElementById('run-table');
+  if (!runs.length) { container.innerHTML = '<div class="msg">No completed runs found.</div>'; return; }
+
+  const checked = selectedIds();
+  const rows = runs.map(r => {
+    const isChecked = checked.has(r.id);
+    return `<tr>
+      <td class="check-col"><input type="checkbox" value="${r.id}" onchange="onCheck()"${isChecked?' checked':''}></td>
+      <td class="mono">${r.id}</td>
+      <td>${r.config.experiment_name}</td>
+      <td>${r.config.llm_model}</td>
+      <td>${r.config.strategy}</td>
+      <td>${r.config.ontology_format}</td>
+      <td>${r.config.include_descriptions ? 'yes' : 'no'}</td>
+      <td class="mono">${r.config.source_name}</td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `<table>
+    <thead><tr>
+      <th class="check-col"><input type="checkbox" id="check-all" onchange="toggleAll(this)"></th>
+      <th>Run ID</th><th>Experiment</th><th>Model</th><th>Strategy</th><th>Format</th><th>Descriptions</th><th>Source</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+  updateSelCount();
+}
+
+function selectedIds() {
+  return new Set(
+    [...document.querySelectorAll('#run-table input[type=checkbox][value]')]
+      .filter(cb => cb.checked).map(cb => cb.value)
+  );
+}
+
+function onCheck() { updateSelCount(); }
+
+function updateSelCount() {
+  const n = selectedIds().size;
+  document.getElementById('sel-count').textContent = n ? `${n} selected` : '';
+  document.getElementById('compare-btn').disabled = n === 0;
+}
+
+function toggleAll(master) {
+  document.querySelectorAll('#run-table input[type=checkbox][value]')
+    .forEach(cb => cb.checked = master.checked);
+  updateSelCount();
+}
+
+function selectAll() {
+  document.querySelectorAll('#run-table input[type=checkbox][value]').forEach(cb => cb.checked = true);
+  const master = document.getElementById('check-all');
+  if (master) master.checked = true;
+  updateSelCount();
+}
+
+function clearSelection() {
+  document.querySelectorAll('#run-table input[type=checkbox]').forEach(cb => cb.checked = false);
+  updateSelCount();
+}
+
+// ── Evaluate ──────────────────────────────────────────────────────────────────
+async function runComparison() {
+  const ids = [...selectedIds()];
+  const btn = document.getElementById('compare-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Evaluating…';
+
+  const panel = document.getElementById('results-panel');
+  panel.style.display = 'block';
+  document.getElementById('results-table').innerHTML = '<div class="msg"><span class="spinner"></span> Fetching graphs and computing metrics…</div>';
+
+  try {
+    const resp = await fetch(`${API}/api/evaluation/compare`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ run_ids: ids }),
+    });
+    if (!resp.ok) {
+      const err = await resp.json();
+      throw new Error(err.detail || resp.statusText);
+    }
+    const results = await resp.json();
+    renderResults(results);
+    document.getElementById('results-subtitle').textContent =
+      `${results.length} run${results.length !== 1 ? 's' : ''} evaluated`;
+  } catch (e) {
+    document.getElementById('results-table').innerHTML = `<div class="err">Error: ${e.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Compare selected';
+    updateSelCount();
+  }
+}
+
+function pct(v) {
+  if (v == null) return '<span style="color:#8b949e">—</span>';
+  const pv = (v * 100).toFixed(1);
+  const cls = v >= 0.6 ? '' : v >= 0.3 ? 'mid' : 'low';
+  return `${pv}% <span class="bar-wrap"><span class="bar-fill ${cls}" style="width:${pv}%"></span></span>`;
+}
+
+function cqBadge(rate, passed, total) {
+  if (rate == null || total === 0) return '<span style="color:#8b949e">—</span>';
+  const pct = (rate * 100).toFixed(0);
+  const cls = rate === 1 ? 'badge-green' : rate > 0 ? '' : 'badge-red';
+  return `<span class="badge ${cls}">${passed}/${total} (${pct}%)</span>`;
+}
+
+function renderResults(rows) {
+  if (!rows.length) {
+    document.getElementById('results-table').innerHTML = '<div class="msg">No results.</div>';
+    return;
+  }
+
+  const scored = rows.filter(r => !r.error && r.f1 != null);
+  const bestF1 = scored.length ? Math.max(...scored.map(r => r.f1)) : null;
+
+  const tableRows = rows.map(r => {
+    const isBest = !r.error && r.f1 === bestF1 && bestF1 != null;
+    if (r.error) {
+      return `<tr>
+        <td>${r.llm_model}</td>
+        <td>${r.strategy}</td>
+        <td>${r.ontology_format}</td>
+        <td>${r.include_descriptions ? 'yes' : 'no'}</td>
+        <td colspan="6"><span style="color:#f85149;font-size:11px">${r.error.split('\n')[0]}</span></td>
+      </tr>`;
+    }
+    return `<tr${isBest ? ' class="result-best"' : ''}>
+      <td><b>${r.llm_model}</b></td>
+      <td>${r.strategy}</td>
+      <td>${r.ontology_format}</td>
+      <td>${r.include_descriptions ? 'yes' : 'no'}</td>
+      <td>${pct(r.precision)}</td>
+      <td>${pct(r.recall)}</td>
+      <td>${pct(r.f1)}</td>
+      <td>${pct(r.jaccard)}</td>
+      <td>${cqBadge(r.cq_pass_rate, r.n_cqs_passed, r.n_cqs)}</td>
+      <td><a href="/diff?run_id=${r.run_id}" target="_blank" style="font-size:11px">Diff →</a></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('results-table').innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Model</th>
+        <th>Strategy</th>
+        <th>Format</th>
+        <th>Desc.</th>
+        <th>Precision</th>
+        <th>Recall</th>
+        <th>F1</th>
+        <th>Jaccard</th>
+        <th>CQ Pass Rate</th>
+        <th></th>
+      </tr></thead>
+      <tbody>${tableRows}</tbody>
+    </table>
+    ${bestF1 != null ? `<div style="font-size:12px;color:#3fb950;margin-top:12px">
+      Best F1: ${(bestF1*100).toFixed(1)}%
+      — ${scored.find(r => r.f1 === bestF1)?.llm_model}, ${scored.find(r => r.f1 === bestF1)?.strategy}
+    </div>` : ''}
+  `;
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadExperiments().then(() => loadRuns());
+</script>
+</body>
+</html>
