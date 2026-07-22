@@ -11,27 +11,15 @@ LiteralFact = tuple[str, Any]
 
 @dataclass(frozen=True)
 class SignatureEntity:
-    """
-    One real-world entity, normalized so gold and generated graphs can be
-    compared regardless of which subject-URI scheme produced them.
-
-    `key` is the entity's identity within its own graph (gold: temp_id,
-    generated: subject URI) — only used to look up relations after matching,
-    never compared across graphs. `class_uri`/`facts` (both fully-expanded
-    URIs, literal values normalized) are what matching actually compares.
-    """
+    # `key` is only used to look up relations after matching, never compared
+    # across graphs — gold uses temp_id, generated uses subject URI.
     key: str
     class_uri: str
     facts: frozenset[LiteralFact]  # (predicate_uri, normalized_literal_value)
 
-    @property
-    def signature(self) -> tuple[str, frozenset[LiteralFact]]:
-        return (self.class_uri, self.facts)
-
 
 @dataclass(frozen=True)
 class CanonicalRelation:
-    """A relation triple expressed via matched-entity keys, not raw URIs."""
     subject_key: str
     predicate: str
     object_key: str
@@ -51,7 +39,7 @@ class EvaluationMetrics(BaseModel):
     precision: float
     recall: float
     f1: float
-    accuracy: float
+    jaccard: float
     entities_matched: int
     entities_unmatched_gold: int
     entities_unmatched_generated: int
@@ -72,6 +60,63 @@ class CQResult(BaseModel):
     error: str | None = None
 
 
+class FieldDiff(BaseModel):
+    source_fields: list[str]
+    gold_predicate: str | None
+    generated_predicate: str | None
+    status: Literal["match", "mismatch", "fn", "fp"]
+
+
+class SubjectDiff(BaseModel):
+    class_uri: str
+    subject_column: str
+    field_diffs: list[FieldDiff]
+
+
+class MappingDiff(BaseModel):
+    run_id: str
+    llm_model: str
+    strategy: str
+    ontology_format: str
+    include_descriptions: bool
+    error: str | None = None
+    tp: int = 0
+    fp: int = 0
+    fn: int = 0
+    precision: float = 0.0
+    recall: float = 0.0
+    f1: float = 0.0
+    subject_diffs: list[SubjectDiff] = []
+
+
+class FactDiff(BaseModel):
+    predicate: str
+    value: str
+    status: Literal["tp", "fn", "fp"]
+
+
+class EntityPairDiff(BaseModel):
+    gold_facts: list[FactDiff]
+    generated_facts: list[FactDiff]
+
+
+class ClassDiff(BaseModel):
+    class_uri: str
+    matched: list[EntityPairDiff]
+    unmatched_gold: list[list[FactDiff]]
+    unmatched_generated: list[list[FactDiff]]
+
+
+class RunDiff(BaseModel):
+    run_id: str
+    llm_model: str
+    strategy: str
+    ontology_format: str
+    include_descriptions: bool
+    error: str | None = None
+    class_diffs: list[ClassDiff] = []
+
+
 class EvaluationResult(BaseModel):
     run_id: str
     experiment_name: str
@@ -83,7 +128,7 @@ class EvaluationResult(BaseModel):
     precision: float | None = None
     recall: float | None = None
     f1: float | None = None
-    accuracy: float | None = None
+    jaccard: float | None = None
     tp: int | None = None
     fp: int | None = None
     fn: int | None = None

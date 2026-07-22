@@ -28,7 +28,6 @@ def evaluate_run(
     gold_property_ranges: dict[str, URIRef],
     cqs: list[CQDefinition] | None,
 ) -> EvaluationResult:
-    """Compare one completed Run's generated graph (fetched from GraphDB) against the gold standard."""
     base = {
         "run_id": run.id,
         "experiment_name": run.config.experiment_name,
@@ -40,7 +39,9 @@ def evaluate_run(
     }
 
     if run.status != RunStatus.completed or not run.named_graph:
-        return EvaluationResult(**base, error=f"run status is '{run.status}', no named graph to evaluate")
+        return EvaluationResult(
+            **base, error=f"run status is '{run.status}', no named graph to evaluate"
+        )
 
     try:
         client = GraphDBClient(build_graphdb_config(run.config))
@@ -49,10 +50,12 @@ def evaluate_run(
         return EvaluationResult(**base, error=f"failed to fetch generated graph: {e}")
 
     gold_namespaces = build_namespaces(gold_mapping)
-    gold_entities, gold_relations = entities_from_extraction(gold_results, gold_namespaces, gold_property_ranges)
+    gold_entities, gold_relations = entities_from_extraction(
+        gold_results, gold_namespaces, gold_property_ranges
+    )
     generated_entities, generated_relations = entities_from_graph(generated_graph)
 
-    match = match_entities(gold_entities, generated_entities, gold_relations, generated_relations)
+    match = match_entities(gold_entities, generated_entities)
     metrics = compute_metrics(match, gold_relations, generated_relations)
 
     cq_pass_rate = None
@@ -72,7 +75,7 @@ def evaluate_run(
         precision=metrics.precision,
         recall=metrics.recall,
         f1=metrics.f1,
-        accuracy=metrics.accuracy,
+        jaccard=metrics.jaccard,
         tp=metrics.tp,
         fp=metrics.fp,
         fn=metrics.fn,
@@ -86,13 +89,14 @@ def evaluate_run(
 
 
 def resolve_source_name(experiment_name: str, run_store: RunStore | None = None) -> str:
-    """
-    Look up the (single) source_name used by an experiment's completed runs.
-    The gold standard is keyed by source_name, not experiment_name, since the
-    same source can be evaluated across many differently-named experiments.
-    """
+    # The gold standard is keyed by source_name, not experiment_name — the same
+    # source can be evaluated across many differently-named experiments.
     store = run_store or RunStore()
-    runs = [r for r in store.list_by_experiment(experiment_name) if r.status == RunStatus.completed]
+    runs = [
+        r
+        for r in store.list_by_experiment(experiment_name)
+        if r.status == RunStatus.completed
+    ]
     if not runs:
         raise ValueError(f"No completed runs found for experiment '{experiment_name}'")
 
@@ -113,9 +117,12 @@ def evaluate_experiment(
     cq_path: Path | None = None,
     run_store: RunStore | None = None,
 ) -> pd.DataFrame:
-    """Evaluate every completed Run in an experiment against one gold standard, as a pandas DataFrame."""
     store = run_store or RunStore()
-    runs = [r for r in store.list_by_experiment(experiment_name) if r.status == RunStatus.completed]
+    runs = [
+        r
+        for r in store.list_by_experiment(experiment_name)
+        if r.status == RunStatus.completed
+    ]
 
     gold_results, gold_mapping, gold_property_ranges = build_gold_extraction_results(
         gold_mapping_path, schemas_dir, ontology_path
@@ -123,17 +130,28 @@ def evaluate_experiment(
     cqs = load_cq_file(cq_path) if cq_path and cq_path.exists() else None
 
     rows = [
-        evaluate_run(run, gold_results, gold_mapping, gold_property_ranges, cqs).model_dump()
+        evaluate_run(
+            run, gold_results, gold_mapping, gold_property_ranges, cqs
+        ).model_dump()
         for run in runs
     ]
     df = pd.DataFrame(rows)
     if not df.empty:
-        df = df.sort_values(["provider", "llm_model", "strategy", "ontology_format", "include_descriptions"])
+        df = df.sort_values(
+            [
+                "provider",
+                "llm_model",
+                "strategy",
+                "ontology_format",
+                "include_descriptions",
+            ]
+        )
     return df
 
 
-def write_report(df: pd.DataFrame, output_dir: Path, experiment_name: str) -> tuple[Path, Path]:
-    """Write {experiment_name}_evaluation.csv and .md under output_dir, return both paths."""
+def write_report(
+    df: pd.DataFrame, output_dir: Path, experiment_name: str
+) -> tuple[Path, Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     csv_path = output_dir / f"{experiment_name}_evaluation.csv"
     md_path = output_dir / f"{experiment_name}_evaluation.md"

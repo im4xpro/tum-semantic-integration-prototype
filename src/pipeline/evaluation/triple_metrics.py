@@ -1,25 +1,25 @@
 from .models import CanonicalRelation, EvaluationMetrics, MatchResult
 
 
+def _prf(tp: int, fp: int, fn: int) -> tuple[float, float, float]:
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+    return precision, recall, f1
+
+
 def _entity_fact_counts(match: MatchResult) -> tuple[int, int, int]:
-    """
-    TP/FP/FN over entity-level facts: the rdf:type triple (implicitly TP for
-    every matched pair, since matching requires equal class_uri) plus every
-    literal property triple. Unmatched entities count all of their facts
-    (rdf:type + literals) as FN (gold) / FP (generated).
-    """
+    # rdf:type is implicitly TP for every matched pair (matching requires equal class_uri).
+    # Unmatched entities count all their facts (rdf:type + literals) as FN (gold) / FP (generated).
     tp = fp = fn = 0
 
     for gold_entity, generated_entity in match.matched_pairs:
         tp += 1  # rdf:type, always agrees within a matched pair
-        for fact in gold_entity.facts:
-            if fact in generated_entity.facts:
-                tp += 1
-            else:
-                fn += 1
-        for fact in generated_entity.facts:
-            if fact not in gold_entity.facts:
-                fp += 1
+        gold_facts = gold_entity.facts
+        gen_facts = generated_entity.facts
+        tp += len(gold_facts & gen_facts)
+        fn += len(gold_facts - gen_facts)
+        fp += len(gen_facts - gold_facts)
 
     for entity in match.unmatched_gold:
         fn += 1 + len(entity.facts)
@@ -34,15 +34,12 @@ def _relation_fact_counts(
     gold_relations: list[CanonicalRelation],
     generated_relations: list[CanonicalRelation],
 ) -> tuple[int, int, int]:
-    """
-    TP/FP/FN over object-property (relation) triples, compared via the
-    matched-entity correspondence: a gold relation is only comparable if both
-    its endpoints were matched to some generated entity, and vice versa.
-    Relations touching an unmatched entity can never be reproduced/correspond
-    to anything, so they're counted as FN/FP directly.
-    """
+    # Relations touching an unmatched entity can never correspond to anything in
+    # the other graph, so they're counted directly as FN/FP without further comparison.
     matched_gold_keys = {gold.key for gold, _ in match.matched_pairs}
-    generated_to_gold_key = {generated.key: gold.key for gold, generated in match.matched_pairs}
+    generated_to_gold_key = {
+        generated.key: gold.key for gold, generated in match.matched_pairs
+    }
 
     gold_set: set[tuple[str, str, str]] = set()
     fn = 0
@@ -74,21 +71,15 @@ def compute_metrics(
     gold_relations: list[CanonicalRelation],
     generated_relations: list[CanonicalRelation],
 ) -> EvaluationMetrics:
-    """
-    Precision/recall/F1 over the pooled entity + relation TP/FP/FN counts, plus
-    accuracy = TP/(TP+FP+FN) (Jaccard similarity between the gold and
-    generated fact sets — there is no well-defined "true negative" here, so
-    this is NOT the classical (TP+TN)/total accuracy).
-    """
     e_tp, e_fp, e_fn = _entity_fact_counts(match)
     r_tp, r_fp, r_fn = _relation_fact_counts(match, gold_relations, generated_relations)
 
     tp, fp, fn = e_tp + r_tp, e_fp + r_fp, e_fn + r_fn
 
-    precision = tp / (tp + fp) if (tp + fp) else 0.0
-    recall = tp / (tp + fn) if (tp + fn) else 0.0
-    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
-    accuracy = tp / (tp + fp + fn) if (tp + fp + fn) else 0.0
+    precision, recall, f1 = _prf(tp, fp, fn)
+    # Jaccard similarity: TP/(TP+FP+FN). There is no well-defined "true negative" here,
+    # so this is NOT classical (TP+TN)/total accuracy — it is the Jaccard index.
+    jaccard = tp / (tp + fp + fn) if (tp + fp + fn) else 0.0
 
     return EvaluationMetrics(
         tp=tp,
@@ -97,7 +88,7 @@ def compute_metrics(
         precision=precision,
         recall=recall,
         f1=f1,
-        accuracy=accuracy,
+        jaccard=jaccard,
         entities_matched=len(match.matched_pairs),
         entities_unmatched_gold=len(match.unmatched_gold),
         entities_unmatched_generated=len(match.unmatched_generated),

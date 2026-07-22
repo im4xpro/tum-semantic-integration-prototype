@@ -10,7 +10,6 @@ from .models import CQDefinition, CQResult
 
 
 def load_cq_file(path: Path) -> list[CQDefinition]:
-    """Load hand-authored competency questions from a YAML file (see data/gold_standard/*.cq.yaml)."""
     raw = yaml.safe_load(path.read_text()) or []
     return [CQDefinition.model_validate(item) for item in raw]
 
@@ -20,7 +19,6 @@ def run_competency_questions(
     named_graph_uri: str,
     cqs: list[CQDefinition],
 ) -> list[CQResult]:
-    """Run each CQ's SPARQL (with {{graph}} substituted) against the live GraphDB repository."""
     results: list[CQResult] = []
     for cq in cqs:
         query = cq.query.replace("{{graph}}", named_graph_uri)
@@ -42,7 +40,7 @@ def run_competency_questions(
 
 
 def _rows_equal(actual: list[dict[str, Any]], expected: list[dict[str, Any]]) -> bool:
-    """Order-independent comparison of SELECT result rows (hand-authoring exact row order is error-prone)."""
+    # Order-independent: hand-authoring exact row order in YAML is error-prone.
     return _multiset(actual) == _multiset(expected)
 
 
