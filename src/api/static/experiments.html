@@ -261,6 +261,8 @@ function renderRunDetail(run) {
         ${isActive ? `<button class="btn-danger btn-sm" onclick="cancelRun('${run.id}')">Cancel</button>` : ''}
         ${!isActive ? `<button class="btn-secondary btn-sm" onclick="deleteRun('${run.id}')">Delete</button>` : ''}
         ${!isActive ? `<button class="btn-primary btn-sm" onclick="rerunRun('${run.id}')">Rerun</button>` : ''}
+        ${run.mapping_id ? `<button class="btn-secondary btn-sm" onclick="window.open('/api/mappings/${run.mapping_id}/prompt','_blank')">View Prompt</button>` : ''}
+        ${run.mapping_id ? `<button class="btn-secondary btn-sm" onclick="window.open('/api/mappings/${run.mapping_id}/response','_blank')">View Result</button>` : ''}
       </div>
     </div>`;
 }

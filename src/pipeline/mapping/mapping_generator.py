@@ -70,6 +70,9 @@ class MappingGenerator:
             generation_timestamp=datetime.datetime.now(),
             prompt_tokens=prompt_tokens,
             completion_tokens=completion_tokens,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            raw_response=response_text,
         )
 
     def _parse_json(self, response_text: str) -> dict:

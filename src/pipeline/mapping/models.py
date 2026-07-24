@@ -66,6 +66,12 @@ class MappingDocument(BaseModel):
     generation_timestamp: datetime
     prompt_tokens: int
     completion_tokens: int
+    # Only populated for LLM-generated mappings — None for manually-authored ones
+    # (e.g. the gold mapping). Kept verbatim for inspecting exactly what the LLM
+    # was sent and exactly what it returned, before any JSON parsing/cleanup.
+    system_prompt: str | None = None
+    user_prompt: str | None = None
+    raw_response: str | None = None
 
 
 class MappingConfig(BaseModel):

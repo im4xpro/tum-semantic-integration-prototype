@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import Response
+from fastapi.responses import PlainTextResponse, Response
 
 from pipeline.mapping.models import MappingDocument
 
@@ -155,6 +155,43 @@ def update_mapping(mapping_id: str, body: dict):
         raise HTTPException(422, str(e))
     _write(p, doc)
     return {"id": doc.id, "filename": p.name}
+
+
+@router.get("/{mapping_id}/prompt", response_class=PlainTextResponse)
+def get_mapping_prompt(mapping_id: str):
+    """The exact system/user prompt sent to the LLM — empty for mappings that
+    weren't LLM-generated (e.g. the manually-authored gold mapping)."""
+    p = _find_path(mapping_id)
+    if not p:
+        raise HTTPException(404, "Mapping not found")
+    d = json.loads(p.read_text())
+    system_prompt = d.get("system_prompt")
+    user_prompt = d.get("user_prompt")
+    if not system_prompt and not user_prompt:
+        return PlainTextResponse(
+            "No prompt recorded for this mapping (not LLM-generated, "
+            "or generated before prompt logging was added)."
+        )
+    return PlainTextResponse(
+        f"{'=' * 80}\nSYSTEM PROMPT\n{'=' * 80}\n\n{system_prompt or '(empty)'}\n\n"
+        f"{'=' * 80}\nUSER PROMPT\n{'=' * 80}\n\n{user_prompt or '(empty)'}\n"
+    )
+
+
+@router.get("/{mapping_id}/response", response_class=PlainTextResponse)
+def get_mapping_response(mapping_id: str):
+    """The exact, unparsed text the LLM returned, before JSON extraction."""
+    p = _find_path(mapping_id)
+    if not p:
+        raise HTTPException(404, "Mapping not found")
+    d = json.loads(p.read_text())
+    raw_response = d.get("raw_response")
+    if not raw_response:
+        return PlainTextResponse(
+            "No raw response recorded for this mapping (not LLM-generated, "
+            "or generated before response logging was added)."
+        )
+    return PlainTextResponse(raw_response)
 
 
 @router.get("/{mapping_id}/export")
