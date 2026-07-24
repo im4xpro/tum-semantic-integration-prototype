@@ -11,6 +11,8 @@ GET    /api/experiments/experiments     List distinct experiment names
 GET    /api/experiments/runs/{id}       Get single run details
 POST   /api/experiments/runs/{id}/cancel  Cancel an active run
 DELETE /api/experiments/runs/{id}       Delete a finished run record
+POST   /api/experiments/runs/cancel-all Cancel every active run
+POST   /api/experiments/clear-all       Cancel + delete every run and wipe GraphDB
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ import yaml
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
+from pipeline.graph.graphdb_client import GraphDBClient, GraphDBConfig, GraphDBError
 from pipeline.runner.experiment_manager import get_manager
 from pipeline.runner.models import (
     ExperimentConfig,
@@ -103,6 +106,13 @@ def cancel_run(run_id: str):
     return {"cancelled": run_id}
 
 
+@router.post("/runs/cancel-all", response_model=dict)
+def cancel_all_runs():
+    """Signal cancellation for every active run (best-effort — the pipeline only
+    checks between phases, so an in-flight LLM call or GraphDB upload finishes first)."""
+    return {"cancelled": get_manager().cancel_all()}
+
+
 @router.delete("/runs/{run_id}", response_model=dict)
 def delete_run(run_id: str):
     ok = get_manager().delete_run(run_id)
@@ -112,6 +122,20 @@ def delete_run(run_id: str):
             f"Run '{run_id}' not found or is still active (cancel it first)",
         )
     return {"deleted": run_id}
+
+
+@router.post("/clear-all", response_model=dict)
+def clear_all():
+    """Cancel every active run, delete all run records, and wipe all data from GraphDB."""
+    get_manager().cancel_all()
+    deleted = get_manager().delete_all()
+    try:
+        GraphDBClient(GraphDBConfig()).clear_repository()
+    except GraphDBError as e:
+        raise HTTPException(
+            502, f"Deleted {deleted} run(s), but clearing GraphDB failed: {e}"
+        )
+    return {"deleted_runs": deleted, "graphdb_cleared": True}
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

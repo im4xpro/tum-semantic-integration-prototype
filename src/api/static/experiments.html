@@ -123,6 +123,11 @@
           </select>
           <button class="btn-secondary btn-sm" onclick="loadRuns()">Refresh</button>
         </div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn-danger btn-sm" onclick="stopAllRuns()">Stop All Runs</button>
+          <button class="btn-danger btn-sm" onclick="clearEverything()">Clear Everything</button>
+        </div>
+        <div id="bulk-out"></div>
         <div id="runs-table">Loading…</div>
       </div>
 
@@ -333,6 +338,31 @@ async function cancelRun(id) {
 async function deleteRun(id) {
   if (!confirm(`Delete run ${id}?`)) return;
   await fetch(`${API}/api/experiments/runs/${id}`, {method:'DELETE'});
+  selectedRunId = null;
+  document.getElementById('run-detail-container').innerHTML = '';
+  loadRuns();
+}
+
+async function stopAllRuns() {
+  if (!confirm('Stop ALL active runs (queued/mapping/extracting)? In-flight LLM calls or GraphDB uploads will still finish before stopping.')) return;
+  const res = await fetch(`${API}/api/experiments/runs/cancel-all`, {method:'POST'}).then(r => r.json());
+  document.getElementById('bulk-out').innerHTML = `<div class="preview-box">Stopped ${res.cancelled} run(s).</div>`;
+  loadRuns();
+}
+
+async function clearEverything() {
+  if (!confirm('This permanently deletes ALL run records and wipes ALL data from GraphDB. This cannot be undone. Continue?')) return;
+  document.getElementById('bulk-out').innerHTML = `<div class="preview-box">Clearing…</div>`;
+  try {
+    const res = await fetch(`${API}/api/experiments/clear-all`, {method:'POST'}).then(r => r.json());
+    if (res.detail) {
+      document.getElementById('bulk-out').innerHTML = `<div class="error-box">${escHtml(JSON.stringify(res.detail))}</div>`;
+    } else {
+      document.getElementById('bulk-out').innerHTML = `<div class="preview-box">Deleted ${res.deleted_runs} run(s) and cleared GraphDB.</div>`;
+    }
+  } catch(e) {
+    document.getElementById('bulk-out').innerHTML = `<div class="error-box">${e.message}</div>`;
+  }
   selectedRunId = null;
   document.getElementById('run-detail-container').innerHTML = '';
   loadRuns();

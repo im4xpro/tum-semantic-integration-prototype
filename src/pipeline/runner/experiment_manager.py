@@ -82,6 +82,12 @@ class ExperimentManager:
 
         return True
 
+    def cancel_all(self) -> int:
+        """Signal cancellation for every active run. Returns the count signalled."""
+        active = {RunStatus.queued, RunStatus.mapping, RunStatus.extracting}
+        runs = [r for r in self._store.list_all() if r.status in active]
+        return sum(1 for r in runs if self.cancel(r.id))
+
     # ── Query ─────────────────────────────────────────────────────────────────
 
     def get_run(self, run_id: str) -> Run | None:
@@ -114,6 +120,10 @@ class ExperimentManager:
             return False  # refuse to delete active runs
         self._store.delete(run_id)
         return True
+
+    def delete_all(self) -> int:
+        """Delete every run record, regardless of status. Returns the count deleted."""
+        return sum(1 for r in self._store.list_all() if self._store.delete(r.id))
 
     # ── Internals ─────────────────────────────────────────────────────────────
 

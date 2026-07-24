@@ -66,6 +66,15 @@ class GraphDBClient:
         if not resp.ok:
             raise GraphDBError(f"Clear failed [{resp.status_code}]: {resp.text[:200]}")
 
+    def clear_repository(self) -> None:
+        """Delete every triple in the repository — all named graphs and the default graph."""
+        url = f"{self.config.url}/repositories/{self.config.repository}/statements"
+        resp = requests.delete(url, auth=self._auth)
+        if not resp.ok:
+            raise GraphDBError(
+                f"Clear repository failed [{resp.status_code}]: {resp.text[:200]}"
+            )
+
     def replace_named_graph(self, graph: Graph, named_graph_uri: str) -> int:
         """
         Atomically replace a named graph: clear first, then upload.
