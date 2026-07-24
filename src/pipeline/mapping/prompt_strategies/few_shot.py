@@ -21,9 +21,13 @@ _EXAMPLE_MAPPING = {
             "subject": {"source": "column", "column_name": "order_id"},
             "subject_transformation": {"expression": "order_{order_id}"},
             "type_mappings": [{"class_uri": "ex:Order"}],
+            "confidence": 0.9,
+            "reasoning": "order_id is a per-row identifier, so each row is one Order entity.",
             "property_mappings": [
                 {
                     "property_uri": "ex:totalAmount",
+                    "confidence": 0.95,
+                    "reasoning": "Column name and decimal type match the order total directly.",
                     "values": [
                         {
                             "value_source": {
@@ -41,6 +45,8 @@ _EXAMPLE_MAPPING = {
                 },
                 {
                     "property_uri": "ex:placedBy",
+                    "confidence": 0.8,
+                    "reasoning": "customer_email points to a separate Customer entity, so this is an inferred relation rather than a literal.",
                     "values": [
                         {
                             "value_source": {
@@ -64,9 +70,13 @@ _EXAMPLE_MAPPING = {
             "subject": {"source": "column", "column_name": "customer_email"},
             "subject_transformation": {"expression": "cust_{customer_email}"},
             "type_mappings": [{"class_uri": "ex:Customer"}],
+            "confidence": 0.95,
+            "reasoning": "customer_email uniquely identifies a person, so it anchors a Customer entity.",
             "property_mappings": [
                 {
                     "property_uri": "ex:name",
+                    "confidence": 0.95,
+                    "reasoning": "customer_name is the display name of that customer.",
                     "values": [
                         {
                             "value_source": {

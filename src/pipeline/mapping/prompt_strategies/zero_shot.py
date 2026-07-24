@@ -19,9 +19,13 @@ OUTPUT_SCHEMA = {
             "type_mappings": [
                 {"class_uri": "string: ontology class URI e.g. bsm:Organisation"}
             ],
+            "confidence": "number 0.0-1.0: how confident you are that this is the correct entity grouping and class",
+            "reasoning": "string: one to two sentences justifying the class choice and identifier column",
             "property_mappings": [
                 {
                     "property_uri": "string: ontology property URI e.g. bsm:conceptName",
+                    "confidence": "number 0.0-1.0: how confident you are that this column maps to this specific property",
+                    "reasoning": "string: one sentence justifying this property choice",
                     "values": [
                         {
                             "value_source": {
@@ -59,7 +63,9 @@ Your task is to map a data source schema to an OWL ontology using an RML-style s
 Group fields by the entity they describe. For each entity type:
 - Identify which column or constant value serves as the subject (entity identifier).
 - Specify the ontology class (type_mappings).
+- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct, and justify it in one to two sentences (subject-level confidence and reasoning).
 - Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.
+- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property, and justify it in one sentence (property-level confidence and reasoning).
 - If a value points to another entity, set value_type to "iri" and include nested type_mappings/property_mappings if applicable.
 - If a field cannot be mapped to any ontology concept, add it to unmapped_fields.
 

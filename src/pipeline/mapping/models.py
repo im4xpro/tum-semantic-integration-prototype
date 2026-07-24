@@ -37,6 +37,11 @@ class ValueDefinition(BaseModel):
 class PropertyMapping(BaseModel):
     property_uri: str
     values: list[ValueDefinition]
+    # Confidence (0-1) and justification for THIS column→property choice specifically
+    # — a local decision, distinct from the subject-level grouping/class decision below.
+    # None on manually-authored mappings and any generated before these fields existed.
+    confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    reasoning: str | None = None
 
 
 ValueType.model_rebuild()
@@ -48,6 +53,11 @@ class SubjectMapping(BaseModel):
     subject_transformation: CodeTransformation | None = None
     type_mappings: list[TypeMapping] = []
     property_mappings: list[PropertyMapping] = []
+    # Confidence (0-1) and justification for THIS entity grouping + class assignment
+    # — a structural decision, distinct from the per-property confidence above.
+    # None on manually-authored mappings and any generated before these fields existed.
+    confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    reasoning: str | None = None
 
 
 class MappingDocument(BaseModel):

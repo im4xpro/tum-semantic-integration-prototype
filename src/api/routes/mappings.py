@@ -1,16 +1,65 @@
+"""
+Mappings API — CRUD over stored mappings, plus stateless LLM generation.
+
+Endpoints
+---------
+GET    /api/mappings                 List stored mappings
+POST   /api/mappings/validate        Validate a mapping against the ontology
+POST   /api/mappings/generate        Generate a mapping suggestion via LLM (no side effects)
+GET    /api/mappings/{id}            Get one stored mapping
+POST   /api/mappings                 Create/save a mapping
+PUT    /api/mappings/{id}            Update a stored mapping
+GET    /api/mappings/{id}/prompt     Exact system/user prompt sent to the LLM
+GET    /api/mappings/{id}/response   Exact raw LLM response, before JSON parsing
+GET    /api/mappings/{id}/export     Download a mapping as a JSON attachment
+DELETE /api/mappings/{id}            Delete a stored mapping
+"""
+
 import json
 import uuid
 from datetime import datetime
 from pathlib import Path
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import PlainTextResponse, Response
+from pydantic import BaseModel
 
-from pipeline.mapping.models import MappingDocument
+from pipeline.connectors.models import ColumnSchema, ExtractedSchema
+from pipeline.mapping.llm_clients.factory import LLMProvider
+from pipeline.mapping.mapping_generator import MappingGenerator, MappingGeneratorError
+from pipeline.mapping.models import MappingConfig, MappingDocument
 
 from ..deps import MAPPINGS_DIR, get_ontology_manager
 
 router = APIRouter()
+
+
+class GenerateMappingSchema(BaseModel):
+    """Source schema as sent by an interactive caller (e.g. the visual editor).
+
+    Deliberately looser than pipeline.connectors.models.ExtractedSchema: no
+    extraction_timestamp, and source_type is a free string (the editor allows
+    arbitrary types like "csv"/"json"/"manual", not just the connector Literal)."""
+
+    source_name: str
+    source_type: str
+    columns: list[ColumnSchema]
+    inferred_fields: list[ColumnSchema] = []
+    sample_records: list[dict] = []
+
+
+class GenerateMappingRequest(BaseModel):
+    # `source_schema`, not `schema`: a field named `schema` shadows BaseModel.schema()
+    # and raises a Pydantic warning. Callers send the payload under this key.
+    source_schema: GenerateMappingSchema
+    strategy: Literal["zero_shot", "few_shot", "chain_of_thought"]
+    provider: LLMProvider
+    llm_model: str
+    ontology_format: Literal["turtle", "compact", "class_list"]
+    include_descriptions: bool = False
+    column_descriptions: dict[str, str] | None = None
+    temperature: float = 0.0
 
 
 def _find_path(mapping_id: str) -> Path | None:
@@ -118,6 +167,43 @@ def validate_mapping(body: dict):
                     )
 
     return {"valid": not errors, "errors": errors, "warnings": warnings}
+
+
+# Defined before /{mapping_id} to avoid the path colliding with a mapping id.
+@router.post("/generate", response_model=MappingDocument)
+def generate_mapping(req: GenerateMappingRequest) -> MappingDocument:
+    """Generate a mapping suggestion from an LLM and return it directly, with no
+    side effects: nothing is extracted, uploaded to a triple store, or persisted to
+    data/mappings/. Persisting is the caller's job, only after a human reviews the
+    suggestion (REQ-HITL-FR-02) — keeping generation inert also keeps the benchmark
+    corpus in data/mappings/ free of ad-hoc interactive suggestions."""
+    # model_construct (not ExtractedSchema(...)) so an interactive caller can pass a
+    # source_type outside the connectors' Literal (e.g. "csv"): every field here is
+    # already validated via GenerateMappingSchema/ColumnSchema, and generation only
+    # ever string-interpolates source_type into the prompt.
+    schema = ExtractedSchema.model_construct(
+        source_name=req.source_schema.source_name,
+        source_type=req.source_schema.source_type,
+        columns=req.source_schema.columns,
+        inferred_fields=req.source_schema.inferred_fields,
+        sample_records=req.source_schema.sample_records,
+        extraction_timestamp=datetime.now(),
+    )
+    config = MappingConfig(
+        provider=req.provider,
+        llm_model=req.llm_model,
+        strategy=req.strategy,
+        ontology_format=req.ontology_format,
+        include_descriptions=req.include_descriptions,
+        temperature=req.temperature,
+    )
+    try:
+        return MappingGenerator(config).generate(
+            schema, get_ontology_manager(), req.column_descriptions
+        )
+    except MappingGeneratorError as e:
+        # The LLM returned something unparseable — an upstream problem, not a bug here.
+        raise HTTPException(502, str(e)) from e
 
 
 @router.get("/{mapping_id}")

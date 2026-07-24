@@ -11,7 +11,7 @@ from .routes import evaluation, experiments, mappings, ontology, schemas
 
 _STATIC_DIR = Path(__file__).parent / "static"
 
-app = FastAPI(title="Semantic Mapping Editor API", version="1.0.0")
+app = FastAPI(title="LLM-Based Mapping Creation Evaluation Tool", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
