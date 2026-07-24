@@ -31,7 +31,13 @@ dev = [
     "pytest",
     "pytest-cov",
     "ruff",
+    "httpx",  # required by fastapi.testclient.TestClient
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pipeline"]
+
+[tool.pytest.ini_options]
+# Mirror the scripts' `PYTHONPATH=src` so `import pipeline` / `import api` resolve.
+pythonpath = ["src"]
+testpaths = ["tests"]
