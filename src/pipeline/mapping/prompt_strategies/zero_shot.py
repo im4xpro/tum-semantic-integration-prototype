@@ -20,12 +20,14 @@ OUTPUT_SCHEMA = {
                 {"class_uri": "string: ontology class URI e.g. bsm:Organisation"}
             ],
             "confidence": "number 0.0-1.0: how confident you are that this is the correct entity grouping and class",
-            "reasoning": "string: one to two sentences justifying the class choice and identifier column",
+            "basis": "one of: name | description | value | structural | weak — the primary evidence for this class assignment",
+            "reasoning": "string: one concrete sentence citing the specific evidence — e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.",
             "property_mappings": [
                 {
                     "property_uri": "string: ontology property URI e.g. bsm:conceptName",
                     "confidence": "number 0.0-1.0: how confident you are that this column maps to this specific property",
-                    "reasoning": "string: one sentence justifying this property choice",
+                    "basis": "one of: name | description | value | structural | weak — the primary evidence for this column→property choice",
+                    "reasoning": "string: one concrete sentence naming the actual evidence — the column name vs property label, the column description text, or the sample values/datatype fit.",
                     "values": [
                         {
                             "value_source": {
@@ -63,9 +65,9 @@ Your task is to map a data source schema to an OWL ontology using an RML-style s
 Group fields by the entity they describe. For each entity type:
 - Identify which column or constant value serves as the subject (entity identifier).
 - Specify the ontology class (type_mappings).
-- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct, and justify it in one to two sentences (subject-level confidence and reasoning).
+- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence citing the actual evidence — the column or label name, the provided description, or how the grouping implies the class. Do not give generic or circular justifications.
 - Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.
-- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property, and justify it in one sentence (property-level confidence and reasoning).
+- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence — the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.
 - If a value points to another entity, set value_type to "iri" and include nested type_mappings/property_mappings if applicable.
 - If a field cannot be mapped to any ontology concept, add it to unmapped_fields.
 

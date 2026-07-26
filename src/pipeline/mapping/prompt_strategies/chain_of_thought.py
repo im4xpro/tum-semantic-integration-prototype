@@ -25,6 +25,7 @@ First, think step by step in plain text:
 - For each entity type, decide which column or constant value is its identifier (the subject).
 - For each entity type, decide which ontology class it corresponds to.
 - For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity.
+- For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values — not generic filler.
 - Note any columns that have no suitable ontology match.
 
 After your reasoning, output the final mapping as a JSON code block (```json ... ```) matching this exact structure, and nothing after it:

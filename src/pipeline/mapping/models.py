@@ -1,10 +1,40 @@
+import enum
 import uuid
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from pipeline.mapping.llm_clients.factory import LLMProvider
+
+
+class MappingBasis(enum.StrEnum):
+    """The primary kind of evidence the model reports for a mapping decision."""
+
+    # column / ontology-label name match
+    NAME = "name"
+    # matched the column description or the ontology term's rdfs:comment
+    DESCRIPTION = "description"
+    # sample values / datatype fit the range, or a discriminator value implies the class
+    VALUE = "value"
+    # inferred from the entity grouping / relationships rather than a single field
+    STRUCTURAL = "structural"
+    # no strong evidence; best guess
+    WEAK = "weak"
+
+
+def _coerce_basis(value: object) -> MappingBasis | None:
+    # The LLM emits `basis` as free-form JSON text, so tolerate case/whitespace and
+    # degrade any unrecognized value (e.g. "naming", "n/a", "") to None rather than
+    # failing the whole document. A missing/unknown basis is simply "not reported".
+    if isinstance(value, MappingBasis) or value is None:
+        return value
+    if not isinstance(value, str):
+        return None
+    try:
+        return MappingBasis(value.strip().lower())
+    except ValueError:
+        return None
 
 
 class PropertySource(BaseModel):
@@ -37,11 +67,15 @@ class ValueDefinition(BaseModel):
 class PropertyMapping(BaseModel):
     property_uri: str
     values: list[ValueDefinition]
-    # Confidence (0-1) and justification for THIS column→property choice specifically
-    # — a local decision, distinct from the subject-level grouping/class decision below.
-    # None on manually-authored mappings and any generated before these fields existed.
+    # Confidence (0-1), evidence category, and justification for THIS column→property
+    # choice specifically — a local decision, distinct from the subject-level
+    # grouping/class decision below. None on manually-authored mappings and any
+    # generated before these fields existed.
     confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    basis: MappingBasis | None = None
     reasoning: str | None = None
+
+    _normalize_basis = field_validator("basis", mode="before")(_coerce_basis)
 
 
 ValueType.model_rebuild()
@@ -53,11 +87,15 @@ class SubjectMapping(BaseModel):
     subject_transformation: CodeTransformation | None = None
     type_mappings: list[TypeMapping] = []
     property_mappings: list[PropertyMapping] = []
-    # Confidence (0-1) and justification for THIS entity grouping + class assignment
-    # — a structural decision, distinct from the per-property confidence above.
-    # None on manually-authored mappings and any generated before these fields existed.
+    # Confidence (0-1), evidence category, and justification for THIS entity grouping
+    # + class assignment — a structural decision, distinct from the per-property
+    # confidence above. None on manually-authored mappings and any generated before
+    # these fields existed.
     confidence: float | None = Field(default=None, ge=0.0, le=1.0)
+    basis: MappingBasis | None = None
     reasoning: str | None = None
+
+    _normalize_basis = field_validator("basis", mode="before")(_coerce_basis)
 
 
 class MappingDocument(BaseModel):

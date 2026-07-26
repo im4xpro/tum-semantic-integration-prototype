@@ -16,7 +16,9 @@ from fastapi.testclient import TestClient
 from api.deps import MAPPINGS_DIR
 from api.main import app
 
-# A well-formed LLM response carrying confidence/reasoning at subject and property level.
+# A well-formed LLM response carrying confidence/basis/reasoning at subject and
+# property level. The property `basis` is deliberately upper-case ("NAME") to prove
+# the model's coercion flows through the endpoint (it should come back as "name").
 _LLM_JSON = json.dumps(
     {
         "subject_mappings": [
@@ -24,12 +26,14 @@ _LLM_JSON = json.dumps(
                 "subject": {"source": "column", "column_name": "order_id"},
                 "type_mappings": [{"class_uri": "bsm:Action"}],
                 "confidence": 0.82,
-                "reasoning": "order_id identifies one action per row.",
+                "basis": "structural",
+                "reasoning": "Each row's unique event id makes it one Action entity.",
                 "property_mappings": [
                     {
                         "property_uri": "bsm:conceptName",
                         "confidence": 0.9,
-                        "reasoning": "notes column is the human-readable name.",
+                        "basis": "NAME",
+                        "reasoning": "The 'notes' column holds the event name text.",
                         "values": [
                             {
                                 "value_source": {
@@ -88,9 +92,11 @@ def test_generate_returns_confidence_and_does_not_persist(stub_llm):
     body = resp.json()
     subject = body["subject_mappings"][0]
     assert subject["confidence"] == 0.82
+    assert subject["basis"] == "structural"
     assert subject["reasoning"]
     prop = subject["property_mappings"][0]
     assert prop["confidence"] == 0.9
+    assert prop["basis"] == "name"  # coerced from the LLM's upper-case "NAME"
     assert prop["reasoning"]
 
     # No side effect: the benchmark corpus is untouched.

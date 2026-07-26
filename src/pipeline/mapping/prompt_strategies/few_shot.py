@@ -22,12 +22,14 @@ _EXAMPLE_MAPPING = {
             "subject_transformation": {"expression": "order_{order_id}"},
             "type_mappings": [{"class_uri": "ex:Order"}],
             "confidence": 0.9,
-            "reasoning": "order_id is a per-row identifier, so each row is one Order entity.",
+            "basis": "structural",
+            "reasoning": "Each row carries a unique order_id, so each row is modeled as one Order entity.",
             "property_mappings": [
                 {
                     "property_uri": "ex:totalAmount",
                     "confidence": 0.95,
-                    "reasoning": "Column name and decimal type match the order total directly.",
+                    "basis": "name",
+                    "reasoning": "The column name 'total_amount' matches the property 'totalAmount'.",
                     "values": [
                         {
                             "value_source": {
@@ -46,7 +48,8 @@ _EXAMPLE_MAPPING = {
                 {
                     "property_uri": "ex:placedBy",
                     "confidence": 0.8,
-                    "reasoning": "customer_email points to a separate Customer entity, so this is an inferred relation rather than a literal.",
+                    "basis": "structural",
+                    "reasoning": "Links each Order to the Customer subject via the shared customer_email identity.",
                     "values": [
                         {
                             "value_source": {
@@ -71,12 +74,14 @@ _EXAMPLE_MAPPING = {
             "subject_transformation": {"expression": "cust_{customer_email}"},
             "type_mappings": [{"class_uri": "ex:Customer"}],
             "confidence": 0.95,
-            "reasoning": "customer_email uniquely identifies a person, so it anchors a Customer entity.",
+            "basis": "value",
+            "reasoning": "customer_email holds a unique per-person value, so it anchors a distinct Customer entity.",
             "property_mappings": [
                 {
                     "property_uri": "ex:name",
                     "confidence": 0.95,
-                    "reasoning": "customer_name is the display name of that customer.",
+                    "basis": "name",
+                    "reasoning": "The column name 'customer_name' matches the property 'name'.",
                     "values": [
                         {
                             "value_source": {
