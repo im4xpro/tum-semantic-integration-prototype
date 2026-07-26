@@ -130,7 +130,7 @@ def clear_all():
     get_manager().cancel_all()
     deleted = get_manager().delete_all()
     try:
-        GraphDBClient(GraphDBConfig()).clear_repository()
+        GraphDBClient(GraphDBConfig()).clear_repository()  # pyright: ignore[reportCallIssue]
     except GraphDBError as e:
         raise HTTPException(
             502, f"Deleted {deleted} run(s), but clearing GraphDB failed: {e}"

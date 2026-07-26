@@ -43,21 +43,16 @@ from ..deps import DATA_DIR, get_ontology_manager
 
 router = APIRouter()
 
-# Module-level so tests can redirect persistence to a tmp dir. In production these
-# match the runner defaults: populate runs share data/runs with benchmark runs and
-# are distinguished by RunConfig.origin.
 RUNS_DIR = DATA_DIR / "runs"
 PROVENANCE_DIR = DATA_DIR / "provenance"
 
 
 class PopulateRequest(BaseModel):
-    # The mapping is sent inline (full document), never read from data/mappings/ —
-    # editor mappings must not land in the benchmark corpus.
     mapping: MappingDocument
     source_name: str  # logical source; used for the named graph + record loading
     connector: Literal["postgres", "mongodb", "timescale"]
     table: str | None = None  # table/collection name; defaults to source_name
-    data_limit: int | None = None  # operator caps rows manually
+    data_limit: int | None = None
 
 
 class PopulateResponse(BaseModel):
@@ -88,7 +83,7 @@ def _provenance_store() -> ProvenanceStore:
 
 
 def _graphdb_client() -> GraphDBClient:
-    return GraphDBClient(GraphDBConfig())
+    return GraphDBClient(GraphDBConfig())  # pyright: ignore[reportCallIssue]
 
 
 def _slug(name: str) -> str:
@@ -97,8 +92,6 @@ def _slug(name: str) -> str:
 
 
 def _target_graph(base_uri: str, source_name: str) -> str:
-    # Deterministic per-source URI: re-populating the same source hits the same
-    # graph, so replace_named_graph makes repeat populates idempotent.
     return f"{base_uri.rstrip('/')}/source/{_slug(source_name)}"
 
 
@@ -193,9 +186,6 @@ def populate(req: PopulateRequest) -> PopulateResponse:
         return PopulateResponse(run=run, provenance_path=str(path))
 
     except Exception as e:
-        # Persist the failed run either way so the operator sees it in the list,
-        # then surface expected connector/GraphDB failures as 502. Unexpected
-        # errors propagate (500 + real traceback) rather than being masked.
         run.status = RunStatus.failed
         run.error = traceback.format_exc()
         _finalize(run)
@@ -207,8 +197,6 @@ def populate(req: PopulateRequest) -> PopulateResponse:
 
 @router.get("/runs", response_model=list[PopulateRunSummary])
 def list_populate_runs() -> list[PopulateRunSummary]:
-    # list_all() is newest-first; keep only populate-origin runs so benchmark
-    # runs never bleed into what the editor consumes.
     return [
         _summary(run)
         for run in _run_store().list_all()

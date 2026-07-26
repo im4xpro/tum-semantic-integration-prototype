@@ -12,7 +12,7 @@ from pipeline.connectors.timescale import TimescaleConfig, TimescaleConnector
 BASE_DIR = Path(__file__).parent.parent
 SCHEMA_PATH = BASE_DIR / "data/schemas/timescale_schema.json"
 
-config = TimescaleConfig()
+config = TimescaleConfig()  # pyright: ignore[reportCallIssue]  # fields from TIMESCALE_* env
 
 with TimescaleConnector(config) as connector:
     schema = connector.extract_schema()

@@ -172,9 +172,7 @@ def _load_records(run: Run) -> list[dict]:
     if run.config.use_sample_data:
         return load_sample_records(run.config.source_name, _SCHEMAS_DIR)
 
-    # All connection params come from .env via PostgresConfig (POSTGRES_* env vars);
-    # only the table name varies per run, so it's the only explicit kwarg here.
-    config = PostgresConfig(table=run.config.source_name)
+    config = PostgresConfig(table=run.config.source_name)  # pyright: ignore[reportCallIssue]
     limit = run.config.data_limit or 10_000
     with PostgresConnector(config) as conn:
         return conn.fetch_records(limit)

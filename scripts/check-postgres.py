@@ -12,7 +12,7 @@ from pipeline.connectors.schema_extractor import SchemaExtractor
 BASE_DIR = Path(__file__).parent.parent
 SCHEMA_PATH = BASE_DIR / "data/schemas/postgres_schema.json"
 
-config = PostgresConfig()
+config = PostgresConfig()  # pyright: ignore[reportCallIssue]  # fields from POSTGRES_* env
 
 with PostgresConnector(config) as connector:
     schema = connector.extract_schema()

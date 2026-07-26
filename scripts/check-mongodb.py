@@ -12,7 +12,7 @@ from pipeline.connectors.schema_extractor import SchemaExtractor
 BASE_DIR = Path(__file__).parent.parent
 SCHEMA_PATH = BASE_DIR / "data/schemas/mongodb_schema.json"
 
-config = MongoDBConfig()
+config = MongoDBConfig()  # pyright: ignore[reportCallIssue]  # fields from MONGODB_* env
 
 with MongoDBConnector(config) as connector:
     schema = connector.extract_schema()
