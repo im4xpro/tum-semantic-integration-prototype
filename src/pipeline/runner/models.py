@@ -30,6 +30,11 @@ class GraphDBTargetConfig(BaseModel):
 class RunConfig(BaseModel):
     """Configuration for a single pipeline run."""
 
+    # "experiment" = benchmark run via the experiment manager; "populate" = an
+    # operator-triggered materialization via /api/populate. Default keeps every
+    # existing/benchmark run unchanged.
+    origin: Literal["experiment", "populate"] = "experiment"
+
     experiment_name: str = "unnamed"
     source_name: str
     use_sample_data: bool = (

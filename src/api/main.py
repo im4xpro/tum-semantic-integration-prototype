@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from .routes import evaluation, experiments, mappings, ontology, schemas
+from .routes import evaluation, experiments, mappings, ontology, populate, schemas
 
 _STATIC_DIR = Path(__file__).parent / "static"
 
@@ -26,6 +26,7 @@ app.include_router(schemas.router, prefix="/api/schemas", tags=["Schemas"])
 app.include_router(mappings.router, prefix="/api/mappings", tags=["Mappings"])
 app.include_router(experiments.router, prefix="/api/experiments", tags=["Experiments"])
 app.include_router(evaluation.router, prefix="/api/evaluation", tags=["Evaluation"])
+app.include_router(populate.router, prefix="/api/populate", tags=["Populate"])
 
 
 @app.get("/api/health")

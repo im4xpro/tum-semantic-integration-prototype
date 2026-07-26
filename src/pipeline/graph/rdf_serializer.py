@@ -74,7 +74,6 @@ def infer_literal(value: str, xsd_type: URIRef | None = None) -> Literal:
                 return Literal(b, datatype=_XSD.boolean)
         return Literal(value, datatype=xsd_type)
 
-    # Heuristic fallback
     if _DATETIME_RE.match(value):
         return Literal(value, datatype=_XSD.dateTime)
     if _DATE_RE.match(value):
@@ -164,18 +163,14 @@ class RDFSerializer:
         for entity in result.entities:
             uri = URIRef(entity.subject_uri)
             entity_uri[entity.temp_id] = uri
-
-            # rdf:type
             g.add((uri, RDF.type, self._resolve(entity.class_uri)))
 
-            # literal properties
             for pred_compact, values in entity.properties.items():
                 pred = self._resolve(pred_compact)
                 xsd_type = self._property_ranges.get(str(pred))
                 for val in values:
                     g.add((uri, pred, infer_literal(str(val), xsd_type)))
 
-        # object-property triples (IRI → IRI)
         for rel in result.relations:
             subj = entity_uri.get(rel.subject_temp_id)
             obj = entity_uri.get(rel.object_temp_id)

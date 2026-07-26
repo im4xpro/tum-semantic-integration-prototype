@@ -8,6 +8,7 @@ __pycache__/
 # must ship with the code. Everything else under data/ is generated at
 # runtime and is not reproducible-input, so it stays ignored.
 data/runs/
+data/provenance/
 data/output/
 data/mappings/*
 !data/mappings/acled-manual.json
