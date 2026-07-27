@@ -28,6 +28,15 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  # Mapping editor
+  editor:
+    build: ./editor-frontend
+    ports:
+      - "8421:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+
   graphdb:
     image: ontotext/graphdb:11.4.2
     ports:
