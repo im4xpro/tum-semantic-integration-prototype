@@ -2,6 +2,7 @@ from pathlib import Path
 
 from .formatters.class_list import ClassListFormatter
 from .formatters.compact import CompactFormatter
+from .formatters.json_ld import JsonLdFormatter
 from .formatters.turtle import DefaultTurtleFormatter
 from .models import FormattedOntology, OntologyClass, OntologyProperty
 from .ontology_loader import OntologyLoader
@@ -21,6 +22,7 @@ class OntologyManager:
 
         self._formatters = {
             "turtle": DefaultTurtleFormatter(ontology_path),
+            "json_ld": JsonLdFormatter(ontology_path),
             "compact": CompactFormatter(),
             "class_list": ClassListFormatter(),
         }

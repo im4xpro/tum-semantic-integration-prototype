@@ -126,6 +126,6 @@ class MappingConfig(BaseModel):
     provider: LLMProvider
     llm_model: str
     strategy: Literal["zero_shot", "few_shot", "chain_of_thought"]
-    ontology_format: Literal["turtle", "compact", "class_list"]
+    ontology_format: Literal["turtle", "json_ld", "compact", "class_list"]
     include_descriptions: bool
     temperature: float = 0.0

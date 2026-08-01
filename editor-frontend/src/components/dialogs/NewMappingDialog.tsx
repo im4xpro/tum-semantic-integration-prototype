@@ -22,7 +22,7 @@ const STRATEGIES: { value: MappingStrategy; label: string }[] = [
   { value: 'chain_of_thought', label: 'Chain-of-thought' },
 ];
 
-const ONTOLOGY_FORMATS: OntologyFormat[] = ['turtle', 'compact', 'class_list'];
+const ONTOLOGY_FORMATS: OntologyFormat[] = ['turtle', 'json_ld', 'compact', 'class_list'];
 
 export function NewMappingDialog({ open, sourceName, aiEnabled, generating, onConfirm, onClose }: Props) {
   const [name, setName] = useState('');

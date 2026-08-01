@@ -148,7 +148,7 @@ def _resolve_mapping(
                 run.config.strategy,
             ),
             ontology_format=cast(
-                Literal["turtle", "compact", "class_list"],
+                Literal["turtle", "json_ld", "compact", "class_list"],
                 run.config.ontology_format,
             ),
             include_descriptions=run.config.include_descriptions,

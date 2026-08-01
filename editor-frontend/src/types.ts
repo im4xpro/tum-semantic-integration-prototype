@@ -118,7 +118,7 @@ export interface MappingDocument {
 }
 
 export type MappingStrategy = 'zero_shot' | 'few_shot' | 'chain_of_thought';
-export type OntologyFormat = 'turtle' | 'compact' | 'class_list';
+export type OntologyFormat = 'turtle' | 'json_ld' | 'compact' | 'class_list';
 export type LLMProvider = 'anthropic' | 'openai' | 'ollama' | 'fortiss' | 'openrouter';
 
 export interface GenerateMappingRequest {

@@ -56,7 +56,7 @@ class GenerateMappingRequest(BaseModel):
     strategy: Literal["zero_shot", "few_shot", "chain_of_thought"]
     provider: LLMProvider
     llm_model: str
-    ontology_format: Literal["turtle", "compact", "class_list"]
+    ontology_format: Literal["turtle", "json_ld", "compact", "class_list"]
     include_descriptions: bool = False
     column_descriptions: dict[str, str] | None = None
     temperature: float = 0.0

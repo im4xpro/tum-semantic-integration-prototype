@@ -7,11 +7,6 @@ data:
   limit: null
   use_sample_data: true
 
-# No graphdb: block — falls back to GRAPHDB_URL/GRAPHDB_REPOSITORY from .env,
-# which differs between a host-native run (localhost:7200) and docker compose
-# (http://graphdb:7200, set in docker-compose.yml's app service). Hardcoding
-# a url/repository here would override that env-based fallback in both cases.
-
 mapping:
   mode: generate
 
@@ -29,6 +24,8 @@ matrix:
     - class_list
     - turtle
     - compact
+    - json_ld
 
   include_descriptions:
     - true
+    - false
