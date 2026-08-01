@@ -156,6 +156,24 @@ bsm:Affiliation a owl:Class ;
     rdfs:comment "Membership or allegiance to an ethnic group, country, functional group, exercise group or religion." ;
     rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Affiliation#AffiliationType> .
 
+bsm:GeopoliticalAffiliation a owl:Class ;
+    rdfs:label "Geopolitical Affiliation" ;
+    rdfs:subClassOf bsm:Affiliation ;
+    rdfs:comment "Affiliation with a country or political entity: flag state of a vessel, country of registration of an aircraft, or the jurisdiction an actor is associated with." ;
+    bsm:isExtension true .
+
+bsm:EthnicAffiliation a owl:Class ;
+    rdfs:label "Ethnic Affiliation" ;
+    rdfs:subClassOf bsm:Affiliation ;
+    rdfs:comment "Affiliation with an ethnic group." ;
+    bsm:isExtension true .
+
+bsm:ReligiousAffiliation a owl:Class ;
+    rdfs:label "Religious Affiliation" ;
+    rdfs:subClassOf bsm:Affiliation ;
+    rdfs:comment "Affiliation with a religion or religious community." ;
+    bsm:isExtension true .
+
 bsm:Mobility a owl:Class ;
     rdfs:label "Mobility" ;
     rdfs:comment "Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType." ;

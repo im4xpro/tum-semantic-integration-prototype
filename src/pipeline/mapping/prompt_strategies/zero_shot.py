@@ -14,7 +14,7 @@ OUTPUT_SCHEMA = {
                 "constant_value": "string: fixed URI for the subject (omit if source=column)",
             },
             "subject_transformation": {
-                "expression": "string: optional Python expression to build the URI, e.g. f'bsm:org/{value}'"
+                "expression": "string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces."
             },
             "type_mappings": [
                 {"class_uri": "string: ontology class URI e.g. bsm:Organisation"}
