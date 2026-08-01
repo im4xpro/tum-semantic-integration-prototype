@@ -11,11 +11,14 @@ from pipeline.runner.models import Run, RunStatus
 from pipeline.runner.pipeline_runner import build_graphdb_config
 
 from .models import (
+    CanonicalRelation,
     ClassDiff,
     EntityPairDiff,
     FactDiff,
     FieldDiff,
     MappingDiff,
+    MatchResult,
+    RelationDiff,
     RunDiff,
     SubjectDiff,
 )
@@ -163,10 +166,10 @@ def diff_run(
         return RunDiff(**base, error=str(e))
 
     gold_namespaces = build_namespaces(gold_mapping)
-    gold_entities, _ = entities_from_extraction(
+    gold_entities, gold_relations = entities_from_extraction(
         gold_results, gold_namespaces, gold_property_ranges
     )
-    generated_entities, _ = entities_from_graph(generated_graph)
+    generated_entities, generated_relations = entities_from_graph(generated_graph)
 
     match = match_entities(gold_entities, generated_entities)
 
@@ -174,6 +177,16 @@ def diff_run(
 
     def compact(uri: str) -> str:
         return _compact(uri, ns_map)
+
+    # Facts hold heterogeneous value types (Decimal, int, str, date), so sorting the
+    # raw tuples raises TypeError whenever one predicate carries two different types.
+    def by_predicate(facts) -> list:
+        return sorted(facts, key=lambda f: (f[0], str(f[1])))
+
+    def type_row(class_uri: str, status: str) -> FactDiff:
+        # rdf:type is a scored statement, so it belongs in the breakdown; without it
+        # the displayed facts do not account for everything the metric counts.
+        return FactDiff(predicate="rdf:type", value=compact(class_uri), status=status)  # pyright: ignore[reportArgumentType]
 
     by_class: dict[str, ClassDiff] = {}
 
@@ -186,40 +199,93 @@ def diff_run(
 
     for gold_e, gen_e in match.matched_pairs:
         tp = gold_e.facts & gen_e.facts
-        gold_side = [
+        # The class always agrees inside a matched pair — it is a precondition of matching.
+        gold_side = [type_row(gold_e.class_uri, "tp")] + [
             FactDiff(
                 predicate=compact(p),
                 value=str(v)[:200],
                 status="tp" if (p, v) in tp else "fn",
             )
-            for p, v in sorted(gold_e.facts)
+            for p, v in by_predicate(gold_e.facts)
         ]
-        gen_side = [
+        gen_side = [type_row(gen_e.class_uri, "tp")] + [
             FactDiff(
                 predicate=compact(p),
                 value=str(v)[:200],
                 status="tp" if (p, v) in tp else "fp",
             )
-            for p, v in sorted(gen_e.facts)
+            for p, v in by_predicate(gen_e.facts)
         ]
         get_cd(compact(gold_e.class_uri)).matched.append(
             EntityPairDiff(gold_facts=gold_side, generated_facts=gen_side)
         )
 
     for e in match.unmatched_gold:
-        facts = [
+        facts = [type_row(e.class_uri, "fn")] + [
             FactDiff(predicate=compact(p), value=str(v)[:200], status="fn")
-            for p, v in sorted(e.facts)
+            for p, v in by_predicate(e.facts)
         ]
         get_cd(compact(e.class_uri)).unmatched_gold.append(facts)
 
     for e in match.unmatched_generated:
-        facts = [
+        facts = [type_row(e.class_uri, "fp")] + [
             FactDiff(predicate=compact(p), value=str(v)[:200], status="fp")
-            for p, v in sorted(e.facts)
+            for p, v in by_predicate(e.facts)
         ]
         get_cd(compact(e.class_uri)).unmatched_generated.append(facts)
 
     return RunDiff(
-        **base, class_diffs=sorted(by_class.values(), key=lambda c: c.class_uri)
+        **base,
+        class_diffs=sorted(by_class.values(), key=lambda c: c.class_uri),
+        relation_diffs=_relation_diffs(
+            match, gold_relations, generated_relations, compact
+        ),
     )
+
+
+def _relation_diffs(
+    match: MatchResult,
+    gold_relations: list[CanonicalRelation],
+    generated_relations: list[CanonicalRelation],
+    compact,
+) -> list[RelationDiff]:
+    """Score object-property statements exactly as triple_metrics._relation_fact_counts does.
+
+    A relation is only comparable when both endpoints matched; the generated side is
+    remapped onto gold keys first. A relation touching an unmatched entity cannot
+    correspond to anything on the other side and is an error outright.
+    """
+    matched_gold_keys = {gold.key for gold, _ in match.matched_pairs}
+    generated_to_gold = {gen.key: gold.key for gold, gen in match.matched_pairs}
+
+    def row(triple: tuple[str, str, str], status: str) -> RelationDiff:
+        s, p, o = triple
+        return RelationDiff(
+            subject=compact(s),
+            predicate=compact(p),
+            object=compact(o),
+            status=status,  # pyright: ignore[reportArgumentType]
+        )
+
+    diffs: list[RelationDiff] = []
+    gold_set: set[tuple[str, str, str]] = set()
+    for r in gold_relations:
+        triple = (r.subject_key, r.predicate, r.object_key)
+        if r.subject_key in matched_gold_keys and r.object_key in matched_gold_keys:
+            gold_set.add(triple)
+        else:
+            diffs.append(row(triple, "fn"))
+
+    generated_set: set[tuple[str, str, str]] = set()
+    for r in generated_relations:
+        subj = generated_to_gold.get(r.subject_key)
+        obj = generated_to_gold.get(r.object_key)
+        if subj is not None and obj is not None:
+            generated_set.add((subj, r.predicate, obj))
+        else:
+            diffs.append(row((r.subject_key, r.predicate, r.object_key), "fp"))
+
+    diffs += [row(t, "tp") for t in sorted(gold_set & generated_set)]
+    diffs += [row(t, "fn") for t in sorted(gold_set - generated_set)]
+    diffs += [row(t, "fp") for t in sorted(generated_set - gold_set)]
+    return diffs

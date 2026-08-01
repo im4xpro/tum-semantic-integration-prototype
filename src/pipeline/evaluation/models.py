@@ -91,6 +91,15 @@ class ClassDiff(BaseModel):
     unmatched_generated: list[list[FactDiff]]
 
 
+class RelationDiff(BaseModel):
+    """One object-property statement, scored exactly as compute_metrics scores it."""
+
+    subject: str
+    predicate: str
+    object: str
+    status: Literal["tp", "fn", "fp"]
+
+
 class RunDiff(BaseModel):
     run_id: str
     llm_model: str
@@ -99,6 +108,7 @@ class RunDiff(BaseModel):
     include_descriptions: bool
     error: str | None = None
     class_diffs: list[ClassDiff] = []
+    relation_diffs: list[RelationDiff] = []
 
 
 class EvaluationResult(BaseModel):

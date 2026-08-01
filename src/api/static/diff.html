@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mapping Diff</title>
+  <title>Run Diff</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -12,7 +12,10 @@
       --border:  #21262d;
       --text:    #e6edf3;
       --muted:   #7d8590;
-      --warn:    #c0392b;
+      --tp:      #3fb950;
+      --fn:      #d29922;
+      --fp:      #f85149;
+      --accent:  #58a6ff;
     }
 
     body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; font-size: 13px; line-height: 1.5; }
@@ -28,18 +31,56 @@
 
     .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
-    /* ── Subject block ── */
-    .subject-block { border: 1px solid var(--border); margin-bottom: 10px; }
-    .subject-header { display: flex; align-items: center; gap: 12px; padding: 8px 14px; background: var(--surface); cursor: pointer; user-select: none; }
-    .subject-header:hover { background: #1c2128; }
-    .subject-title { font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; }
-    .subject-sub   { font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted); }
-    .chevron { margin-left: auto; color: var(--muted); font-size: 10px; transition: transform .15s; }
-    .subject-block.open .chevron { transform: rotate(90deg); }
-    .subject-body { display: none; border-top: 1px solid var(--border); }
-    .subject-block.open .subject-body { display: block; }
+    /* ── Summary ── */
+    .summary-bar { display: flex; gap: 32px; padding: 14px 0; align-items: flex-end; }
+    .stat { display: flex; flex-direction: column; gap: 3px; }
+    .stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+    .stat .val { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .stat-divider { width: 1px; background: var(--border); align-self: stretch; margin: 4px 0; }
+    .val.tp { color: var(--tp); } .val.fn { color: var(--fn); } .val.fp { color: var(--fp); }
+    .source-note { font-size: 11px; color: var(--muted); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
 
-    /* ── Mapping table ── */
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab { padding: 5px 14px; font-size: 12px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--text); background: var(--surface); border-color: var(--accent); }
+    .view { display: none; } .view.active { display: block; }
+
+    /* ── Legend ── */
+    .legend { display: flex; gap: 18px; font-size: 11.5px; color: var(--muted); margin-bottom: 14px; flex-wrap: wrap; }
+    .legend b { font-weight: 600; }
+    .key { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+    .key.tp { background: var(--tp); } .key.fn { background: var(--fn); } .key.fp { background: var(--fp); }
+
+    /* ── Class block ── */
+    .block { border: 1px solid var(--border); margin-bottom: 10px; }
+    .block-hd { display: flex; align-items: center; gap: 12px; padding: 8px 14px; background: var(--surface); cursor: pointer; user-select: none; }
+    .block-hd:hover { background: #1c2128; }
+    .block-title { font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; }
+    .block-sub { font-size: 11px; color: var(--muted); }
+    .chevron { margin-left: auto; color: var(--muted); font-size: 10px; transition: transform .15s; }
+    .block.open .chevron { transform: rotate(90deg); }
+    .block-body { display: none; border-top: 1px solid var(--border); padding: 10px 14px; }
+    .block.open .block-body { display: block; }
+
+    /* ── Entity pair ── */
+    .entity { border: 1px solid var(--border); border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+    .entity:last-child { margin-bottom: 0; }
+    .entity-hd { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 5px 12px; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; }
+    .col { padding: 8px 12px; }
+    .col + .col { border-left: 1px solid var(--border); }
+    .col-hd { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+    .fact { display: flex; gap: 10px; padding: 2px 0 2px 10px; font-family: ui-monospace, monospace; font-size: 11.5px; border-left: 3px solid transparent; }
+    .fact.tp { border-left-color: var(--tp); }
+    .fact.fn { border-left-color: var(--fn); }
+    .fact.fp { border-left-color: var(--fp); }
+    .fact .p { color: var(--muted); flex-shrink: 0; }
+    .fact .v { color: var(--text); word-break: break-word; }
+    .single { padding: 8px 12px; }
+
+    /* ── Tables ── */
     table { width: 100%; border-collapse: collapse; }
     th { text-align: left; padding: 6px 14px; font-size: 10.5px; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; background: var(--surface); }
     th.sep { border-left: 2px solid var(--border); }
@@ -47,34 +88,27 @@
     td.sep { border-left: 2px solid var(--border); }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #1c2128; }
-
     .td-fields { color: var(--text); font-weight: 500; min-width: 160px; }
-    .td-pred         { color: var(--muted); }
+    .td-pred { color: var(--muted); }
     .td-pred.missing { color: var(--border); font-style: italic; }
-    .td-pred.problem { color: var(--warn); }
+    .td-pred.problem { color: var(--fp); }
+    .badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+    .badge.tp { color: var(--tp); border: 1px solid var(--tp); }
+    .badge.fn { color: var(--fn); border: 1px solid var(--fn); }
+    .badge.fp { color: var(--fp); border: 1px solid var(--fp); }
 
-    /* ── Summary bar ── */
-    .summary-bar { display: flex; gap: 32px; padding: 14px 0; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
-    .stat { display: flex; flex-direction: column; gap: 3px; }
-    .stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-    .stat .val { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
-    .stat-divider { width: 1px; background: var(--border); margin: 4px 0; }
-
-    /* ── Legend ── */
-    .legend { margin-bottom: 16px; font-size: 12px; color: var(--muted); }
-    .legend span { margin-right: 16px; }
-
-    /* ── Utils ── */
+    .note { border: 1px solid var(--border); border-left: 3px solid var(--fn); background: var(--surface); padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: var(--muted); }
+    .note b { color: var(--text); }
     .msg { padding: 24px; text-align: center; color: var(--muted); }
-    .err { color: var(--fn); background: var(--fn-bg); border: 1px solid var(--fn); padding: 12px 16px; margin: 16px 0; }
-    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #58a6ff; border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+    .err { color: var(--fp); border: 1px solid var(--fp); padding: 12px 16px; margin: 16px 0; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--accent); border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Mapping Diff</h1>
+  <h1>Run Diff</h1>
   <a href="/evaluation">← Evaluation</a>
   <div class="run-meta" id="run-meta"></div>
 </header>
@@ -89,73 +123,192 @@ const runId = new URLSearchParams(location.search).get('run_id');
 if (!runId) {
   document.getElementById('root').innerHTML = '<div class="err">No run_id in URL.</div>';
 } else {
-  fetch(`/api/evaluation/mapping-diff/${runId}`)
-    .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e.detail || 'Error')))
-    .then(render)
-    .catch(e => { document.getElementById('root').innerHTML = `<div class="err">${e}</div>`; });
+  const get  = (u) => fetch(u).then(r => r.ok ? r.json() : null).catch(() => null);
+  const post = (u, b) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(b) })
+                          .then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([
+    get(`/api/evaluation/diff/${runId}`),                        // triple-level breakdown
+    post(`/api/evaluation/compare`, { run_ids: [runId] }),       // authoritative metrics
+    get(`/api/evaluation/mapping-diff/${runId}`),                // structural diagnostic
+  ]).then(([diff, compare, mapping]) => render(diff, (compare || [])[0], mapping));
 }
 
-function render(d) {
-  document.title = `Diff — ${d.llm_model.split('/').pop()}`;
+function render(diff, metrics, mapping) {
+  const root = document.getElementById('root');
+  const meta = diff || mapping;
+  if (!meta) { root.innerHTML = '<div class="err">Could not load this run.</div>'; return; }
 
+  document.title = `Diff — ${meta.llm_model.split('/').pop()}`;
   document.getElementById('run-meta').innerHTML = [
-    `<span><b>${d.llm_model.split('/').pop()}</b></span>`,
-    `<span>${d.strategy}</span>`,
-    `<span>${d.ontology_format}</span>`,
-    d.include_descriptions ? '<span>with desc.</span>' : '',
+    `<span><b>${esc(meta.llm_model.split('/').pop())}</b></span>`,
+    `<span>${esc(meta.strategy)}</span>`,
+    `<span>${esc(meta.ontology_format)}</span>`,
+    meta.include_descriptions ? '<span>with desc.</span>' : '',
   ].filter(Boolean).join('');
 
-  if (d.error) { document.getElementById('root').innerHTML = `<div class="err">${d.error}</div>`; return; }
+  root.innerHTML =
+    summaryHtml(metrics) +
+    `<div class="tabs">
+       <button class="tab active" data-view="triples">Triples</button>
+       <button class="tab" data-view="mapping">Mapping structure</button>
+     </div>
+     <div class="view active" id="view-triples">${triplesHtml(diff)}</div>
+     <div class="view" id="view-mapping">${mappingHtml(mapping)}</div>`;
 
-  const summary = `
-    <div class="summary-bar">
-      <div class="stat"><span class="lbl">F1</span><span class="val">${(d.f1*100).toFixed(1)}%</span></div>
-      <div class="stat"><span class="lbl">Precision</span><span class="val">${(d.precision*100).toFixed(1)}%</span></div>
-      <div class="stat"><span class="lbl">Recall</span><span class="val">${(d.recall*100).toFixed(1)}%</span></div>
-      <div class="stat-divider"></div>
-      <div class="stat"><span class="lbl">Correct</span><span class="val">${d.tp}</span></div>
-      <div class="stat"><span class="lbl">Missing</span><span class="val">${d.fn}</span></div>
-      <div class="stat"><span class="lbl">Wrong / Extra</span><span class="val">${d.fp}</span></div>
-    </div>
-    <div class="legend">
-      <span>Predicates highlighted in red are incorrect — either wrong, missing, or unexpected.</span>
-    </div>`;
-
-  document.getElementById('root').innerHTML = summary + d.subject_diffs.map((sd, i) => renderSubject(sd, i)).join('');
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+    document.querySelectorAll('.view').forEach(v =>
+      v.classList.toggle('active', v.id === `view-${t.dataset.view}`));
+  });
 }
 
-function renderSubject(sd, i) {
-  const rows = sd.field_diffs.map(fd => {
-    const ok = fd.status === 'match';
-    const gp = fd.gold_predicate      ? esc(fd.gold_predicate)      : '—';
-    const np = fd.generated_predicate ? esc(fd.generated_predicate) : '—';
-    const gcls = ok ? 'td-pred' : fd.gold_predicate      ? 'td-pred problem' : 'td-pred missing';
-    const ncls = ok ? 'td-pred' : fd.generated_predicate ? 'td-pred problem' : 'td-pred missing';
-    return `<tr>
-      <td class="td-fields">${esc(fd.source_fields.join(' + '))}</td>
-      <td class="${gcls}">${gp}</td>
-      <td class="${ncls} sep">${np}</td>
-    </tr>`;
+/* ── Summary: the only metrics on this page, from the same call the results table uses ── */
+function summaryHtml(m) {
+  if (!m || m.error || m.f1 == null) {
+    return `<div class="source-note">No score available for this run${m && m.error ? ` — ${esc(m.error.split('\n')[0])}` : ''}.</div>`;
+  }
+  const pct = v => `${(v * 100).toFixed(1)}%`;
+  return `
+    <div class="summary-bar">
+      <div class="stat"><span class="lbl">F1</span><span class="val">${pct(m.f1)}</span></div>
+      <div class="stat"><span class="lbl">Precision</span><span class="val">${pct(m.precision)}</span></div>
+      <div class="stat"><span class="lbl">Recall</span><span class="val">${pct(m.recall)}</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="lbl">Correct</span><span class="val tp">${m.tp}</span></div>
+      <div class="stat"><span class="lbl">Missing</span><span class="val fn">${m.fn}</span></div>
+      <div class="stat"><span class="lbl">Invented</span><span class="val fp">${m.fp}</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="lbl">Entities matched</span><span class="val">${m.entities_matched}</span></div>
+    </div>
+    <div class="source-note">
+      Graph comparison against the gold standard — the same figures as the results table.
+    </div>`;
+}
+
+/* ── Triple-level breakdown ── */
+function triplesHtml(d) {
+  if (!d)        return `<div class="err">Triple diff unavailable (is GraphDB reachable?).</div>`;
+  if (d.error)   return `<div class="err">${esc(d.error)}</div>`;
+
+  const legend = `
+    <div class="legend">
+      <span><i class="key tp"></i><b>Correct</b> — both graphs assert it</span>
+      <span><i class="key fn"></i><b>Missing</b> — only the gold standard asserts it</span>
+      <span><i class="key fp"></i><b>Invented</b> — only the generated graph asserts it</span>
+    </div>`;
+
+  const classes = (d.class_diffs || []).map((cd, i) => {
+    const parts = [];
+    cd.matched.forEach(p => parts.push(`
+      <div class="entity">
+        <div class="entity-hd">Matched entity</div>
+        <div class="cols">
+          <div class="col"><div class="col-hd">Gold standard</div>${facts(p.gold_facts)}</div>
+          <div class="col"><div class="col-hd">Generated</div>${facts(p.generated_facts)}</div>
+        </div>
+      </div>`));
+    cd.unmatched_gold.forEach(f => parts.push(`
+      <div class="entity">
+        <div class="entity-hd">Unmatched — in gold standard only</div>
+        <div class="single">${facts(f)}</div>
+      </div>`));
+    cd.unmatched_generated.forEach(f => parts.push(`
+      <div class="entity">
+        <div class="entity-hd">Unmatched — in generated graph only</div>
+        <div class="single">${facts(f)}</div>
+      </div>`));
+
+    return `
+      <div class="block open" id="cd-${i}">
+        <div class="block-hd" onclick="document.getElementById('cd-${i}').classList.toggle('open')">
+          <span class="block-title">${esc(cd.class_uri)}</span>
+          <span class="block-sub">${cd.matched.length} matched ·
+            ${cd.unmatched_gold.length} missing · ${cd.unmatched_generated.length} invented</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="block-body">${parts.join('') || '<div class="msg">No entities.</div>'}</div>
+      </div>`;
   }).join('');
 
-  return `
-    <div class="subject-block open" id="sm-${i}">
-      <div class="subject-header" onclick="document.getElementById('sm-${i}').classList.toggle('open')">
-        <span class="subject-title">${esc(sd.class_uri)}</span>
-        <span class="subject-sub">subject: ${esc(sd.subject_column)}</span>
+  const rels = (d.relation_diffs || []);
+  const relBlock = rels.length ? `
+    <div class="block open" id="rel">
+      <div class="block-hd" onclick="document.getElementById('rel').classList.toggle('open')">
+        <span class="block-title">Relations</span>
+        <span class="block-sub">${rels.filter(r => r.status === 'tp').length} correct ·
+          ${rels.filter(r => r.status === 'fn').length} missing ·
+          ${rels.filter(r => r.status === 'fp').length} invented</span>
         <span class="chevron">▶</span>
       </div>
-      <div class="subject-body">
+      <div class="block-body" style="padding:0">
         <table>
-          <thead><tr>
-            <th>Source fields</th>
-            <th>Gold Standard</th>
-            <th class="sep">Generated</th>
-          </tr></thead>
-          <tbody>${rows}</tbody>
+          <thead><tr><th>Subject</th><th>Property</th><th>Object</th><th></th></tr></thead>
+          <tbody>${rels.map(r => `<tr>
+            <td>${esc(r.subject)}</td><td class="td-pred">${esc(r.predicate)}</td>
+            <td>${esc(r.object)}</td>
+            <td><span class="badge ${r.status}">${label(r.status)}</span></td>
+          </tr>`).join('')}</tbody>
         </table>
       </div>
+    </div>` : '';
+
+  return legend + classes + relBlock;
+}
+
+function facts(list) {
+  return (list || []).map(f =>
+    `<div class="fact ${f.status}"><span class="p">${esc(f.predicate)}</span><span class="v">${esc(f.value)}</span></div>`
+  ).join('') || '<div class="msg">No statements.</div>';
+}
+
+function label(s) { return s === 'tp' ? 'correct' : s === 'fn' ? 'missing' : 'invented'; }
+
+/* ── Mapping-structure diagnostic (deliberately carries no score) ── */
+function mappingHtml(d) {
+  const note = `
+    <div class="note">
+      <b>Diagnostic view, not a measurement.</b> This compares the two mapping documents
+      structurally — which source columns were routed to which ontology property. It is useful
+      for seeing <i>what</i> the model decided, but it cannot score a mapping: a document that
+      transforms a value produces different data while looking structurally identical, and a
+      document that omits a redundant field produces identical data while looking completely
+      different. All reported figures come from the graph comparison above.
     </div>`;
+  if (!d)      return note + `<div class="err">Mapping diff unavailable.</div>`;
+  if (d.error) return note + `<div class="err">${esc(d.error)}</div>`;
+
+  const blocks = (d.subject_diffs || []).map((sd, i) => {
+    const rows = sd.field_diffs.map(fd => {
+      const ok = fd.status === 'match';
+      const gp = fd.gold_predicate      ? esc(fd.gold_predicate)      : '—';
+      const np = fd.generated_predicate ? esc(fd.generated_predicate) : '—';
+      const gcls = ok ? 'td-pred' : fd.gold_predicate      ? 'td-pred problem' : 'td-pred missing';
+      const ncls = ok ? 'td-pred' : fd.generated_predicate ? 'td-pred problem' : 'td-pred missing';
+      return `<tr>
+        <td class="td-fields">${esc(fd.source_fields.join(' + '))}</td>
+        <td class="${gcls}">${gp}</td>
+        <td class="${ncls} sep">${np}</td>
+      </tr>`;
+    }).join('');
+
+    return `
+      <div class="block open" id="sm-${i}">
+        <div class="block-hd" onclick="document.getElementById('sm-${i}').classList.toggle('open')">
+          <span class="block-title">${esc(sd.class_uri)}</span>
+          <span class="block-sub">subject: ${esc(sd.subject_column)}</span>
+          <span class="chevron">▶</span>
+        </div>
+        <div class="block-body" style="padding:0">
+          <table>
+            <thead><tr><th>Source fields</th><th>Gold standard</th><th class="sep">Generated</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join('');
+
+  return note + blocks;
 }
 
 function esc(s) {

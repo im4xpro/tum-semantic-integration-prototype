@@ -34,16 +34,26 @@ def health_check():
     return {"status": "ok"}
 
 
+def _page(name: str) -> FileResponse:
+    # FileResponse sends etag/last-modified but no Cache-Control, so browsers apply
+    # heuristic freshness and can serve a stale page without ever revalidating. These
+    # pages are edited while the server runs, so force a revalidation on every request.
+    return FileResponse(
+        _STATIC_DIR / name,
+        headers={"Cache-Control": "no-cache, must-revalidate"},
+    )
+
+
 @app.get("/experiments", include_in_schema=False)
 def experiments_ui():
-    return FileResponse(_STATIC_DIR / "experiments.html")
+    return _page("experiments.html")
 
 
 @app.get("/evaluation", include_in_schema=False)
 def evaluation_ui():
-    return FileResponse(_STATIC_DIR / "evaluation.html")
+    return _page("evaluation.html")
 
 
 @app.get("/diff", include_in_schema=False)
 def diff_ui():
-    return FileResponse(_STATIC_DIR / "diff.html")
+    return _page("diff.html")
