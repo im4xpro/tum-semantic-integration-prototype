@@ -77,9 +77,9 @@ def compute_metrics(
     tp, fp, fn = e_tp + r_tp, e_fp + r_fp, e_fn + r_fn
 
     precision, recall, f1 = _prf(tp, fp, fn)
-    # Jaccard similarity: TP/(TP+FP+FN). There is no well-defined "true negative" here,
-    # so this is NOT classical (TP+TN)/total accuracy — it is the Jaccard index.
-    jaccard = tp / (tp + fp + fn) if (tp + fp + fn) else 0.0
+    # Accuracy is deliberately not reported. It needs a count of true negatives —
+    # statements correctly not made — and over an open-world RDF graph the object
+    # position is an unbounded literal space, so that set is not enumerable.
 
     return EvaluationMetrics(
         tp=tp,
@@ -88,7 +88,6 @@ def compute_metrics(
         precision=precision,
         recall=recall,
         f1=f1,
-        jaccard=jaccard,
         entities_matched=len(match.matched_pairs),
         entities_unmatched_gold=len(match.unmatched_gold),
         entities_unmatched_generated=len(match.unmatched_generated),

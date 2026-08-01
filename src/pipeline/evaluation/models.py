@@ -39,7 +39,6 @@ class EvaluationMetrics(BaseModel):
     precision: float
     recall: float
     f1: float
-    jaccard: float
     entities_matched: int
     entities_unmatched_gold: int
     entities_unmatched_generated: int
@@ -113,7 +112,6 @@ class EvaluationResult(BaseModel):
     precision: float | None = None
     recall: float | None = None
     f1: float | None = None
-    jaccard: float | None = None
     tp: int | None = None
     fp: int | None = None
     fn: int | None = None

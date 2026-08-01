@@ -58,7 +58,6 @@ def evaluate_run(
         precision=metrics.precision,
         recall=metrics.recall,
         f1=metrics.f1,
-        jaccard=metrics.jaccard,
         tp=metrics.tp,
         fp=metrics.fp,
         fn=metrics.fn,
