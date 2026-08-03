@@ -1,6 +1,8 @@
+import json
 from pathlib import Path
 
 from rdflib import Graph
+from rdflib.compare import to_canonical_graph
 
 from ..models import FormattedOntology, OntologyModel
 from .base import BaseFormatter
@@ -11,10 +13,28 @@ class JsonLdFormatter(BaseFormatter):
         self.ontology_path = ontology_path
 
     def format(self, ontology: OntologyModel) -> FormattedOntology:
+        source = Graph()
+        source.parse(self.ontology_path, format="turtle")
+
+        # Two sources of run-to-run instability, both from rdflib rather than from the
+        # ontology: blank-node labels are regenerated with a per-process random prefix,
+        # and @graph is emitted in set-iteration order. Left alone the same ontology
+        # serialises to a different prompt on every run — unlike the other three formats,
+        # which are byte-stable. Canonicalisation gives blank nodes content-derived
+        # labels and sorting fixes the node order. Labels and ordering only; no term is
+        # reshaped, so this is still a plain serialisation of the source graph.
         graph = Graph()
-        graph.parse(self.ontology_path, format="turtle")
-        content = graph.serialize(format="json-ld", auto_compact=True, indent=2)
-        
+        for prefix, namespace in source.namespaces():
+            graph.bind(prefix, namespace)
+        for triple in to_canonical_graph(source):
+            graph.add(triple)
+
+        document = json.loads(
+            graph.serialize(format="json-ld", auto_compact=True, indent=2)
+        )
+        document["@graph"].sort(key=lambda node: node.get("@id", ""))
+        content = json.dumps(document, indent=2)
+
         return FormattedOntology(
             format="json_ld",
             content=content,

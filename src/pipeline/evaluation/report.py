@@ -4,11 +4,10 @@ import pandas as pd
 from rdflib import URIRef
 
 from pipeline.extraction.models import ExtractionResult
-from pipeline.graph.graphdb_client import GraphDBClient
+from pipeline.graph.graphdb_client import GraphDBClient, GraphDBConfig
 from pipeline.graph.rdf_serializer import build_namespaces
 from pipeline.mapping.models import MappingDocument
 from pipeline.runner.models import Run, RunStatus
-from pipeline.runner.pipeline_runner import build_graphdb_config
 from pipeline.runner.run_store import RunStore
 
 from .gold_graph import build_gold_extraction_results
@@ -39,7 +38,7 @@ def evaluate_run(
         )
 
     try:
-        client = GraphDBClient(build_graphdb_config(run.config))
+        client = GraphDBClient(GraphDBConfig())  # pyright: ignore[reportCallIssue]
         generated_graph = client.construct_named_graph(run.named_graph)
     except Exception as e:
         return EvaluationResult(**base, error=f"failed to fetch generated graph: {e}")

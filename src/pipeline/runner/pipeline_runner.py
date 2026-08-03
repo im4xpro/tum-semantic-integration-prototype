@@ -34,7 +34,7 @@ from pipeline.mapping.mapping_generator import MappingGenerator
 from pipeline.mapping.models import LLMProvider, MappingConfig, MappingDocument
 from pipeline.ontology.manager import OntologyManager
 
-from .models import Run, RunConfig, RunStatus
+from .models import Run, RunStatus
 from .run_store import RunStore
 
 _BASE = Path(__file__).parent.parent.parent.parent
@@ -94,7 +94,7 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
         if cancel.is_set():
             return _cancel(run, store)
 
-        client = GraphDBClient(build_graphdb_config(run.config))
+        client = GraphDBClient(GraphDBConfig())  # pyright: ignore[reportCallIssue]
         client.replace_named_graph(graph, run.named_graph)
         run.stats.triples_in_db = client.count_triples(run.named_graph)
 
@@ -110,12 +110,6 @@ def execute_run(run: Run, cancel: threading.Event, store: RunStore) -> Run:
         store.save(run)
 
     return run
-
-
-def build_graphdb_config(run_config: RunConfig) -> GraphDBConfig:
-    """Build a GraphDBConfig from explicit run overrides, falling back to .env (GRAPHDB_*)."""
-    overrides = run_config.graphdb.model_dump(exclude_none=True)
-    return GraphDBConfig(**overrides)
 
 
 def _resolve_mapping(

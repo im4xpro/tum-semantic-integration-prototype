@@ -18,15 +18,6 @@ class RunStatus(str, Enum):
     cancelled = "cancelled"
 
 
-class GraphDBTargetConfig(BaseModel):
-    """GraphDB target override; unset fields fall back to GRAPHDB_* in .env."""
-
-    url: str | None = None
-    repository: str | None = None
-    username: str | None = None
-    password: str | None = None
-
-
 class RunConfig(BaseModel):
     """Configuration for a single pipeline run."""
 
@@ -51,8 +42,6 @@ class RunConfig(BaseModel):
     strategy: str = "zero_shot"
     ontology_format: str = "turtle"
     include_descriptions: bool = False
-
-    graphdb: GraphDBTargetConfig = Field(default_factory=GraphDBTargetConfig)
 
 
 class RunStats(BaseModel):
@@ -118,7 +107,6 @@ class ExperimentConfig(BaseModel):
     name: str
     description: str = ""
     data: DataConfig
-    graphdb: GraphDBTargetConfig = Field(default_factory=GraphDBTargetConfig)
     mapping: MappingStrategyConfig = Field(default_factory=MappingStrategyConfig)
     matrix: MatrixConfig
 
@@ -146,7 +134,6 @@ class ExperimentConfig(BaseModel):
                     strategy=strategy,
                     ontology_format=fmt,
                     include_descriptions=include_desc,
-                    graphdb=self.graphdb,
                 )
             )
         return configs

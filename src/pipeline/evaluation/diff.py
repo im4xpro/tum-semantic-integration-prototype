@@ -4,11 +4,10 @@ from pathlib import Path
 from rdflib import URIRef
 
 from pipeline.extraction.models import ExtractionResult
-from pipeline.graph.graphdb_client import GraphDBClient
+from pipeline.graph.graphdb_client import GraphDBClient, GraphDBConfig
 from pipeline.graph.rdf_serializer import build_namespaces
 from pipeline.mapping.models import MappingDocument, SubjectMapping
 from pipeline.runner.models import Run, RunStatus
-from pipeline.runner.pipeline_runner import build_graphdb_config
 
 from .models import (
     CanonicalRelation,
@@ -160,7 +159,7 @@ def diff_run(
         return RunDiff(**base, error="run not completed or has no named graph")
 
     try:
-        client = GraphDBClient(build_graphdb_config(run.config))
+        client = GraphDBClient(GraphDBConfig())  # pyright: ignore[reportCallIssue]
         generated_graph = client.construct_named_graph(run.named_graph)
     except Exception as e:
         return RunDiff(**base, error=str(e))
