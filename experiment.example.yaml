@@ -1,52 +1,160 @@
-# Pipeline Experiment Configuration
-# ----------------------------------
-# Drop this file (renamed) into the project root, then POST it to
-# /api/experiments/submit-yaml  or  /api/experiments/preview-yaml
+# ─────────────────────────────────────────────────────────────────────────────
+#  Experiment configuration — complete reference
+# ─────────────────────────────────────────────────────────────────────────────
+#  Every option the runner accepts is listed below, with its type, its default,
+#  and the full set of valid values. Copy this file and delete what you do not need.
 #
-# The `matrix` section expands into all combinations:
-#   len(provider_models) × len(strategies) × len(ontology_formats) × len(include_descriptions)
-# This example: 3 × 1 × 3 × 1 = 9 runs
+#  Submit it with:
+#     POST /api/experiments/preview-yaml   → expands the matrix, queues nothing
+#     POST /api/experiments/submit-yaml    → expands the matrix and queues every run
+#  or paste it into the experiment-runner UI at http://localhost:8420/experiments
+#
+#  Score the finished runs with:
+#     PYTHONPATH=src python scripts/evaluate-experiment.py <name>
+#
+#  Schema: ExperimentConfig in src/pipeline/runner/models.py
+# ─────────────────────────────────────────────────────────────────────────────
 
-name: "LLM Mapping Comparison – ACLED"
+
+# ── Identity ─────────────────────────────────────────────────────────────────
+
+# REQUIRED. Groups the runs and names the report files written to data/output/
+# as <name>_evaluation.csv / .md. Re-using a name adds runs to that group.
+name: "thesis_eval_acled"
+
+# OPTIONAL, default "". Documentation only — it is parsed but never read by the
+# runner and is not carried onto the individual runs.
 description: >
-  Compare three LLMs (Claude, GPT-4o, Llama) on the ACLED data source
-  across three ontology presentation formats (zero-shot, no column descriptions).
+  Sweep of prompt strategies and ontology serialisations over the ACLED source.
+
+
+# ── Data ─────────────────────────────────────────────────────────────────────
 
 data:
+  # REQUIRED. Must match the "source_name" field inside one of data/schemas/*.json.
+  # Currently available:
+  #   acled_data              relational  35 columns   (data/schemas/postgres_schema.json)
+  #   opensanctions_entities  document    71 fields    (data/schemas/mongodb_schema.json)
+  #   adsb_events             timeseries  12 columns   (data/schemas/timescale_schema.json)
+  #
+  # Note: scoring needs data/gold_standard/<source_name>.gold.json, which exists
+  # for acled_data only. The other two can be run but not evaluated.
   source_name: acled_data
-  limit: 50              # records per run (null = all available)
-  use_sample_data: true  # true = use sample_records in schema JSON (no DB needed)
-                         # false = connect to PostgreSQL via env vars
 
-graphdb:
-  # Omit this whole block to fall back to GRAPHDB_URL/GRAPHDB_REPOSITORY from
-  # .env instead — required if you run the app via docker-compose, where
-  # "localhost" from inside the app container is not the graphdb container.
-  url: http://localhost:7200
-  repository: bsm
-  # username: admin
-  # password: secret
+  # OPTIONAL, default null. Records per run; null = all available.
+  # With use_sample_data=true this caps the embedded sample_records.
+  # With use_sample_data=false it becomes the SQL LIMIT (null → 10 000).
+  limit: null
+
+  # OPTIONAL, default true.
+  #   true  → read sample_records embedded in the schema JSON. No database needed.
+  #   false → read from a live database. NOTE: the benchmark path is PostgreSQL
+  #           only; it ignores the source type and always uses PostgresConfig with
+  #           table = source_name. MongoDB and TimescaleDB are reachable only
+  #           through POST /api/populate, not from an experiment.
+  use_sample_data: true
+
+
+# ── Triple store ─────────────────────────────────────────────────────────────
+#
+# Not configurable here. The target repository and its credentials come exclusively
+# from GRAPHDB_URL / GRAPHDB_REPOSITORY / GRAPHDB_USERNAME / GRAPHDB_PASSWORD in the
+# environment, because the correct value is a property of the deployment rather than
+# of the experiment — it differs between a host-native run (http://localhost:7200)
+# and docker compose (http://graphdb:7200). Runs are isolated from one another by
+# named graph, not by repository.
+
+
+# ── Mapping source ───────────────────────────────────────────────────────────
 
 mapping:
-  mode: generate  # "generate" = LLM call; "use_existing" = skip LLM
-  # mapping_id: acled-manual  # only when mode=use_existing
+  # OPTIONAL, default "generate".
+  #   generate     → call the LLM once per matrix cell
+  #   use_existing → skip the LLM entirely and load a stored mapping
+  mode: generate
+
+  # REQUIRED when mode=use_existing; ignored otherwise. Matches either the "id"
+  # field inside a data/mappings/*.json file or that file's stem.
+  #
+  # CAUTION: the matrix still expands when mode=use_existing, and every expanded
+  # run receives the SAME mapping_id — so provider/strategy/format become inert
+  # labels on otherwise identical runs. Keep the matrix to a single cell in that mode.
+  # mapping_id: acled-manual-v1
+
+
+# ── The experimental matrix ──────────────────────────────────────────────────
+#
+#  Runs queued = provider_models × strategies × ontology_formats × include_descriptions
+#  The expansion is an unconditional cross-product; no combination is excluded.
+#  The example below is 2 × 3 × 4 × 2 = 48 runs.
+#
+#  WARNING: only the *structure* of this file is validated on submit. The values
+#  inside the matrix are not. A misspelled strategy, format or provider is accepted
+#  at submit time and then fails that individual run at execution time with a
+#  Pydantic ValidationError. Use preview-yaml first and read the expansion.
 
 matrix:
-  provider_models:
-    - [anthropic, claude-sonnet-4-6]
-    - [openai, gpt-4o]
-    - [openrouter, meta-llama/llama-3.1-70b-instruct]
 
+  # REQUIRED. A list of [provider, model] pairs. The model string is passed to the
+  # provider verbatim.
+  #
+  # Valid providers: anthropic · openai · openrouter · ollama · fortiss
+  #   anthropic   direct Anthropic API      ANTHROPIC_API_KEY
+  #   openai      direct OpenAI API         OPENAI_API_KEY
+  #   openrouter  OpenAI-compatible proxy   OPENROUTER_API_KEY, OPENROUTER_BASE_URL
+  #   ollama      local / self-hosted       OLLAMA_BASE_URL
+  #   fortiss     fortiss Ollama gateway    FORTISS_API_KEY, FORTISS_TOKEN_ENDPOINT,
+  #                                         FORTISS_BASE_URL
+  provider_models:
+    - [openrouter, anthropic/claude-sonnet-5]
+    - [openrouter, meta-llama/llama-3.1-70b-instruct]
+    # - [anthropic, claude-sonnet-4-6]
+    # - [openai, gpt-4o]
+    # - [ollama, llama3.3:latest]
+
+  # OPTIONAL, default [zero_shot]. Valid: zero_shot · few_shot · chain_of_thought
+  #   zero_shot         instructions + the JSON output schema, JSON only
+  #   few_shot          the same, plus one worked example in an unrelated ex: namespace
+  #   chain_of_thought  reason in prose first, then emit the JSON in a fenced block
   strategies:
     - zero_shot
-    # - few_shot
-    # - chain_of_thought
+    - few_shot
+    - chain_of_thought
 
+  # OPTIONAL, default [turtle]. Valid: turtle · json_ld · compact · class_list
+  # How the ontology is rendered into the prompt. All four carry the same 46
+  # classes and 99 properties; they differ in verbosity, not in coverage.
+  #   turtle      the .ttl file verbatim                  ~9 800 est. tokens
+  #   json_ld     the same graph serialised as JSON-LD    ~13 600 est. tokens
+  #   compact     indented class tree with comments        ~4 300 est. tokens
+  #   class_list  one flat line per class, no comments     ~1 900 est. tokens
   ontology_formats:
     - turtle
+    - json_ld
     - compact
     - class_list
 
+  # OPTIONAL, default [false]. Whether per-column natural-language descriptions are
+  # appended to the schema block of the prompt. Requires
+  # data/descriptions/<source_name>.json; without that file the flag is a no-op.
+  # It affects the SOURCE SCHEMA only — ontology rdfs:comment is unaffected and is
+  # always present in turtle/json_ld/compact, always absent from class_list.
   include_descriptions:
+    - true
     - false
-    # - true            # requires data/descriptions/<source_name>.json to be filled in
+
+
+# ── Not configurable here ────────────────────────────────────────────────────
+#
+#  temperature   hardcoded to 0.0 for every benchmark run
+#                (src/pipeline/runner/pipeline_runner.py::_resolve_mapping)
+#  max_tokens    per provider, from the environment — e.g. OPENROUTER_MAX_TOKENS.
+#                A response that hits the ceiling is truncated mid-JSON and fails
+#                the run with a JSONDecodeError, so set it well above observed usage.
+#  repetitions   each matrix cell runs exactly once; there is no repeat count and no
+#                seed. Submit the same YAML n times for n replicates.
+#  concurrency   fixed at 2 concurrent runs (ExperimentManager thread pool).
+#  retries       none. Any error fails that run; the rest of the sweep continues.
+#
+#  All runs in one experiment must share a single source_name — the evaluation
+#  resolves one gold standard per experiment and raises if the runs span several.
