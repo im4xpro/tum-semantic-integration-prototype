@@ -609,9 +609,14 @@ export default function App() {
             </button>
             {aiEnabled && (
               <button
-                className="px-3 py-1 text-xs rounded bg-emerald-600 text-white hover:bg-emerald-700"
+                className="px-3 py-1 text-xs rounded bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed"
                 onClick={() => setPopulateOpen(true)}
-                title="Materialize this mapping's source into the knowledge graph (online, backend required)"
+                disabled={mapping.status !== 'approved'}
+                title={
+                  mapping.status !== 'approved'
+                    ? `Only an approved mapping can be materialized — this one is "${mapping.status}". The backend enforces this too.`
+                    : "Materialize this mapping's source into the knowledge graph (online, backend required)"
+                }
               >
                 Populate
               </button>

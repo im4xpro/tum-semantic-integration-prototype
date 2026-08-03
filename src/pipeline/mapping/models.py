@@ -98,9 +98,24 @@ class SubjectMapping(BaseModel):
     _normalize_basis = field_validator("basis", mode="before")(_coerce_basis)
 
 
+class MappingStatus(enum.StrEnum):
+    """Review state of a mapping document.
+
+    Only APPROVED may be materialised into the knowledge graph. The default is DRAFT, so
+    a document is never materialisable until a human has explicitly approved it — the
+    guarantee is enforced server-side in POST /api/populate, not only in the editor.
+    """
+
+    DRAFT = "draft"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    SUPERSEDED = "superseded"
+
+
 class MappingDocument(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     source_name: str
+    status: MappingStatus = MappingStatus.DRAFT
     llm_model: str
     strategy: str
     ontology_format: str

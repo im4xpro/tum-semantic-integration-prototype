@@ -17,6 +17,7 @@ from api.main import app
 from api.routes import populate
 from pipeline.connectors.base import ConnectorError
 from pipeline.mapping.models import (
+    MappingStatus,
     MappingDocument,
     PropertyMapping,
     PropertySource,
@@ -37,6 +38,7 @@ def _demo_mapping() -> MappingDocument:
     # Minimal but real: each row -> one bsm:Action with a conceptName literal.
     return MappingDocument(
         source_name="demo",
+        status=MappingStatus.APPROVED,  # populate refuses anything else
         llm_model="manual",
         strategy="manual",
         ontology_format="manual",
@@ -197,3 +199,34 @@ def test_connector_error_returns_502_and_records_failed_run(env, monkeypatch):
 def test_table_defaults_to_source_name(env):
     client.post("/api/populate", json=_body(table=None))
     assert env.calls["load"]["table"] == "demo"
+
+
+@pytest.mark.parametrize("status", ["draft", "rejected", "superseded"])
+def test_populate_refuses_unapproved_mapping(env, status):
+    """Only an approved mapping may be materialised (REQ-HITL-FR-02).
+
+    The refusal happens before any work: no connector call, no graph write, and — since
+    a rejected request is not a failed run — no run record either.
+    """
+    body = _body()
+    body["mapping"]["status"] = status
+
+    resp = client.post("/api/populate", json=body)
+
+    assert resp.status_code == 409, resp.text
+    assert status in resp.json()["detail"]
+    env.gdb.replace_named_graph.assert_not_called()
+    assert "load" not in env.calls
+    assert client.get("/api/populate/runs").json() == []
+
+
+def test_status_survives_the_request_boundary(env):
+    """The gate is only meaningful if the field is not silently dropped on the way in."""
+    body = _body()
+    body["mapping"]["status"] = "approved"
+    assert client.post("/api/populate", json=body).status_code == 200
+
+    # A mapping that omits status entirely defaults to draft, i.e. fails closed.
+    body = _body()
+    del body["mapping"]["status"]
+    assert client.post("/api/populate", json=body).status_code == 409

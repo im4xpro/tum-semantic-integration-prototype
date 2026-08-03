@@ -30,7 +30,7 @@ from pipeline.connectors.loader import load_all_records
 from pipeline.extraction.entity_extractor import EntityExtractor
 from pipeline.graph.graphdb_client import GraphDBClient, GraphDBConfig, GraphDBError
 from pipeline.graph.rdf_serializer import RDFSerializer, build_property_ranges
-from pipeline.mapping.models import MappingDocument
+from pipeline.mapping.models import MappingDocument, MappingStatus
 from pipeline.runner.models import Run, RunConfig, RunStatus
 from pipeline.runner.provenance import (
     ProvenanceEntry,
@@ -119,6 +119,20 @@ def _summary(run: Run) -> PopulateRunSummary:
 @router.post("", response_model=PopulateResponse)
 def populate(req: PopulateRequest) -> PopulateResponse:
     mapping = req.mapping
+
+    # A suggestion is inert until a human approves it (REQ-HITL-FR-02). The check runs
+    # before the Run is created: a refused request is a rejected request, not a failed
+    # run, so it leaves no record behind.
+    if mapping.status is not MappingStatus.APPROVED:
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                f"Mapping '{mapping.id or '(unsaved)'}' is in '{mapping.status}' state. "
+                "Only an approved mapping can be materialised — review it and set its "
+                "status to 'approved' first."
+            ),
+        )
+
     if not mapping.id:
         mapping.id = str(uuid.uuid4())
     table = req.table or req.source_name
