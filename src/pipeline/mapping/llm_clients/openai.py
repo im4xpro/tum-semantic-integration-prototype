@@ -7,7 +7,7 @@ from .base import BaseLLMClient, LLMClientError
 class OpenAIConfig(BaseSettings):
     api_key: str
     model: str = "gpt-4o"
-    max_tokens: int = 4096
+    max_tokens: int = 32000
 
     model_config = {"env_file": ".env", "env_prefix": "OPENAI_", "extra": "ignore"}
 

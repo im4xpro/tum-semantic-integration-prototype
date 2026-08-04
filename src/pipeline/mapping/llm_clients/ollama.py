@@ -8,7 +8,7 @@ from .fortiss_token_manager import FortissTokenManager
 class OllamaConfig(BaseSettings):
     base_url: str
     model: str = "llama3.3:latest"
-    max_tokens: int = 4096
+    max_tokens: int = 32000
 
     model_config = {"env_file": ".env", "env_prefix": "OLLAMA_", "extra": "ignore"}
 

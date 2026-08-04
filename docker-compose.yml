@@ -7,19 +7,11 @@ services:
     env_file:
       - .env
     environment:
-      # Override .env's host-based values so the connectors reach GraphDB (in
-      # this compose network) and Postgres/MongoDB/TimescaleDB (running as
-      # separate instances on the host machine, not in this compose file) —
-      # "localhost" from inside the container means the container itself.
-      # Only takes effect for connectors actually used at runtime.
       GRAPHDB_URL: http://graphdb:7200
       POSTGRES_HOST: host.docker.internal
       TIMESCALE_HOST: host.docker.internal
       MONGODB_URI: mongodb://thesis:thesis@host.docker.internal:27017
     volumes:
-      # Bind-mount source + data so prompt edits and new runs/mappings show up
-      # without a rebuild. Drop --reload from CMD in prod if you don't want
-      # live-reload; for thesis experimentation it's convenient to keep.
       - ./src:/app/src
       - ./data:/app/data
     command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/app/src"]
@@ -27,8 +19,7 @@ services:
       graphdb:
         condition: service_healthy
     restart: unless-stopped
-
-  # Mapping editor
+    
   editor:
     build: ./editor-frontend
     ports:

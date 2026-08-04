@@ -8,7 +8,7 @@ from .base import BaseLLMClient, LLMClientError
 class AnthropicConfig(BaseSettings):
     api_key: str
     model: str = "claude-sonnet-4-6"
-    max_tokens: int = 4096
+    max_tokens: int = 32000
 
     model_config = {"env_file": ".env", "env_prefix": "ANTHROPIC_", "extra": "ignore"}
 
