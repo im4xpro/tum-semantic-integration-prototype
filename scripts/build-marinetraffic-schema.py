@@ -12,7 +12,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
-from pipeline.connectors.models import (  # noqa: E402
+from pipeline.connectors.models import (
     ColumnSchema,
     ExtractedSchema,
 )
@@ -68,12 +68,9 @@ def main() -> None:
     if args.limit:
         records = records[: args.limit]
 
-    # Union of keys, first-seen order, so a field missing from one record is still declared.
     names: list[str] = []
     for rec in records:
         names.extend(k for k in rec if k not in names)
-    # Every sample must carry every column: the extractor reads record[column_name] and
-    # treats an absent key exactly like an empty one, but an uneven schema misleads the LLM.
     records = [{n: rec.get(n, "") for n in names} for rec in records]
 
     schema = ExtractedSchema(
