@@ -479,6 +479,42 @@
           ]
         },
         {
+          "property_uri": "bsm:latitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "latitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ]
+        },
+        {
+          "property_uri": "bsm:longitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "longitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ]
+        },
+        {
           "property_uri": "bsm:partOf",
           "values": [
             {
@@ -499,28 +535,6 @@
                   }
                 ],
                 "property_mappings": []
-              }
-            }
-          ]
-        },
-        {
-          "property_uri": "bsm:hasGeometry",
-          "values": [
-            {
-              "value_source": {
-                "source": "column"
-              },
-              "value_type": {
-                "type": "iri",
-                "type_mappings": [
-                  {
-                    "class_uri": "bsm:AbsolutePoint"
-                  }
-                ],
-                "property_mappings": []
-              },
-              "transformation": {
-                "expression": "pt_{latitude}_{longitude}"
               }
             }
           ]
@@ -644,24 +658,6 @@
       ],
       "property_mappings": [
         {
-          "property_uri": "bsm:sourceIdentifier",
-          "values": [
-            {
-              "value_source": {
-                "source": "column",
-                "column_name": "event_id_cnty",
-                "constant_value": null
-              },
-              "transformation": null,
-              "value_type": {
-                "type": "literal",
-                "type_mappings": [],
-                "property_mappings": []
-              }
-            }
-          ]
-        },
-        {
           "property_uri": "bsm:effectQuantityNumber",
           "values": [
             {
@@ -680,53 +676,6 @@
           ]
         }
       ]
-    },
-    {
-      "subject": {
-        "source": "column"
-      },
-      "type_mappings": [
-        {
-          "class_uri": "bsm:AbsolutePoint"
-        }
-      ],
-      "property_mappings": [
-        {
-          "property_uri": "bsm:latitudeDecimal",
-          "values": [
-            {
-              "value_source": {
-                "source": "column",
-                "column_name": "latitude"
-              },
-              "value_type": {
-                "type": "literal",
-                "type_mappings": [],
-                "property_mappings": []
-              }
-            }
-          ]
-        },
-        {
-          "property_uri": "bsm:longitudeDecimal",
-          "values": [
-            {
-              "value_source": {
-                "source": "column",
-                "column_name": "longitude"
-              },
-              "value_type": {
-                "type": "literal",
-                "type_mappings": [],
-                "property_mappings": []
-              }
-            }
-          ]
-        }
-      ],
-      "subject_transformation": {
-        "expression": "pt_{latitude}_{longitude}"
-      }
     }
   ],
   "unmapped_fields": [
