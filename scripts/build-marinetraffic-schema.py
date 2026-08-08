@@ -12,7 +12,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
-from pipeline.connectors.models import (
+from pipeline.connectors.models import (  # noqa: E402
     ColumnSchema,
     ExtractedSchema,
 )

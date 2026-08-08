@@ -3,7 +3,7 @@ import json
 from ...connectors.models import ExtractedSchema
 from ...ontology.manager import OntologyManager
 from ...ontology.models import FormattedOntology
-from .zero_shot import OUTPUT_SCHEMA, ZeroShotPromptStrategy
+from .zero_shot import OUTPUT_SCHEMA, SHARED_RULES, ZeroShotPromptStrategy
 
 
 class ChainOfThoughtPromptStrategy(ZeroShotPromptStrategy):
@@ -25,13 +25,13 @@ First, think step by step in plain text:
 - For each entity type, decide which column or constant value is its identifier (the subject).
 - For each entity type, decide which ontology class it corresponds to.
 - For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity.
+- If a value points to another entity, set value_type to "iri" and include nested type_mappings/property_mappings if applicable.
 - For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values — not generic filler.
-- Note any columns that have no suitable ontology match.
+- Note any columns that have no suitable ontology match, and list them in unmapped_fields.
+{SHARED_RULES}
 
 After your reasoning, output the final mapping as a JSON code block (```json ... ```) matching this exact structure, and nothing after it:
-{json.dumps(OUTPUT_SCHEMA, indent=2)}
-
-Omit subject_transformation and transformation when no expression is needed."""
+{json.dumps(OUTPUT_SCHEMA, indent=2)}"""
 
         _, user_prompt = super().build_prompt(
             schema, ontology, column_descriptions, ontology_manager

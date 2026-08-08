@@ -35,7 +35,9 @@ OUTPUT_SCHEMA = {
                                 "column_name": "string: source column name",
                                 "constant_value": "string: fixed value",
                             },
-                            "transformation": None,
+                            "transformation": {
+                                "expression": "string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. Omit when the raw column value is used as-is."
+                            },
                             "value_type": {
                                 "type": "literal | iri",
                                 "type_mappings": [],
@@ -50,8 +52,32 @@ OUTPUT_SCHEMA = {
     "unmapped_fields": ["string: field names with no suitable ontology match"],
 }
 
+# Mechanical constraints of the target format. Shared verbatim by every strategy so
+# that the strategy comparison varies only in how the task is framed (plain, worked
+# example, step-by-step) and never in what the model is told about the format itself.
+SHARED_RULES = """
+Rules of the target format:
+- Use only classes and properties that appear in the ontology below, written exactly as
+  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave
+  the field unmapped rather than inventing a term.
+- A subject's expression must yield a distinct value for every distinct real-world entity.
+  Two records that produce the same expression are treated as the same entity and merged.
+- An expression is a plain {column} template, nothing more: no arithmetic, no function
+  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders
+  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.
+- If any column referenced by an expression is empty for a record, the whole entity or
+  value is silently skipped for that record. Prefer columns that are populated in every
+  record for subjects; a sparsely filled column will discard most of the data.
+- When value_type is "iri", the value's transformation must be byte-for-byte identical to
+  the subject_transformation of the entity it references, and the reference should carry
+  nested type_mappings (and property_mappings where applicable). A mismatch does not raise
+  an error - the relation is silently dropped.
+- Omit subject_transformation and transformation when no expression is needed."""
+
 
 class ZeroShotPromptStrategy(BasePromptStrategy):
+    SAMPLE_RECORD_COUNT = 3
+
     def build_prompt(
         self,
         schema: ExtractedSchema,
@@ -70,8 +96,7 @@ Group fields by the entity they describe. For each entity type:
 - For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence — the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.
 - If a value points to another entity, set value_type to "iri" and include nested type_mappings/property_mappings if applicable.
 - If a field cannot be mapped to any ontology concept, add it to unmapped_fields.
-
-Omit subject_transformation and transformation when no expression is needed.
+{SHARED_RULES}
 
 Return ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:
 {json.dumps(OUTPUT_SCHEMA, indent=2)}"""
@@ -108,10 +133,17 @@ ONTOLOGY:
             suffix = f" — {desc}" if desc else ""
             lines.append(f"  {field.name}: {field.data_type}{suffix}")
 
+        # Several records, not one: which columns vary per row and which repeat is the
+        # main evidence for what identifies an entity, and a single row cannot show it.
+        # Three costs +117 to +532 prompt tokens depending on the source.
         if schema.sample_records:
-            lines.append("\nSAMPLE RECORD:")
-            sample = schema.sample_records[0]
-            for k, v in sample.items():
-                lines.append(f"  {k}: {repr(v)[:100]}")
+            samples = schema.sample_records[: self.SAMPLE_RECORD_COUNT]
+            label = "SAMPLE RECORD" if len(samples) == 1 else "SAMPLE RECORDS"
+            lines.append(f"\n{label}:")
+            for i, sample in enumerate(samples, 1):
+                if len(samples) > 1:
+                    lines.append(f"  record {i}:")
+                for k, v in sample.items():
+                    lines.append(f"    {k}: {repr(v)[:100]}")
 
         return "\n".join(lines)

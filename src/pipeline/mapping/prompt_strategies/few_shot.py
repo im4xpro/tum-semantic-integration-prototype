@@ -124,7 +124,8 @@ Given this (unrelated) schema:
 A correct mapping is:
 {json.dumps(_EXAMPLE_MAPPING, indent=2)}
 
-Notice how the IRI relation's transformation ("cust_{{customer_email}}") matches the
-referenced subject's own subject_transformation exactly — this is how relations resolve."""
+Note how the example satisfies the rules above: the IRI relation's transformation
+("cust_{{customer_email}}") is identical to the referenced subject's own
+subject_transformation, and every placeholder names a real column of that schema."""
 
         return system_prompt + example, user_prompt
