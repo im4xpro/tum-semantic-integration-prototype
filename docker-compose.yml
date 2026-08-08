@@ -14,9 +14,6 @@ services:
     volumes:
       - ./src:/app/src
       - ./data:/app/data
-    # No --reload: a source-file save restarts uvicorn, and ExperimentManager marks every
-    # queued/mapping/extracting run failed on startup, which would wipe an unattended sweep.
-    # Re-add "--reload", "--reload-dir", "/app/src" while developing.
     command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
       graphdb:

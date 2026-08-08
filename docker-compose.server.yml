@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8420:8000"
+    env_file:
+      - .env
+    environment:
+      GRAPHDB_URL: http://graphdb:7200
+      GRAPHDB_REPOSITORY: bsm
+      OPENROUTER_MAX_TOKENS: "32000"
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+    volumes:
+      - ./data:/app/data
+    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
+    networks:
+      - graphdb
+      - postgres
+    
+  # Editor is excluded here because the FileAccess API does not work on the server
+
+networks:
+  graphdb:
+    external: true
+    name: graphdb_default
+  postgres:
+    external: true
+    name: postgres_default
