@@ -16,13 +16,6 @@ class JsonLdFormatter(BaseFormatter):
         source = Graph()
         source.parse(self.ontology_path, format="turtle")
 
-        # Two sources of run-to-run instability, both from rdflib rather than from the
-        # ontology: blank-node labels are regenerated with a per-process random prefix,
-        # and @graph is emitted in set-iteration order. Left alone the same ontology
-        # serialises to a different prompt on every run — unlike the other three formats,
-        # which are byte-stable. Canonicalisation gives blank nodes content-derived
-        # labels and sorting fixes the node order. Labels and ordering only; no term is
-        # reshaped, so this is still a plain serialisation of the source graph.
         graph = Graph()
         for prefix, namespace in source.namespaces():
             graph.bind(prefix, namespace)
