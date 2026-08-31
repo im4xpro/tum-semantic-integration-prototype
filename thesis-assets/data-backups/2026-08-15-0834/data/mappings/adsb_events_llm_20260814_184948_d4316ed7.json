@@ -1,0 +1,343 @@
+{
+  "id": "d5be2831-ce34-4c0b-bae6-14f57d9e9038",
+  "source_name": "adsb_events",
+  "status": "draft",
+  "llm_model": "meta-llama/llama-3.3-70b-instruct",
+  "strategy": "zero_shot",
+  "ontology_format": "compact",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "icao24",
+        "constant_value": null
+      },
+      "subject_transformation": null,
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Aircraft"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:serialNumberIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "icao24",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The column name 'icao24' matches the description of 'bsm:serialNumberIdentifier' as a unique identifier for an aircraft."
+        },
+        {
+          "property_uri": "bsm:callsign",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "The column name 'callsign' matches the description of 'bsm:callsign' as an additional name for an aircraft."
+        },
+        {
+          "property_uri": "bsm:hasVelocity",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "velocity",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Velocity"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:speedMetersPerSecond",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "velocity",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The column name 'velocity' matches the description of 'bsm:speedMetersPerSecond' as the speed of the aircraft."
+                  },
+                  {
+                    "property_uri": "bsm:absoluteBearingAngle",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "heading",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.8,
+                    "basis": "name",
+                    "reasoning": "The column name 'heading' matches the description of 'bsm:absoluteBearingAngle' as the course over ground of the aircraft."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The columns 'velocity', 'heading', and 'vertrate' imply the velocity of the aircraft, which aligns with the 'bsm:hasVelocity' property in the ontology."
+        },
+        {
+          "property_uri": "bsm:hasOrientation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Orientation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:headingAngle",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "heading",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The column name 'heading' matches the description of 'bsm:headingAngle' as the heading of the aircraft."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "The column 'heading' implies the orientation of the aircraft, which aligns with the 'bsm:hasOrientation' property in the ontology."
+        },
+        {
+          "property_uri": "bsm:hasAltitude",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "baroaltitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Altitude"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:altitudeMeters",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "baroaltitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The column name 'baroaltitude' matches the description of 'bsm:altitudeMeters' as the altitude of the aircraft."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The columns 'baroaltitude' and 'geoaltitude' imply the altitude of the aircraft, which aligns with the 'bsm:hasAltitude' property in the ontology."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:hasGeometry",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "lat",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:AbsolutePoint"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:latitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lat",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.9,
+                              "basis": "name",
+                              "reasoning": "The column name 'lat' matches the description of 'bsm:latitudeDecimal' as the latitude of the location."
+                            },
+                            {
+                              "property_uri": "bsm:longitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lon",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.9,
+                              "basis": "name",
+                              "reasoning": "The column name 'lon' matches the description of 'bsm:longitudeDecimal' as the longitude of the location."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The columns 'lat' and 'lon' imply the geometry of the location, which aligns with the 'bsm:hasGeometry' property in the ontology."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The columns 'lat' and 'lon' imply the geographic location of the aircraft, which aligns with the 'bsm:hasGeographicLocation' property in the ontology."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "name",
+      "reasoning": "The column name 'icao24' implies a unique identifier for an aircraft, which aligns with the 'bsm:Aircraft' class in the ontology."
+    }
+  ],
+  "unmapped_fields": [
+    "time",
+    "onground",
+    "squawk"
+  ],
+  "generation_timestamp": "2026-08-14 20:12:14.687320",
+  "prompt_tokens": 6858,
+  "completion_tokens": 1831,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nGroup fields by the entity they describe. Do not assume one entity type covers the whole\nrow - check whether the ontology links your primary entity to further classes that the\nschema also has columns for, and model each of those as its own entity connected by an\nIRI reference, even when its columns sit right next to the primary entity's own columns.\nFor each entity type:\n- Identify which column or constant value serves as the subject (entity identifier).\n- Specify the ontology class (type_mappings).\n- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence citing the actual evidence \u2014 the column or label name, the provided description, or how the grouping implies the class. Do not give generic or circular justifications.\n- Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.\n- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence \u2014 the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.\n- If a value points to another entity, set value_type to \"iri\" and include nested type_mappings/property_mappings if applicable.\n- If a field cannot be mapped to any ontology concept, add it to unmapped_fields.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped. Construct each subject_transformation\n  expression once, then copy that exact string into every value.transformation meant to\n  reference it, rather than writing the two independently - re-typing the same-looking\n  expression a second time is the most common way a mismatch slips in. Before finalizing,\n  compare each IRI value's transformation string against the subject_transformation of the\n  entity it points to character by character - a different prefix, a pluralization, or\n  reordered placeholders all count as a mismatch and silently break the relation.\n- Do not fold every remaining column into the single most obvious entity as literal\n  properties. First check the ontology for object properties that lead from your entity to\n  other classes: a concept the ontology models as its own class one hop away is easy to miss\n  when its columns happen to sit right next to the primary entity's columns on the same\n  source row. If the schema has columns that populate such a linked class's identity or\n  properties, create it as its own subject_mapping and connect it with an \"iri\"-typed value\n  instead of discarding it or attaching it as a literal on the entity you already have.\n- Do not create a subject_mapping for a class the schema does not evidence. Every entity you\n  emit needs at least one column that plausibly identifies it or fills one of its properties;\n  do not add a class just because the ontology offers a plausible-sounding generic or\n  catalog type when nothing in the schema is specific to that class. Be especially wary of a\n  class that exists only to bundle one generic value together with the scheme, standard, or\n  type that qualifies it (recognizable by having just one or two generic-sounding\n  properties, e.g. a \"kind\"/\"standard\" field plus a \"value\" field): that shape models an\n  entity carrying more than one label or code under different schemes at once, and a single\n  column whose name merely contains a generic word like \"id\", \"code\", \"number\", or \"type\" is\n  not, by itself, evidence for it - most such columns are still a plain attribute of the\n  entity you already have. Only use that kind of class when the schema shows the actual\n  structure it models, e.g. several columns naming distinct schemes/standards for the same\n  entity, or a column that names the scheme itself.\n- Ontology properties are often near-synonyms whose local names differ by only one\n  qualifying word or prefix (e.g. two properties that share most of their name but differ\n  in tense, direction, or granularity). Read the full local name, not just its most\n  distinctive substring, and match every qualifying word against the column's exact meaning\n  rather than the nearer-sounding or more common alternative; if the column and the\n  candidate property disagree on a qualifier, treat it as ambiguous instead of assuming\n  they match. Do not default to whichever synonym sounds more common, more general, or more\n  familiar when the column itself does not clearly say so - that default guess is wrong just\n  as often as the alternative, and a wrong choice here typically also breaks any relation\n  that depends on this property to identify the entity, so treat it as high-stakes rather\n  than a minor label choice.\n- Omit subject_transformation and transformation entirely when no expression is needed - do\n  not include the key at all, and never emit it as an empty object {} or as null. An empty\n  object still means \"a transformation was given\" and requires its expression field, so\n  leaving the key out completely is the only valid way to skip it.\n- Output must be syntactically valid JSON: every string is properly escaped (quotes,\n  backslashes, newlines), no trailing commas, no comments, and every opening bracket or\n  brace has its matching close. Malformed JSON discards the entire response, not just the\n  affected field, so when in doubt keep punctuation simple rather than risk breaking the\n  parse.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nReturn ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces. This whole subject_transformation key is OPTIONAL: when no template is needed, omit the key entirely - never emit it as an empty object {}.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. This whole transformation key is OPTIONAL: when the raw column value is used as-is, omit the key entirely - never emit it as an empty object {}.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: adsb_events (type: timeseries)\n\nSCHEMA:\n  time: timestamp with time zone\n  icao24: text\n  lat: double precision\n  lon: double precision\n  velocity: double precision\n  heading: double precision\n  vertrate: double precision\n  callsign: text\n  onground: boolean\n  squawk: text\n  baroaltitude: double precision\n  geoaltitude: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    time: '2026-03-11 08:20:00+00:00'\n    icao24: 'ab58b2'\n    lat: 54.401\n    lon: 18.71\n    velocity: 231.4\n    heading: 187.2\n    vertrate: -2.5\n    callsign: 'VIPER11'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 430.0\n    geoaltitude: 452.6\n  record 2:\n    time: '2026-03-11 09:20:00+00:00'\n    icao24: '3f7a21'\n    lat: 54.3801\n    lon: 18.612\n    velocity: 243.9\n    heading: 191.8\n    vertrate: 0.0\n    callsign: 'VIPER12'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 505.0\n    geoaltitude: 521.3\n  record 3:\n    time: '2026-03-11 10:20:00+00:00'\n    icao24: '4841b9'\n    lat: 54.29\n    lon: 18.55\n    velocity: 198.6\n    heading: 43.1\n    vertrate: 4.8\n    callsign: 'FALCON03'\n    onground: False\n    squawk: '7776'\n    baroaltitude: 1180.0\n    geoaltitude: 1204.7\n\nONTOLOGY:\n- Concept [bsm:Concept]\n    \u00b7 name (data) [bsm:conceptName] \u2014 Primary name of the Concept. Mandatory in MIM.\n  - Battlespace Concept [bsm:BattlespaceConcept]\n      \u00b7 alternate name (data) [bsm:alternateName] \u2014 An additional name by which the concept is known \u2014 aliases, callsigns, transponder-broadcast names, vessel AIS names.\n      \u00b7 additional information (data) [bsm:additionalInformationText] \u2014 Free-text additional information about the concept that does not fit any structured attribute.\n      \u00b7 hostility code (data) [bsm:hostilityCode] \u2014 Perceived hostility from following values (Friend, Hostile, Neutral, Suspect, Unknown, Pending, Assumed-Friend, Joker, Faker).\n      \u00b7 source identifier (data) [bsm:sourceIdentifier] \u2014 EXTENSION: the primary key or row identifier from the originating dataset that produced this concept instance, enabling traceability back to the source record.\n      \u00b7 has geographic location (obj) [bsm:hasGeographicLocation] \u2014 Position of the BattlespaceConcept, expressed as a Location (which in turn carries a Geometry).\n      \u00b7 has alternate identifier (obj) [bsm:hasAlternateIdentifier] \u2014 Attaches a structured AlternateIdentifier (scheme + value) to the BattlespaceConcept.\n      \u00b7 part of (obj) [bsm:partOf] \u2014 Indicates that an entity is a subpart of a higher concept, added initially for location hierarchy: City, Region, Country\n    - Object [bsm:Object]\n        \u00b7 type name (data) [bsm:typeName] \u2014 Free-text name of the Object's type. Used for category strings that do not map to a closed MIM code list (e.g. vessel-type strings broadcast by maritime navigation systems, aircraft model designations).\n        \u00b7 has affiliation (obj) [bsm:hasAffiliation] \u2014 Geopolitical, ethnic, religious or other affiliation of the Object: captures flag-state of vessels, origin-country of aircraft, nationality of persons.\n      - Actor [bsm:Actor] \u2014 A person or a group of persons able to perform actions.\n          \u00b7 operates materiel (obj) [bsm:operatesMateriel] \u2014 Mirrors mim:Actor.employedMateriel directly.\n          \u00b7 owns materiel (obj) [bsm:ownsMateriel] \u2014 Mirrors mim:Actor.ownedMateriel directly. Inverse of bsm:hasOwner.\n          \u00b7 has sanction designation (obj) [bsm:hasSanctionDesignation] \u2014 Attaches a SanctionDesignation to an Actor.\n          \u00b7 has controlled facility (obj) [bsm:hasControlledFacility] \u2014 Facility under the control of the Actor.\n        - Person [bsm:Person] \u2014 A human being of military or civilian significance.\n            \u00b7 birth date (data) [bsm:birthDate] \u2014 Date of birth of the Person.\n            \u00b7 death date (data) [bsm:deathDate] \u2014 Date of death of the Person, if applicable.\n            \u00b7 gender code (data) [bsm:genderCode] \u2014 Gender of the Person. Backed by the MIM GenderCode enumeration.\n            \u00b7 military status code (data) [bsm:militaryStatusCode] \u2014 Whether the Person is civilian, military or paramilitary. Backed by the MIM PersonMilitaryStatusCode enumeration.\n            \u00b7 characteristic code (data) [bsm:characteristicCode] \u2014 Profession, social status or legal/military involvement of the Person. Backed by the MIM PersonCharacteristicCode enumeration.\n            \u00b7 duty status code (data) [bsm:dutyStatusCode] \u2014 Current duty status of the Person (active, on leave, retired, \u2026).\n            \u00b7 is member of (obj) [bsm:isMemberOf] \u2014 Person is a formal member of the Organisation.\n            \u00b7 is assigned to (obj) [bsm:isAssignedTo] \u2014 Long-term assignment of a Person to an Organisation.\n            \u00b7 is attached to (obj) [bsm:isAttachedTo] \u2014 Temporary attachment of a Person to an Organisation.\n            \u00b7 has superior (obj) [bsm:hasSuperior] \u2014 Direct superior of the Person in a chain of command.\n            \u00b7 has subordinate (obj) [bsm:hasSubordinate] \u2014 Direct subordinate of the Person.\n            \u00b7 is operative of (obj) [bsm:isOperativeOf] \u2014 Person used as a secret or trusted agent of an Organisation.\n            \u00b7 has nationality (obj) [bsm:hasNationality] \u2014 Attaches a PersonNationality (country + reason) to the Person.\n            \u00b7 has identification document (obj) [bsm:hasIdentificationDocument] \u2014 Attaches an identification document held by the Person.\n        - Organisation [bsm:Organisation] \u2014 An administrative or functional structure.\n            \u00b7 description (data) [bsm:descriptionText] \u2014 Free-text description of the Organisation.\n            \u00b7 main activity code (data) [bsm:mainActivityCode] \u2014 Primary activity sector of the Organisation. Like industry, NGO.\n            \u00b7 has member (obj) [bsm:hasMember] \u2014 Inverse of bsm:isMemberOf.\n            \u00b7 has assigned person (obj) [bsm:hasAssignedPerson] \u2014 Inverse of bsm:isAssignedTo.\n      - Materiel [bsm:Materiel] \u2014 Superclass for military supplies, vehicles, and other tools\n          \u00b7 serial number (data) [bsm:serialNumberIdentifier] \u2014 Serial number assigned by the manufacturer or operator.\n          \u00b7 model name (data) [bsm:modelName] \u2014 Manufacturer's model designation.\n          \u00b7 is active (data) [bsm:isActiveIndicator] \u2014 True if the Materiel is currently active (in service).\n          \u00b7 has controller (obj) [bsm:hasController] \u2014 The Actor that has authority over the Materiel.\n          \u00b7 has operator (obj) [bsm:hasOperator] \u2014 The Actor that operates the Materiel (uses it in practice, distinct from owning or controlling).\n          \u00b7 has owner (obj) [bsm:hasOwner] \u2014 The Actor that owns the Materiel.\n          \u00b7 is on account of (obj) [bsm:isOnAccountOf] \u2014 The Actor that holds accounting authority over the Materiel.\n          \u00b7 transports actor (obj) [bsm:transportsActor] \u2014 The Materiel is responsible for movement of the Person.\n          \u00b7 is loaded on (obj) [bsm:isLoadedOn] \u2014 Materiel that is loaded onto another (carrying) Materiel. Mirrors mim:Materiel.loadedMateriel.\n          \u00b7 carries (obj) [bsm:carries] \u2014 Carrying Materiel. Mirrors mim:Materiel.carryingMateriel. Inverse of bsm:isLoadedOn.\n        - ConsumableMateriel [bsm:ConsumableMateriel] \u2014 Consumable goods, food, ammunition, etc.\n        - Equipment [bsm:Equipment] \u2014 Materiel that is neither intended for consumption nor an unexploded piece of ordnance.\n            \u00b7 has mobility (obj) [bsm:hasMobility] \u2014 Mobility characteristics of the Equipment.\n          - Vehicle [bsm:Vehicle] \u2014 A conveyance for transporting persons or things. Common parent of Aircraft, Vessel and LandVehicle.\n              \u00b7 operating mode code (data) [bsm:operatingModeCode] \u2014 Operating mode of the Vehicle: manned, unmanned, autonomous, remotely piloted.\n              \u00b7 has observation (obj) [bsm:hasObservation]\n            - Aircraft [bsm:Aircraft] \u2014 A Vehicle designed to fly within the earth's atmosphere.\n                \u00b7 design range code (data) [bsm:designRangeCode] \u2014 Range category of the Aircraft.\n                \u00b7 design role code (data) [bsm:designRoleCode] \u2014 Primary design role of the Aircraft (fighter, transport, surveillance, \u2026).\n                \u00b7 type main purpose code (data) [bsm:typeMainPurposeCode] \u2014 Main purpose of the Aircraft type.\n                \u00b7 military/civilian code (data) [bsm:militaryCivilianCode] \u2014 Whether the Aircraft is military or civilian.\n                \u00b7 wing span (data) [bsm:wingSpanDimension] \u2014 Wing span of the Aircraft.\n                \u00b7 weapon type code (data) [bsm:weaponTypeCode] \u2014 Type of weapons the Aircraft is armed with.\n            - Vessel [bsm:Vessel] \u2014 A Vehicle designed to operate on or under the water surface.\n                \u00b7 vessel category code (data) [bsm:vesselCategoryCode] \u2014 Category of the Vessel: cargo, tanker, fishing, passenger, military, special-craft.\n                \u00b7 vessel maximum speed (data) [bsm:vesselMaximumSpeed] \u2014 Maximum design speed of the Vessel. Mirrors mim:Vessel.maximumSpeed.\n            - Land Vehicle [bsm:LandVehicle] \u2014 A vehicle designed to operate on the ground.\n      - Facility [bsm:Facility] \u2014 An Object that is built, installed or established to serve a particular purpose and is identified by the service it provides rather than by its content.\n          \u00b7 facility is active (data) [bsm:facilityIsActiveIndicator] \u2014 True if the Facility is currently in active operation.\n          \u00b7 facility access restriction code (data) [bsm:facilityAccessRestrictionCode] \u2014 Access-restriction class for the Facility (e.g. unrestricted, restricted, prohibited).\n        - Transport Facility [bsm:TransportFacility] \u2014 Facility supporting the movement of vehicles, persons or goods. Parent of air, maritime and ground transport facilities.\n          - Maritime Transport Facility [bsm:MaritimeTransportFacility] \u2014 Maritime transport infrastructure \u2014 ports, harbours, piers, anchorages, naval bases.\n            - Port [bsm:Port] \u2014 Civilian or commercial port. Mirrors mim:PortType.\n            - Military Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] \u2014 Military seaport or naval base.\n            - Harbour [bsm:Harbour] \u2014 Harbour\n          - Air Transport Facility [bsm:AirTransportFacility] \u2014 Air transport infrastructure.\n            - Airport or Airbase [bsm:AirportOrAirbase] \u2014 Civilian airport or military airbase.\n        - Energy Facility [bsm:EnergyFacility] \u2014 Energy generation, transmission or storage infrastructure like power plants, substations, offshore wind farms, gas terminals.\n        - Petroleum Production Complex [bsm:PetroleumProductionComplex] \u2014 Refineries, oil terminals and gas terminals.\n    - Action [bsm:Action] \u2014 An activity (or the occurrence of one) that may use resources and may be focused against an objective. Used for conflict events, incidents, movements and aircraft activities.\n        \u00b7 action description (data) [bsm:actionDescriptionText] \u2014 Free-text description of the Action.\n        \u00b7 classification code (data) [bsm:classificationCode] \u2014 Classification of the Action.\n        \u00b7 event start time (data) [bsm:eventStartDateTime] \u2014 Event Start Timestamp\n        \u00b7 event end time (data) [bsm:eventEndDateTime] \u2014 Event End Timestamp\n        \u00b7 has focus (obj) [bsm:hasFocus] \u2014 ActionObjective the Action is directed at.\n        \u00b7 has requirement (obj) [bsm:hasRequirement] \u2014 ActionResource(s) required/requested/allocated by the Action.\n        \u00b7 has result (obj) [bsm:hasResult] \u2014 ActionEffect resulting from the Action, like fatalities, damage, casualties.\n        \u00b7 has sub-action (obj) [bsm:hasSubAction] \u2014 Sub-action of the Action.\n        \u00b7 is caused by (obj) [bsm:isCausedBy] \u2014 The subject Action is carried out in reaction to the object Action.\n        \u00b7 has response (obj) [bsm:hasResponse] \u2014 Inverse of bsm:isCausedBy.\n        \u00b7 involved actor (obj) [bsm:involvedActor] \u2014 EXTENSION: direct association between an Action and an involved Actor.\n    - Location [bsm:Location] \u2014 A position and geometry with respect to a horizontal frame of reference and a vertical datum. The MIM-standard wrapper around a Geometry.\n        \u00b7 location name (data) [bsm:locationName] \u2014 Human-readable name of the Location.\n        \u00b7 has geometry (obj) [bsm:hasGeometry] \u2014 Geometry component of a Location\n    - Action Effect [bsm:ActionEffect] \u2014 The effectiveness of an Action against an Object or type of Object: fatalities, casualties, damage, destruction.\n        \u00b7 effect description code (data) [bsm:effectDescriptionCode] \u2014 Type of outcome (Fatalities, Casualties, Damaged, Destroyed, \u2026).\n        \u00b7 effect quantity (data) [bsm:effectQuantityNumber] \u2014 Aggregated count for the effect, e.g. number of fatalities. Mirrors mim:ActionEffect.quantityNumber.\n        \u00b7 effect severity code (data) [bsm:effectSeverityCode] \u2014 Severity grade of the effect.\n        \u00b7 effect on object (obj) [bsm:effectOnObject] \u2014 Object that the ActionEffect was observed on.\n    - Action Resource [bsm:ActionResource] \u2014 An Object (or type of Object) used in conducting an Action.\n        \u00b7 resource object (obj) [bsm:resourceObject] \u2014 Bridge from ActionResource to the participating Object (actor or piece of materiel).\n    - Action Objective [bsm:ActionObjective] \u2014 The intended focus of an Action.\n        \u00b7 targets object (obj) [bsm:targetsObject] \u2014 Bridge from ActionObjective to the targeted Object.\n    - Sanction Designation [bsm:SanctionDesignation] [EXT] \u2014 EXTENSION: a formal designation/listing of an Actor under a sanctions, watch-list or debarment regime.\n        \u00b7 listing date (data) [bsm:listingDate] \u2014 Date on which the designation was issued.\n        \u00b7 delisting date (data) [bsm:delistingDate] \u2014 Date on which the designation was lifted, if applicable.\n        \u00b7 sanction reason (data) [bsm:sanctionReason] \u2014 Free-text reason for which the designation was made.\n        \u00b7 source URL (data) [bsm:sourceUrl] \u2014 URL pointing to the public listing document.\n        \u00b7 listing authority (obj) [bsm:listingAuthority] \u2014 Organisation that issued the sanction listing.\n    - Observation [bsm:Observation] [EXT]\n        \u00b7 observation date time (data) [bsm:observationDateTime]\n- Geometry [bsm:Geometry] \u2014 Measurements and relationships of points, lines, surfaces and volumes. Abstract parent of Point, Line, Surface in MIM.\n  - Point [bsm:Point] \u2014 A zero-dimensional location.\n    - Absolute Point [bsm:AbsolutePoint] \u2014 A Point with its position specified in WGS-84 latitude, longitude and vertical distance.\n        \u00b7 latitude (decimal degrees, WGS84) (data) [bsm:latitudeDecimal] \u2014 Latitude of the AbsolutePoint in decimal degrees.\n        \u00b7 longitude (decimal degrees, WGS84) (data) [bsm:longitudeDecimal] \u2014 Longitude of the AbsolutePoint in decimal degrees\n  - Line [bsm:Line] \u2014 A one-dimensional location, ordered sequence of points.\n  - Surface [bsm:Surface] \u2014 A two-dimensional location. Mirrors mim:SurfaceType.\n- Velocity [bsm:Velocity] \u2014 The movement of an Object in terms of speed, course and inclination.\n    \u00b7 speed (m/s) (data) [bsm:speedMetersPerSecond] \u2014 Speed of the Object\n    \u00b7 absolute bearing angle (data) [bsm:absoluteBearingAngle] \u2014 Course over ground / track angle, degrees clockwise from true north.\n    \u00b7 inclination angle (data) [bsm:inclinationAngle] \u2014 Vertical inclination of the velocity vector, in degrees (positive climbing).\n- Orientation [bsm:Orientation] \u2014 Inclination of the three principal axes of an Object (longitudinal, lateral, vertical) with respect to the geographic coordinate system.\n    \u00b7 heading angle (data) [bsm:headingAngle] \u2014 Heading (direction the longitudinal axis points), degrees true.\n- Altitude [bsm:Altitude] [EXT] \u2014 Altitude of an object (Extension)\n    \u00b7 altitude in meters (data) [bsm:altitudeMeters] \u2014 Altitude of the object in meters.\n- Affiliation [bsm:Affiliation] \u2014 Membership or allegiance to an ethnic group, country, functional group, exercise group or religion.\n  - Geopolitical Affiliation [bsm:GeopoliticalAffiliation] [EXT] \u2014 Affiliation with a country or political entity: flag state of a vessel, country of registration of an aircraft, or the jurisdiction an actor is associated with.\n      \u00b7 geopolitical affiliation code (data) [bsm:geopoliticalAffiliationCode] \u2014 Country or political-entity code.\n  - Ethnic Affiliation [bsm:EthnicAffiliation] [EXT] \u2014 Affiliation with an ethnic group.\n      \u00b7 ethnic group code (data) [bsm:affiliationEthnicGroupCode] \u2014 Ethnic group identifier.\n  - Religious Affiliation [bsm:ReligiousAffiliation] [EXT] \u2014 Affiliation with a religion or religious community.\n      \u00b7 religion code (data) [bsm:affiliationReligionCode] \u2014 Religion identifier.\n- Mobility [bsm:Mobility] \u2014 Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType.\n- Alternate Identifier [bsm:AlternateIdentifier] \u2014 The alternate identification of a BattlespaceConcept used to communicate using another standard.\n    \u00b7 alternate identifier standard code (data) [bsm:alternateIdentifierStandardCode] \u2014 The identifier authority/standard\n    \u00b7 alternate identifier value (data) [bsm:alternateIdentifierValue] \u2014 The identifier value itself, as a string.\n- Person Nationality [bsm:PersonNationality] \u2014 A citizenship description for a Person\n    \u00b7 nationality country code (data) [bsm:nationalityCountryCode] \u2014 Country code of the Person's nationality. Backed by the MIM CountryCode enumeration.\n    \u00b7 nationality reason code (data) [bsm:nationalityReasonCode] \u2014 Reason for which the nationality is held (birth, naturalisation, marriage, \u2026).\n- Person Identification Document [bsm:PersonIdentificationDocument] \u2014 A formal identification document held by a Person like passport, national ID, driver's licence, etc.\n    \u00b7 ID document category (data) [bsm:identificationDocumentCategoryCode] \u2014 Type of identification document (passport, national ID card, driver's licence, \u2026).\n    \u00b7 ID document number (data) [bsm:identificationDocumentIdentifier] \u2014 Reference number on the identification document.\n- (unattached: no declared domain class)\n    \u00b7 has velocity (obj) [bsm:hasVelocity] \u2014 Current velocity vector of the Object.\n    \u00b7 has orientation (obj) [bsm:hasOrientation] \u2014 Current orientation of the Object's principal axes.\n    \u00b7 has altitude (obj) [bsm:hasAltitude] \u2014 Current altitude of the Object\n\n\nReturn the mapping as JSON.",
+  "raw_response": "```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"icao24\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Aircraft\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"name\",\n      \"reasoning\": \"The column name 'icao24' implies a unique identifier for an aircraft, which aligns with the 'bsm:Aircraft' class in the ontology.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:serialNumberIdentifier\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column name 'icao24' matches the description of 'bsm:serialNumberIdentifier' as a unique identifier for an aircraft.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"icao24\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:callsign\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column name 'callsign' matches the description of 'bsm:callsign' as an additional name for an aircraft.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasVelocity\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The columns 'velocity', 'heading', and 'vertrate' imply the velocity of the aircraft, which aligns with the 'bsm:hasVelocity' property in the ontology.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"velocity\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Velocity\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:speedMetersPerSecond\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column name 'velocity' matches the description of 'bsm:speedMetersPerSecond' as the speed of the aircraft.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"velocity\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:absoluteBearingAngle\",\n                    \"confidence\": 0.8,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column name 'heading' matches the description of 'bsm:absoluteBearingAngle' as the course over ground of the aircraft.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"heading\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasOrientation\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column 'heading' implies the orientation of the aircraft, which aligns with the 'bsm:hasOrientation' property in the ontology.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Orientation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:headingAngle\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column name 'heading' matches the description of 'bsm:headingAngle' as the heading of the aircraft.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"heading\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAltitude\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The columns 'baroaltitude' and 'geoaltitude' imply the altitude of the aircraft, which aligns with the 'bsm:hasAltitude' property in the ontology.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"baroaltitude\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Altitude\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:altitudeMeters\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column name 'baroaltitude' matches the description of 'bsm:altitudeMeters' as the altitude of the aircraft.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"baroaltitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The columns 'lat' and 'lon' imply the geographic location of the aircraft, which aligns with the 'bsm:hasGeographicLocation' property in the ontology.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Location\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:hasGeometry\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The columns 'lat' and 'lon' imply the geometry of the location, which aligns with the 'bsm:hasGeometry' property in the ontology.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"lat\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:AbsolutePoint\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:latitudeDecimal\",\n                              \"confidence\": 0.9,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The column name 'lat' matches the description of 'bsm:latitudeDecimal' as the latitude of the location.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lat\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\"\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:longitudeDecimal\",\n                              \"confidence\": 0.9,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The column name 'lon' matches the description of 'bsm:longitudeDecimal' as the longitude of the location.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lon\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\"\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"time\",\n    \"onground\",\n    \"squawk\"\n  ]\n}\n```"
+}

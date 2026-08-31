@@ -1,0 +1,48 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260813_192700_2b0c9bbe
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/actor1> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Actor>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Military Forces of Lithuania (2019-)",
+    "Protesters (Latvia)", "Military Forces of Poland (2023-)", "Unidentified Armed Group (Baltic)",
+    "Military Forces of Estonia (2021-)", "Military Forces of Sweden (2022-)", "Protesters (Finland)",
+    "Protesters (Germany)", "Rioters (Lithuania)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "State forces", "Protesters",
+    "Rebels", "Rioters" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/actor2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Actor>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Civilians (Poland)",
+    "Unidentified Armed Group (Baltic)", "Police Forces of Lithuania (2019-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "State forces", "Civilians",
+    "Rebels" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/event_id_cnty> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>,
+    <https://thesis.tum.de/baltic-sea-monitoring/ontology#ActionEffect>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported near the Klaipeda seaport.",
+    "Peaceful demonstration held at the port of Riga.", "Armed clash reported in the port district of Gdansk.",
+    "Exchange of fire near the naval base at Gdynia.", "Civilians targeted in the same district later the same day.",
+    "Protest held at the ferry terminal in Rostock.", "Reinforcement of coastal surveillance reported at Tallinn.",
+    "Demonstration held in central Helsinki.", "Violent demonstration dispersed near the seaport.",
+    "Naval readiness exercise announced.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Protests",
+    "Battles", "Strategic developments", "Violence against civilians", "Riots";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectDescriptionCode> "Fatalities";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0, 2.0,
+    3.0, 1.0;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0, 2, 3, 1;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "LTU1001",
+    "LVA1001", "POL1001", "POL1002", "POL1003", "DEU1001", "EST1001", "FIN1001", "LTU1002",
+    "SWE1001" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/location> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga", "Stockholm",
+    "Gdynia", "Helsinki", "Rostock", "Tallinn", "Gdansk", "Klaipeda";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeometry> 54.0924, 12.0991,
+    54.352, 18.6466, 54.5189, 18.5305, 55.7033, 21.1443, 56.9496, 24.1052, 59.3293, 18.0686,
+    59.437, 24.7536, 60.1699, 24.9384 .

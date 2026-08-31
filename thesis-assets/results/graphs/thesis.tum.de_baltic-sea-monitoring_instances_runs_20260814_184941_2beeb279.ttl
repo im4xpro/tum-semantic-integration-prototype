@@ -1,0 +1,68 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260814_184941_2beeb279
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/DEU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "DEU1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Protest held at the ferry terminal in Rostock.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/EST1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "EST1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Reinforcement of coastal surveillance reported at Tallinn.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/FIN1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "FIN1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Demonstration held in central Helsinki.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LTU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LTU1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported near the Klaipeda seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 2 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LTU1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LTU1002";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Violent demonstration dispersed near the seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LVA1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LVA1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Peaceful demonstration held at the port of Riga.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "POL1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported in the port district of Gdansk.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 3 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "POL1002";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Exchange of fire near the naval base at Gdynia.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 1 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1003> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "POL1003";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Civilians targeted in the same district later the same day.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 1 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/SWE1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "SWE1001";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Naval readiness exercise announced.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasResult> 0 .

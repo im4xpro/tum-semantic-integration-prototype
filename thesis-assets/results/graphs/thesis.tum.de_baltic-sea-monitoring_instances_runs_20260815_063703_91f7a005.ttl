@@ -1,0 +1,543 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260815_063703_91f7a005
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A211000701>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ROSTOCK CARRIER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Ro-Ro Cargo Ship";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ADE>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A211000701_2026-03-11T17%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ADE>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "DE" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "DHRC" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9210447" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A211000701_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900009" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A211000701_2026-03-11T17%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A211000701_2026-03-11T17%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A211000701_2026-03-11T17%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A211000701_2026-03-11T17%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T17:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A219000401>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "DANA MAERSK";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Oil/Chemical Tanker";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "80";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ADK>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A219000401_2026-03-11T14%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ADK>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "DK" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "OWDM" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9377110" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A219000401_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900006" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A219000401_2026-03-11T14%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A219000401_2026-03-11T14%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A219000401_2026-03-11T14%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A219000401_2026-03-11T14%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T14:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A230000501>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "SUOMI EXPRESS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Passenger/Ro-Ro Cargo Ship";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "61";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3AFI>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A230000501_2026-03-11T15%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3AFI>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "FI" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "OJPQ" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9598344" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A230000501_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900007" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A230000501_2026-03-11T15%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A230000501_2026-03-11T15%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A230000501_2026-03-11T15%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A230000501_2026-03-11T15%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T15:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A261000101>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP GENERAL PULASKI";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Frigate";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3APL>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000101_2026-03-11T08%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3APL>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "PL" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "SPGP" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9701234" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000101_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900000" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000101_2026-03-11T08%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000101_2026-03-11T08%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000101_2026-03-11T08%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000101_2026-03-11T08%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T08:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A261000102>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP ORZEL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Submarine";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3APL>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000102_2026-03-11T09%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "SPOR" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9701235" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000102_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900001" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000102_2026-03-11T09%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000102_2026-03-11T09%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000102_2026-03-11T09%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000102_2026-03-11T09%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T09:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A261000103>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "BALTIC TRADER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Container Ship";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3APL>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000103_2026-03-11T12%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "SQEV" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9455102" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A261000103_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900004" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A261000103_2026-03-11T12%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000103_2026-03-11T12%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000103_2026-03-11T12%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000103_2026-03-11T12%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T12:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A265000301>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "HSWMS VISBY";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Corvette";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "5";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ASE>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A265000301_2026-03-11T11%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ASE>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "SE" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "SAVB" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9701237" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A265000301_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900003" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A265000301_2026-03-11T11%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A265000301_2026-03-11T11%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A265000301_2026-03-11T11%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A265000301_2026-03-11T11%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T11:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A276000601>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "EESTI STAR";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "General Cargo Ship";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3AEE>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A276000601_2026-03-11T16%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3AEE>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "EE" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "ESES" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9288041" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A276000601_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900008" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A276000601_2026-03-11T16%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A276000601_2026-03-11T16%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A276000601_2026-03-11T16%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A276000601_2026-03-11T16%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T16:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A277000201>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LNS ZEMAITIS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "Corvette";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ALT>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A277000201_2026-03-11T10%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ALT>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "LT" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "LYZM" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9701236" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000201_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900002" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A277000201_2026-03-11T10%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A277000201_2026-03-11T10%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A277000201_2026-03-11T10%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A277000201_2026-03-11T10%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T10:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avessel%3A277000202>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "NEMUNAS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#typeName> "General Cargo Ship";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#operatingModeCode> "0";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAlternateIdentifier> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_CALLSIGN>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_IMO>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_SHIPID>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaffil%3ALT>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasObservation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A277000202_2026-03-11T13%3A25%3A00.000Z> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_CALLSIGN>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "CALLSIGN";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "LYNM" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_IMO>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "IMO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "9145632" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aaltid%3A277000202_SHIPID>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierStandardCode>
+    "SHIPID";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "900005" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aobs%3A277000202_2026-03-11T13%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A277000202_2026-03-11T13%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A277000202_2026-03-11T13%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasOrientation> <https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A277000202_2026-03-11T13%3A25%3A00.000Z>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T13:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A211000701_2026-03-11T17%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.105;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.118 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A211000701_2026-03-11T17%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 15.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A211000701_2026-03-11T17%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 12.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A219000401_2026-03-11T14%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.6761;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.5683 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A219000401_2026-03-11T14%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 44.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A219000401_2026-03-11T14%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 41.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A230000501_2026-03-11T15%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 60.152;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.921 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A230000501_2026-03-11T15%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 181.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A230000501_2026-03-11T15%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 179.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000101_2026-03-11T08%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.361;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.672 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000101_2026-03-11T08%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 175.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000101_2026-03-11T08%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 173.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000102_2026-03-11T09%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.488;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.541 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000102_2026-03-11T09%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 11.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000102_2026-03-11T09%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 8.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A261000103_2026-03-11T12%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.348;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.639 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A261000103_2026-03-11T12%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 287.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A261000103_2026-03-11T12%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 284.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A265000301_2026-03-11T11%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.341;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.092 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A265000301_2026-03-11T11%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 511.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A265000301_2026-03-11T11%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A276000601_2026-03-11T16%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.441;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.748 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A276000601_2026-03-11T16%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 265.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A276000601_2026-03-11T16%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 263.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A277000201_2026-03-11T10%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.712;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.129 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A277000201_2026-03-11T10%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 351.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A277000201_2026-03-11T10%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 354.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Apoint%3A277000202_2026-03-11T13%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AbsolutePoint>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.694;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.161 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Aorientation%3A277000202_2026-03-11T13%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Orientation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 63.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aexample%3Avelocity%3A277000202_2026-03-11T13%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Velocity>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#absoluteBearingAngle> 66.0 .

@@ -1,0 +1,33 @@
+{
+  "id": "20260811_082913_774bca3c",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-11-1028-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "openai/gpt-oss-120b",
+    "strategy": "zero_shot",
+    "ontology_format": "compact",
+    "include_descriptions": false
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 260.272761,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Traceback (most recent call last):\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 57, in execute_run\n    mapping = _resolve_mapping(run, cancel, store)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 153, in _resolve_mapping\n    mapping = generator.generate(schema, ontology_manager, descriptions)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 59, in generate\n    SubjectMapping(**sm) for sm in raw.get(\"subject_mappings\", [])\n    ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/pydantic/main.py\", line 263, in __init__\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\npydantic_core._pydantic_core.ValidationError: 11 validation errors for SubjectMapping\nproperty_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.1.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.2.values.0.value_type.property_mappings.0.values.0.value_type.property_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.2.values.0.value_type.property_mappings.0.values.0.value_type.property_mappings.1.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.3.values.0.value_type.property_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.3.values.0.value_type.property_mappings.1.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.4.values.0.value_type.property_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.4.values.0.value_type.property_mappings.1.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.4.values.0.value_type.property_mappings.2.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.5.values.0.value_type.property_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\nproperty_mappings.6.values.0.value_type.property_mappings.0.values.0.transformation.expression\n  Field required [type=missing, input_value={}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n",
+  "created_at": "2026-08-11T08:29:13.970851",
+  "started_at": "2026-08-11T11:36:05.245126",
+  "finished_at": "2026-08-11T11:40:25.517887"
+}

@@ -1,0 +1,112 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260814_074413_98f74f27
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_211000701> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ROSTOCK CARRIER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.105;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.118;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "104 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 15.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_219000401> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "DANA MAERSK";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "80";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.6761;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.5683;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "126 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 44.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_230000501> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "SUOMI EXPRESS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "61";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 60.152;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.921;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "198 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 181.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP GENERAL PULASKI";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.361;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.672;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "84 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 175.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000102> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP ORZEL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.488;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.541;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "62 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 11.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000103> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "BALTIC TRADER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.348;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.639;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "112 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 287.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_265000301> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "HSWMS VISBY";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.341;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.092;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "0 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 511.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_276000601> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "EESTI STAR";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.441;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.748;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "88 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 265.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_277000201> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LNS ZEMAITIS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "35";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.712;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.129;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "45 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 351.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_277000202> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "NEMUNAS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "70";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.694;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.161;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> "71 / 10"^^xsd:decimal;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 63.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_DKAAR> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "AARHUS" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_EETLL> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "TALLINN" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_FIHEL> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "HELSINKI" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_LTKLJ> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "KLAIPEDA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_LVVNT> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "VENTSPILS" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_PLGDY> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "GDYNIA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_SEKAR> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "KARLSKRONA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/port_SETRG> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "TRELLEBORG" .

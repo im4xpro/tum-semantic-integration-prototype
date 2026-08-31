@@ -1,0 +1,33 @@
+{
+  "id": "20260810_094116_723dfe13",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-10-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "deepseek/deepseek-v4-flash",
+    "strategy": "few_shot",
+    "ontology_format": "turtle",
+    "include_descriptions": true
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 95.037024,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Traceback (most recent call last):\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 57, in execute_run\n    mapping = _resolve_mapping(run, cancel, store)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 153, in _resolve_mapping\n    mapping = generator.generate(schema, ontology_manager, descriptions)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 62, in generate\n    return MappingDocument(\n           ^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/pydantic/main.py\", line 263, in __init__\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\npydantic_core._pydantic_core.ValidationError: 2 validation errors for MappingDocument\nunmapped_fields.0\n  Input should be a valid string [type=string_type, input_value={'field': 'onground', 're...in the given ontology.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type\nunmapped_fields.1\n  Input should be a valid string [type=string_type, input_value={'field': 'squawk', 'reas...in the given ontology.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/string_type\n",
+  "created_at": "2026-08-10T09:41:16.191905",
+  "started_at": "2026-08-10T15:12:14.204341",
+  "finished_at": "2026-08-10T15:13:49.241365"
+}

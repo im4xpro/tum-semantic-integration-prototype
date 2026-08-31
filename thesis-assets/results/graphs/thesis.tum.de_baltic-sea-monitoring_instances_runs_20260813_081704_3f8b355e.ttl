@@ -1,0 +1,87 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260813_081704_3f8b355e
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/3c65aa> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "DLH88X";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3c65aa";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.0924;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.0991;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 240.2;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 10970.0, 11012.8 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/3e1f88> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "VIPER13";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3e1f88";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.345;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.63;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 252.7;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 232.0, 251.9 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/3f7a21> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "VIPER12";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3f7a21";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.3801;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.612;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 243.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 505.0, 521.3 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/46b8c7> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "VIPER21";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "46b8c7";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.937;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.7556;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 268.1;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 461.0, 479.8 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/47c1a2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "SAS1742";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "47c1a2";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.36;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.66;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 214.8;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 9780.0, 9822.5 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/4841b9> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "FALCON03";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4841b9";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.29;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.55;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 198.6;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 1180.0, 1204.7 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/4ca8f1> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "LOT285";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4ca8f1";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.33;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.68;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 92.5;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 288.0, 302.1 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/4d02f4> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "RCH285";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4d02f4";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.718;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.16;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 176.3;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 688.0, 703.4 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/51cc3b> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "51cc3b";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 56.9496;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.1052;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 187.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 8460.0, 8503.7 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ab58b2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "VIPER11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "ab58b2";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.401;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.71;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 231.4;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 430.0, 452.6 .

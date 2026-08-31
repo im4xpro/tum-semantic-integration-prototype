@@ -1,0 +1,957 @@
+{
+  "id": "bfec27d0-446c-4695-a53f-b5228a55776c",
+  "source_name": "adsb_events",
+  "status": "draft",
+  "llm_model": "anthropic/claude-opus-5",
+  "strategy": "chain_of_thought",
+  "ontology_format": "compact",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "icao24",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "aircraft_{icao24}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Aircraft"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "icao24",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "icao24 ('ab58b2') is the aircraft's permanent broadcast identity and the only always-populated name-like column, so it serves as the mandatory primary name."
+        },
+        {
+          "property_uri": "bsm:sourceIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "icao24",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "icao24 is the originating dataset's key for the aircraft, giving traceability back to the ADS-B source record as bsm:sourceIdentifier describes."
+        },
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "description",
+          "reasoning": "bsm:alternateName explicitly lists 'callsigns, transponder-broadcast names', and the callsign column holds exactly that ('VIPER11', 'FALCON03')."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "squawk",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_squawk_{icao24}_{squawk}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:AlternateIdentifier"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:alternateIdentifierStandardCode",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "constant",
+                          "column_name": null,
+                          "constant_value": "SQUAWK_MODE_A"
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.5,
+                    "basis": "name",
+                    "reasoning": "The scheme is not a column, so the standard behind the squawk column (Mode A/3A transponder code) is supplied as a constant."
+                  },
+                  {
+                    "property_uri": "bsm:alternateIdentifierValue",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "squawk",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.6,
+                    "basis": "value",
+                    "reasoning": "The squawk column carries the identifier value itself as a string ('7777', '7776')."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.5,
+          "basis": "name",
+          "reasoning": "squawk is a Mode A transponder code ('7777'), a second identification standard alongside the ICAO 24-bit address, which is what bsm:AlternateIdentifier (standard + value) models."
+        },
+        {
+          "property_uri": "bsm:hasObservation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "time",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "observation_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Observation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:observationDateTime",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "time",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.85,
+                    "basis": "value",
+                    "reasoning": "time is a 'timestamp with time zone' ('2026-03-11 08:20:00+00:00') giving the instant of the report."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.75,
+          "basis": "structural",
+          "reasoning": "Each row is one timestamped ADS-B report of the aircraft, and bsm:Vehicle (parent of Aircraft) links to bsm:Observation which carries bsm:observationDateTime."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "location_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:hasGeometry",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "lat",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "point_{icao24}_{time}",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:AbsolutePoint"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:latitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lat",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.95,
+                              "basis": "value",
+                              "reasoning": "lat is double precision with values like 54.401, i.e. decimal-degree WGS84 latitude."
+                            },
+                            {
+                              "property_uri": "bsm:longitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lon",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.95,
+                              "basis": "value",
+                              "reasoning": "lon is double precision with values like 18.71, i.e. decimal-degree WGS84 longitude."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.85,
+                    "basis": "structural",
+                    "reasoning": "The Location's geometry component is the WGS84 point built from lat and lon."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "structural",
+          "reasoning": "lat/lon give the aircraft's position, and bsm:hasGeographicLocation is the ontology's route from a BattlespaceConcept to a Location carrying a Geometry."
+        },
+        {
+          "property_uri": "bsm:hasVelocity",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "velocity",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "velocity_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Velocity"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:speedMetersPerSecond",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "velocity",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "value",
+                    "reasoning": "velocity values 231.4/243.9/198.6 are ADS-B ground speed in m/s, matching bsm:speedMetersPerSecond."
+                  },
+                  {
+                    "property_uri": "bsm:inclinationAngle",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "vertrate",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.45,
+                    "basis": "name",
+                    "reasoning": "vertrate (-2.5, 0.0, +4.8, positive climbing) is the vertical component of the velocity vector, the only slot for which is bsm:inclinationAngle, though that property is specified in degrees while vertrate is m/s."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "The velocity column (231.4, 243.9 m/s) plus vertrate populate bsm:Velocity, reached via bsm:hasVelocity ('current velocity vector of the Object')."
+        },
+        {
+          "property_uri": "bsm:hasOrientation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "orientation_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Orientation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:headingAngle",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "heading",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.55,
+                    "basis": "name",
+                    "reasoning": "The column is literally named 'heading' with degree values 187.2/191.8/43.1, matching bsm:headingAngle rather than the qualified alternative bsm:absoluteBearingAngle (track over ground)."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.6,
+          "basis": "name",
+          "reasoning": "The heading column is carried by bsm:Orientation via bsm:hasOrientation; note bsm:absoluteBearingAngle (course over ground) is a near-synonym and the column does not say whether it is track or true heading, so the choice is genuinely ambiguous."
+        },
+        {
+          "property_uri": "bsm:hasAltitude",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "baroaltitude",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altitude_baro_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Altitude"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:altitudeMeters",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "baroaltitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.8,
+                    "basis": "value",
+                    "reasoning": "baroaltitude values 430.0/505.0/1180.0 are barometric altitude in metres, matching bsm:altitudeMeters."
+                  }
+                ]
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "geoaltitude",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altitude_geo_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Altitude"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:altitudeMeters",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "geoaltitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.8,
+                    "basis": "value",
+                    "reasoning": "geoaltitude values 452.6/521.3/1204.7 are geometric (WGS84) altitude in metres, matching bsm:altitudeMeters."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "baroaltitude and geoaltitude are two distinct altitude measurements in metres, each modelled as its own bsm:Altitude instance reached via bsm:hasAltitude."
+        }
+      ],
+      "confidence": 0.95,
+      "basis": "name",
+      "reasoning": "The combination of icao24 (ICAO 24-bit transponder address), callsign, squawk and baroaltitude/geoaltitude is an ADS-B aircraft state vector, matching bsm:Aircraft ('a Vehicle designed to fly within the earth's atmosphere')."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "time",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "observation_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Observation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:observationDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "time",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "value",
+          "reasoning": "time holds the report instant '2026-03-11 08:20:00+00:00', which is exactly bsm:observationDateTime."
+        }
+      ],
+      "confidence": 0.75,
+      "basis": "structural",
+      "reasoning": "Every row of this timeseries is one observation of one aircraft at one instant, keyed by icao24 plus the 'timestamp with time zone' column time."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "lat",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "location_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:hasGeometry",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "point_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:AbsolutePoint"
+                  }
+                ],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "structural",
+          "reasoning": "The geometry of this Location is the AbsolutePoint built from the lat and lon columns of the same row."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "structural",
+      "reasoning": "bsm:Location is the MIM wrapper the ontology requires between a BattlespaceConcept and the lat/lon Geometry of each report."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "lat",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "point_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AbsolutePoint"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:latitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "value",
+          "reasoning": "lat is double precision 54.401/54.3801/54.29, decimal-degree latitude."
+        },
+        {
+          "property_uri": "bsm:longitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lon",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "value",
+          "reasoning": "lon is double precision 18.71/18.612/18.55, decimal-degree longitude."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "value",
+      "reasoning": "lat 54.401 / lon 18.71 are WGS84 decimal degrees, which is precisely bsm:AbsolutePoint ('position specified in WGS-84 latitude, longitude')."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "velocity",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "velocity_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Velocity"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:speedMetersPerSecond",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "velocity",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "value",
+          "reasoning": "velocity 231.4/243.9/198.6 are metres per second, matching bsm:speedMetersPerSecond."
+        },
+        {
+          "property_uri": "bsm:inclinationAngle",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "vertrate",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.45,
+          "basis": "name",
+          "reasoning": "vertrate is the vertical part of the velocity vector (positive climbing, e.g. +4.8), closest to bsm:inclinationAngle despite that property's degree unit."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "name",
+      "reasoning": "The velocity and vertrate columns describe the aircraft's movement in speed and vertical component, which bsm:Velocity models."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "heading",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "orientation_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Orientation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:headingAngle",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.55,
+          "basis": "name",
+          "reasoning": "Column name 'heading' matches bsm:headingAngle word-for-word; the qualifier distinguishing it from bsm:absoluteBearingAngle (course over ground) is not resolvable from the column itself."
+        }
+      ],
+      "confidence": 0.6,
+      "basis": "name",
+      "reasoning": "The heading column (degrees, 187.2/191.8/43.1) is the axis-direction quantity carried by bsm:Orientation, though it could equally be track over ground."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "baroaltitude",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altitude_baro_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Altitude"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:altitudeMeters",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "baroaltitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "value",
+          "reasoning": "The double-precision metre values in baroaltitude fill bsm:altitudeMeters directly."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "baroaltitude (430.0, 505.0, 1180.0) is a metre-valued altitude of the aircraft, modelled by the bsm:Altitude extension class."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "geoaltitude",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altitude_geo_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Altitude"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:altitudeMeters",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "geoaltitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "value",
+          "reasoning": "The double-precision metre values in geoaltitude fill bsm:altitudeMeters directly."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "geoaltitude (452.6, 521.3, 1204.7) is the geometric altitude of the aircraft in metres, a second bsm:Altitude instance distinct from the barometric one."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "squawk",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_squawk_{icao24}_{squawk}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "SQUAWK_MODE_A"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.5,
+          "basis": "name",
+          "reasoning": "No column names the scheme, so the standard implied by the squawk column name is given as the constant SQUAWK_MODE_A."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "squawk",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.6,
+          "basis": "value",
+          "reasoning": "squawk is text holding the four-digit code value itself ('7777'), matching bsm:alternateIdentifierValue as a string."
+        }
+      ],
+      "confidence": 0.5,
+      "basis": "name",
+      "reasoning": "squawk ('7777', '7776') is the aircraft's Mode A transponder code, an identification under a different standard than the icao24 address, which is what bsm:AlternateIdentifier (standard code + value) represents."
+    }
+  ],
+  "unmapped_fields": [
+    "onground"
+  ],
+  "generation_timestamp": "2026-08-15 16:46:03.599898",
+  "prompt_tokens": 10837,
+  "completion_tokens": 13527,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nFirst, think step by step in plain prose. Do not use triple backticks, code fences, or\nJSON syntax anywhere in this reasoning section \u2014 save all of that for the final block:\n- List the distinct entity types present in the schema (e.g. one column group per real-world entity).\n- For each entity type, decide which column or constant value is its identifier (the subject).\n- For each entity type, decide which ontology class it corresponds to.\n- For each entity type, check the ontology for object properties leading from it to other\n  classes. If the schema has columns supporting one of those linked classes, name it as its\n  own entity now, before moving to property mapping - do not discover it late and fold it\n  into another entity as literals just because its columns sit on the same source row.\n  Conversely, if a candidate linked class only fits because one column has a generic\n  id/code/type-sounding name, check whether the schema actually shows that class's\n  structure (e.g. more than one scheme/standard for the same entity) before creating it -\n  otherwise it stays a plain property of the entity you already have.\n- For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity. When two candidate properties are near-synonyms differing by only a qualifying word or prefix, say so explicitly and name the qualifier that decides between them - and if the column itself is silent on which one, do not default to the more common-sounding synonym; say explicitly that it is ambiguous.\n- If a value points to another entity, set value_type to \"iri\" and include nested\n  type_mappings/property_mappings if applicable. Write the referenced entity's\n  subject_transformation expression once and reuse that exact string for this value's\n  transformation rather than retyping it.\n- For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values \u2014 not generic filler.\n- Note any columns that have no suitable ontology match, and list them in unmapped_fields.\n- Before writing the JSON block, walk through every IRI-typed value once more and confirm\n  its transformation string is character-for-character identical to the subject_transformation\n  of the entity it references; fix any mismatch you find.\n- Also confirm every subject_transformation/transformation key you did not need is left out\n  entirely (never an empty {}), and that the JSON block itself will parse: escaped strings,\n  no trailing commas, matching brackets.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped. Construct each subject_transformation\n  expression once, then copy that exact string into every value.transformation meant to\n  reference it, rather than writing the two independently - re-typing the same-looking\n  expression a second time is the most common way a mismatch slips in. Before finalizing,\n  compare each IRI value's transformation string against the subject_transformation of the\n  entity it points to character by character - a different prefix, a pluralization, or\n  reordered placeholders all count as a mismatch and silently break the relation.\n- Do not fold every remaining column into the single most obvious entity as literal\n  properties. First check the ontology for object properties that lead from your entity to\n  other classes: a concept the ontology models as its own class one hop away is easy to miss\n  when its columns happen to sit right next to the primary entity's columns on the same\n  source row. If the schema has columns that populate such a linked class's identity or\n  properties, create it as its own subject_mapping and connect it with an \"iri\"-typed value\n  instead of discarding it or attaching it as a literal on the entity you already have.\n- Do not create a subject_mapping for a class the schema does not evidence. Every entity you\n  emit needs at least one column that plausibly identifies it or fills one of its properties;\n  do not add a class just because the ontology offers a plausible-sounding generic or\n  catalog type when nothing in the schema is specific to that class. Be especially wary of a\n  class that exists only to bundle one generic value together with the scheme, standard, or\n  type that qualifies it (recognizable by having just one or two generic-sounding\n  properties, e.g. a \"kind\"/\"standard\" field plus a \"value\" field): that shape models an\n  entity carrying more than one label or code under different schemes at once, and a single\n  column whose name merely contains a generic word like \"id\", \"code\", \"number\", or \"type\" is\n  not, by itself, evidence for it - most such columns are still a plain attribute of the\n  entity you already have. Only use that kind of class when the schema shows the actual\n  structure it models, e.g. several columns naming distinct schemes/standards for the same\n  entity, or a column that names the scheme itself.\n- Ontology properties are often near-synonyms whose local names differ by only one\n  qualifying word or prefix (e.g. two properties that share most of their name but differ\n  in tense, direction, or granularity). Read the full local name, not just its most\n  distinctive substring, and match every qualifying word against the column's exact meaning\n  rather than the nearer-sounding or more common alternative; if the column and the\n  candidate property disagree on a qualifier, treat it as ambiguous instead of assuming\n  they match. Do not default to whichever synonym sounds more common, more general, or more\n  familiar when the column itself does not clearly say so - that default guess is wrong just\n  as often as the alternative, and a wrong choice here typically also breaks any relation\n  that depends on this property to identify the entity, so treat it as high-stakes rather\n  than a minor label choice.\n- Omit subject_transformation and transformation entirely when no expression is needed - do\n  not include the key at all, and never emit it as an empty object {} or as null. An empty\n  object still means \"a transformation was given\" and requires its expression field, so\n  leaving the key out completely is the only valid way to skip it.\n- Output must be syntactically valid JSON: every string is properly escaped (quotes,\n  backslashes, newlines), no trailing commas, no comments, and every opening bracket or\n  brace has its matching close. Malformed JSON discards the entire response, not just the\n  affected field, so when in doubt keep punctuation simple rather than risk breaking the\n  parse.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nAfter your reasoning, output the final mapping as exactly one JSON code block\n(```json ... ```) matching this exact structure. This must be the only fenced block in\nyour entire response, with nothing before its opening ``` other than your plain-prose\nreasoning, and nothing at all after its closing ```:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces. This whole subject_transformation key is OPTIONAL: when no template is needed, omit the key entirely - never emit it as an empty object {}.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. This whole transformation key is OPTIONAL: when the raw column value is used as-is, omit the key entirely - never emit it as an empty object {}.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: adsb_events (type: timeseries)\n\nSCHEMA:\n  time: timestamp with time zone\n  icao24: text\n  lat: double precision\n  lon: double precision\n  velocity: double precision\n  heading: double precision\n  vertrate: double precision\n  callsign: text\n  onground: boolean\n  squawk: text\n  baroaltitude: double precision\n  geoaltitude: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    time: '2026-03-11 08:20:00+00:00'\n    icao24: 'ab58b2'\n    lat: 54.401\n    lon: 18.71\n    velocity: 231.4\n    heading: 187.2\n    vertrate: -2.5\n    callsign: 'VIPER11'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 430.0\n    geoaltitude: 452.6\n  record 2:\n    time: '2026-03-11 09:20:00+00:00'\n    icao24: '3f7a21'\n    lat: 54.3801\n    lon: 18.612\n    velocity: 243.9\n    heading: 191.8\n    vertrate: 0.0\n    callsign: 'VIPER12'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 505.0\n    geoaltitude: 521.3\n  record 3:\n    time: '2026-03-11 10:20:00+00:00'\n    icao24: '4841b9'\n    lat: 54.29\n    lon: 18.55\n    velocity: 198.6\n    heading: 43.1\n    vertrate: 4.8\n    callsign: 'FALCON03'\n    onground: False\n    squawk: '7776'\n    baroaltitude: 1180.0\n    geoaltitude: 1204.7\n\nONTOLOGY:\n- Concept [bsm:Concept]\n    \u00b7 name (data) [bsm:conceptName] \u2014 Primary name of the Concept. Mandatory in MIM.\n  - Battlespace Concept [bsm:BattlespaceConcept]\n      \u00b7 alternate name (data) [bsm:alternateName] \u2014 An additional name by which the concept is known \u2014 aliases, callsigns, transponder-broadcast names, vessel AIS names.\n      \u00b7 additional information (data) [bsm:additionalInformationText] \u2014 Free-text additional information about the concept that does not fit any structured attribute.\n      \u00b7 hostility code (data) [bsm:hostilityCode] \u2014 Perceived hostility from following values (Friend, Hostile, Neutral, Suspect, Unknown, Pending, Assumed-Friend, Joker, Faker).\n      \u00b7 source identifier (data) [bsm:sourceIdentifier] \u2014 EXTENSION: the primary key or row identifier from the originating dataset that produced this concept instance, enabling traceability back to the source record.\n      \u00b7 has geographic location (obj) [bsm:hasGeographicLocation] \u2014 Position of the BattlespaceConcept, expressed as a Location (which in turn carries a Geometry).\n      \u00b7 has alternate identifier (obj) [bsm:hasAlternateIdentifier] \u2014 Attaches a structured AlternateIdentifier (scheme + value) to the BattlespaceConcept.\n      \u00b7 part of (obj) [bsm:partOf] \u2014 Indicates that an entity is a subpart of a higher concept, added initially for location hierarchy: City, Region, Country\n    - Object [bsm:Object]\n        \u00b7 type name (data) [bsm:typeName] \u2014 Free-text name of the Object's type. Used for category strings that do not map to a closed MIM code list (e.g. vessel-type strings broadcast by maritime navigation systems, aircraft model designations).\n        \u00b7 has affiliation (obj) [bsm:hasAffiliation] \u2014 Geopolitical, ethnic, religious or other affiliation of the Object: captures flag-state of vessels, origin-country of aircraft, nationality of persons.\n      - Actor [bsm:Actor] \u2014 A person or a group of persons able to perform actions.\n          \u00b7 operates materiel (obj) [bsm:operatesMateriel] \u2014 Mirrors mim:Actor.employedMateriel directly.\n          \u00b7 owns materiel (obj) [bsm:ownsMateriel] \u2014 Mirrors mim:Actor.ownedMateriel directly. Inverse of bsm:hasOwner.\n          \u00b7 has sanction designation (obj) [bsm:hasSanctionDesignation] \u2014 Attaches a SanctionDesignation to an Actor.\n          \u00b7 has controlled facility (obj) [bsm:hasControlledFacility] \u2014 Facility under the control of the Actor.\n        - Person [bsm:Person] \u2014 A human being of military or civilian significance.\n            \u00b7 birth date (data) [bsm:birthDate] \u2014 Date of birth of the Person.\n            \u00b7 death date (data) [bsm:deathDate] \u2014 Date of death of the Person, if applicable.\n            \u00b7 gender code (data) [bsm:genderCode] \u2014 Gender of the Person. Backed by the MIM GenderCode enumeration.\n            \u00b7 military status code (data) [bsm:militaryStatusCode] \u2014 Whether the Person is civilian, military or paramilitary. Backed by the MIM PersonMilitaryStatusCode enumeration.\n            \u00b7 characteristic code (data) [bsm:characteristicCode] \u2014 Profession, social status or legal/military involvement of the Person. Backed by the MIM PersonCharacteristicCode enumeration.\n            \u00b7 duty status code (data) [bsm:dutyStatusCode] \u2014 Current duty status of the Person (active, on leave, retired, \u2026).\n            \u00b7 is member of (obj) [bsm:isMemberOf] \u2014 Person is a formal member of the Organisation.\n            \u00b7 is assigned to (obj) [bsm:isAssignedTo] \u2014 Long-term assignment of a Person to an Organisation.\n            \u00b7 is attached to (obj) [bsm:isAttachedTo] \u2014 Temporary attachment of a Person to an Organisation.\n            \u00b7 has superior (obj) [bsm:hasSuperior] \u2014 Direct superior of the Person in a chain of command.\n            \u00b7 has subordinate (obj) [bsm:hasSubordinate] \u2014 Direct subordinate of the Person.\n            \u00b7 is operative of (obj) [bsm:isOperativeOf] \u2014 Person used as a secret or trusted agent of an Organisation.\n            \u00b7 has nationality (obj) [bsm:hasNationality] \u2014 Attaches a PersonNationality (country + reason) to the Person.\n            \u00b7 has identification document (obj) [bsm:hasIdentificationDocument] \u2014 Attaches an identification document held by the Person.\n        - Organisation [bsm:Organisation] \u2014 An administrative or functional structure.\n            \u00b7 description (data) [bsm:descriptionText] \u2014 Free-text description of the Organisation.\n            \u00b7 main activity code (data) [bsm:mainActivityCode] \u2014 Primary activity sector of the Organisation. Like industry, NGO.\n            \u00b7 has member (obj) [bsm:hasMember] \u2014 Inverse of bsm:isMemberOf.\n            \u00b7 has assigned person (obj) [bsm:hasAssignedPerson] \u2014 Inverse of bsm:isAssignedTo.\n      - Materiel [bsm:Materiel] \u2014 Superclass for military supplies, vehicles, and other tools\n          \u00b7 serial number (data) [bsm:serialNumberIdentifier] \u2014 Serial number assigned by the manufacturer or operator.\n          \u00b7 model name (data) [bsm:modelName] \u2014 Manufacturer's model designation.\n          \u00b7 is active (data) [bsm:isActiveIndicator] \u2014 True if the Materiel is currently active (in service).\n          \u00b7 has controller (obj) [bsm:hasController] \u2014 The Actor that has authority over the Materiel.\n          \u00b7 has operator (obj) [bsm:hasOperator] \u2014 The Actor that operates the Materiel (uses it in practice, distinct from owning or controlling).\n          \u00b7 has owner (obj) [bsm:hasOwner] \u2014 The Actor that owns the Materiel.\n          \u00b7 is on account of (obj) [bsm:isOnAccountOf] \u2014 The Actor that holds accounting authority over the Materiel.\n          \u00b7 transports actor (obj) [bsm:transportsActor] \u2014 The Materiel is responsible for movement of the Person.\n          \u00b7 is loaded on (obj) [bsm:isLoadedOn] \u2014 Materiel that is loaded onto another (carrying) Materiel. Mirrors mim:Materiel.loadedMateriel.\n          \u00b7 carries (obj) [bsm:carries] \u2014 Carrying Materiel. Mirrors mim:Materiel.carryingMateriel. Inverse of bsm:isLoadedOn.\n        - ConsumableMateriel [bsm:ConsumableMateriel] \u2014 Consumable goods, food, ammunition, etc.\n        - Equipment [bsm:Equipment] \u2014 Materiel that is neither intended for consumption nor an unexploded piece of ordnance.\n            \u00b7 has mobility (obj) [bsm:hasMobility] \u2014 Mobility characteristics of the Equipment.\n          - Vehicle [bsm:Vehicle] \u2014 A conveyance for transporting persons or things. Common parent of Aircraft, Vessel and LandVehicle.\n              \u00b7 operating mode code (data) [bsm:operatingModeCode] \u2014 Operating mode of the Vehicle: manned, unmanned, autonomous, remotely piloted.\n              \u00b7 has observation (obj) [bsm:hasObservation]\n            - Aircraft [bsm:Aircraft] \u2014 A Vehicle designed to fly within the earth's atmosphere.\n                \u00b7 design range code (data) [bsm:designRangeCode] \u2014 Range category of the Aircraft.\n                \u00b7 design role code (data) [bsm:designRoleCode] \u2014 Primary design role of the Aircraft (fighter, transport, surveillance, \u2026).\n                \u00b7 type main purpose code (data) [bsm:typeMainPurposeCode] \u2014 Main purpose of the Aircraft type.\n                \u00b7 military/civilian code (data) [bsm:militaryCivilianCode] \u2014 Whether the Aircraft is military or civilian.\n                \u00b7 wing span (data) [bsm:wingSpanDimension] \u2014 Wing span of the Aircraft.\n                \u00b7 weapon type code (data) [bsm:weaponTypeCode] \u2014 Type of weapons the Aircraft is armed with.\n            - Vessel [bsm:Vessel] \u2014 A Vehicle designed to operate on or under the water surface.\n                \u00b7 vessel category code (data) [bsm:vesselCategoryCode] \u2014 Category of the Vessel: cargo, tanker, fishing, passenger, military, special-craft.\n                \u00b7 vessel maximum speed (data) [bsm:vesselMaximumSpeed] \u2014 Maximum design speed of the Vessel. Mirrors mim:Vessel.maximumSpeed.\n            - Land Vehicle [bsm:LandVehicle] \u2014 A vehicle designed to operate on the ground.\n      - Facility [bsm:Facility] \u2014 An Object that is built, installed or established to serve a particular purpose and is identified by the service it provides rather than by its content.\n          \u00b7 facility is active (data) [bsm:facilityIsActiveIndicator] \u2014 True if the Facility is currently in active operation.\n          \u00b7 facility access restriction code (data) [bsm:facilityAccessRestrictionCode] \u2014 Access-restriction class for the Facility (e.g. unrestricted, restricted, prohibited).\n        - Transport Facility [bsm:TransportFacility] \u2014 Facility supporting the movement of vehicles, persons or goods. Parent of air, maritime and ground transport facilities.\n          - Maritime Transport Facility [bsm:MaritimeTransportFacility] \u2014 Maritime transport infrastructure \u2014 ports, harbours, piers, anchorages, naval bases.\n            - Port [bsm:Port] \u2014 Civilian or commercial port. Mirrors mim:PortType.\n            - Military Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] \u2014 Military seaport or naval base.\n            - Harbour [bsm:Harbour] \u2014 Harbour\n          - Air Transport Facility [bsm:AirTransportFacility] \u2014 Air transport infrastructure.\n            - Airport or Airbase [bsm:AirportOrAirbase] \u2014 Civilian airport or military airbase.\n        - Energy Facility [bsm:EnergyFacility] \u2014 Energy generation, transmission or storage infrastructure like power plants, substations, offshore wind farms, gas terminals.\n        - Petroleum Production Complex [bsm:PetroleumProductionComplex] \u2014 Refineries, oil terminals and gas terminals.\n    - Action [bsm:Action] \u2014 An activity (or the occurrence of one) that may use resources and may be focused against an objective. Used for conflict events, incidents, movements and aircraft activities.\n        \u00b7 action description (data) [bsm:actionDescriptionText] \u2014 Free-text description of the Action.\n        \u00b7 classification code (data) [bsm:classificationCode] \u2014 Classification of the Action.\n        \u00b7 event start time (data) [bsm:eventStartDateTime] \u2014 Event Start Timestamp\n        \u00b7 event end time (data) [bsm:eventEndDateTime] \u2014 Event End Timestamp\n        \u00b7 has focus (obj) [bsm:hasFocus] \u2014 ActionObjective the Action is directed at.\n        \u00b7 has requirement (obj) [bsm:hasRequirement] \u2014 ActionResource(s) required/requested/allocated by the Action.\n        \u00b7 has result (obj) [bsm:hasResult] \u2014 ActionEffect resulting from the Action, like fatalities, damage, casualties.\n        \u00b7 has sub-action (obj) [bsm:hasSubAction] \u2014 Sub-action of the Action.\n        \u00b7 is caused by (obj) [bsm:isCausedBy] \u2014 The subject Action is carried out in reaction to the object Action.\n        \u00b7 has response (obj) [bsm:hasResponse] \u2014 Inverse of bsm:isCausedBy.\n        \u00b7 involved actor (obj) [bsm:involvedActor] \u2014 EXTENSION: direct association between an Action and an involved Actor.\n    - Location [bsm:Location] \u2014 A position and geometry with respect to a horizontal frame of reference and a vertical datum. The MIM-standard wrapper around a Geometry.\n        \u00b7 location name (data) [bsm:locationName] \u2014 Human-readable name of the Location.\n        \u00b7 has geometry (obj) [bsm:hasGeometry] \u2014 Geometry component of a Location\n    - Action Effect [bsm:ActionEffect] \u2014 The effectiveness of an Action against an Object or type of Object: fatalities, casualties, damage, destruction.\n        \u00b7 effect description code (data) [bsm:effectDescriptionCode] \u2014 Type of outcome (Fatalities, Casualties, Damaged, Destroyed, \u2026).\n        \u00b7 effect quantity (data) [bsm:effectQuantityNumber] \u2014 Aggregated count for the effect, e.g. number of fatalities. Mirrors mim:ActionEffect.quantityNumber.\n        \u00b7 effect severity code (data) [bsm:effectSeverityCode] \u2014 Severity grade of the effect.\n        \u00b7 effect on object (obj) [bsm:effectOnObject] \u2014 Object that the ActionEffect was observed on.\n    - Action Resource [bsm:ActionResource] \u2014 An Object (or type of Object) used in conducting an Action.\n        \u00b7 resource object (obj) [bsm:resourceObject] \u2014 Bridge from ActionResource to the participating Object (actor or piece of materiel).\n    - Action Objective [bsm:ActionObjective] \u2014 The intended focus of an Action.\n        \u00b7 targets object (obj) [bsm:targetsObject] \u2014 Bridge from ActionObjective to the targeted Object.\n    - Sanction Designation [bsm:SanctionDesignation] [EXT] \u2014 EXTENSION: a formal designation/listing of an Actor under a sanctions, watch-list or debarment regime.\n        \u00b7 listing date (data) [bsm:listingDate] \u2014 Date on which the designation was issued.\n        \u00b7 delisting date (data) [bsm:delistingDate] \u2014 Date on which the designation was lifted, if applicable.\n        \u00b7 sanction reason (data) [bsm:sanctionReason] \u2014 Free-text reason for which the designation was made.\n        \u00b7 source URL (data) [bsm:sourceUrl] \u2014 URL pointing to the public listing document.\n        \u00b7 listing authority (obj) [bsm:listingAuthority] \u2014 Organisation that issued the sanction listing.\n    - Observation [bsm:Observation] [EXT]\n        \u00b7 observation date time (data) [bsm:observationDateTime]\n- Geometry [bsm:Geometry] \u2014 Measurements and relationships of points, lines, surfaces and volumes. Abstract parent of Point, Line, Surface in MIM.\n  - Point [bsm:Point] \u2014 A zero-dimensional location.\n    - Absolute Point [bsm:AbsolutePoint] \u2014 A Point with its position specified in WGS-84 latitude, longitude and vertical distance.\n        \u00b7 latitude (decimal degrees, WGS84) (data) [bsm:latitudeDecimal] \u2014 Latitude of the AbsolutePoint in decimal degrees.\n        \u00b7 longitude (decimal degrees, WGS84) (data) [bsm:longitudeDecimal] \u2014 Longitude of the AbsolutePoint in decimal degrees\n  - Line [bsm:Line] \u2014 A one-dimensional location, ordered sequence of points.\n  - Surface [bsm:Surface] \u2014 A two-dimensional location. Mirrors mim:SurfaceType.\n- Velocity [bsm:Velocity] \u2014 The movement of an Object in terms of speed, course and inclination.\n    \u00b7 speed (m/s) (data) [bsm:speedMetersPerSecond] \u2014 Speed of the Object\n    \u00b7 absolute bearing angle (data) [bsm:absoluteBearingAngle] \u2014 Course over ground / track angle, degrees clockwise from true north.\n    \u00b7 inclination angle (data) [bsm:inclinationAngle] \u2014 Vertical inclination of the velocity vector, in degrees (positive climbing).\n- Orientation [bsm:Orientation] \u2014 Inclination of the three principal axes of an Object (longitudinal, lateral, vertical) with respect to the geographic coordinate system.\n    \u00b7 heading angle (data) [bsm:headingAngle] \u2014 Heading (direction the longitudinal axis points), degrees true.\n- Altitude [bsm:Altitude] [EXT] \u2014 Altitude of an object (Extension)\n    \u00b7 altitude in meters (data) [bsm:altitudeMeters] \u2014 Altitude of the object in meters.\n- Affiliation [bsm:Affiliation] \u2014 Membership or allegiance to an ethnic group, country, functional group, exercise group or religion.\n  - Geopolitical Affiliation [bsm:GeopoliticalAffiliation] [EXT] \u2014 Affiliation with a country or political entity: flag state of a vessel, country of registration of an aircraft, or the jurisdiction an actor is associated with.\n      \u00b7 geopolitical affiliation code (data) [bsm:geopoliticalAffiliationCode] \u2014 Country or political-entity code.\n  - Ethnic Affiliation [bsm:EthnicAffiliation] [EXT] \u2014 Affiliation with an ethnic group.\n      \u00b7 ethnic group code (data) [bsm:affiliationEthnicGroupCode] \u2014 Ethnic group identifier.\n  - Religious Affiliation [bsm:ReligiousAffiliation] [EXT] \u2014 Affiliation with a religion or religious community.\n      \u00b7 religion code (data) [bsm:affiliationReligionCode] \u2014 Religion identifier.\n- Mobility [bsm:Mobility] \u2014 Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType.\n- Alternate Identifier [bsm:AlternateIdentifier] \u2014 The alternate identification of a BattlespaceConcept used to communicate using another standard.\n    \u00b7 alternate identifier standard code (data) [bsm:alternateIdentifierStandardCode] \u2014 The identifier authority/standard\n    \u00b7 alternate identifier value (data) [bsm:alternateIdentifierValue] \u2014 The identifier value itself, as a string.\n- Person Nationality [bsm:PersonNationality] \u2014 A citizenship description for a Person\n    \u00b7 nationality country code (data) [bsm:nationalityCountryCode] \u2014 Country code of the Person's nationality. Backed by the MIM CountryCode enumeration.\n    \u00b7 nationality reason code (data) [bsm:nationalityReasonCode] \u2014 Reason for which the nationality is held (birth, naturalisation, marriage, \u2026).\n- Person Identification Document [bsm:PersonIdentificationDocument] \u2014 A formal identification document held by a Person like passport, national ID, driver's licence, etc.\n    \u00b7 ID document category (data) [bsm:identificationDocumentCategoryCode] \u2014 Type of identification document (passport, national ID card, driver's licence, \u2026).\n    \u00b7 ID document number (data) [bsm:identificationDocumentIdentifier] \u2014 Reference number on the identification document.\n- (unattached: no declared domain class)\n    \u00b7 has velocity (obj) [bsm:hasVelocity] \u2014 Current velocity vector of the Object.\n    \u00b7 has orientation (obj) [bsm:hasOrientation] \u2014 Current orientation of the Object's principal axes.\n    \u00b7 has altitude (obj) [bsm:hasAltitude] \u2014 Current altitude of the Object\n\n\nThink step by step in plain prose, then return the mapping as exactly one JSON code block and nothing else.",
+  "raw_response": "## Reasoning\n\n**Entity types in the schema.** This is an ADS-B state-vector timeseries. Each row is one transponder report for one aircraft at one instant. The real-world things visible are: (a) the aircraft itself, identified by its ICAO 24-bit address `icao24`; (b) the observation instant (`time`); (c) the aircraft's position (`lat`, `lon`); (d) its velocity vector (`velocity`, `vertrate`); (e) its orientation/track (`heading`); (f) its altitudes (`baroaltitude`, `geoaltitude`); (g) its Mode A transponder code (`squawk`).\n\n**Subjects.** The only column that identifies a persistent real-world entity is `icao24` \u2014 one aircraft, stable across rows, populated in every record; subject `aircraft_{icao24}`. Everything else is per-report, so their subjects must combine `icao24` with `time` to stay distinct per row (using `time` alone would merge different aircraft reported in the same second; using `icao24` alone would collapse the whole track into one point). `time` and `icao24` are populated in all sample records, so they are safe subject inputs.\n\n**Classes.** `bsm:Aircraft` \u2014 \"A Vehicle designed to fly within the earth's atmosphere\" \u2014 is the exact fit for an ADS-B-tracked platform with icao24/callsign/squawk/baroaltitude.\n\n**Object properties leading out of Aircraft (checked before mapping literals).** The ontology models several one-hop classes that ADS-B columns populate, and these must not be flattened onto the aircraft: `bsm:hasGeographicLocation` \u2192 `bsm:Location`, which itself carries `bsm:hasGeometry` \u2192 `bsm:AbsolutePoint` with `bsm:latitudeDecimal`/`bsm:longitudeDecimal` (so lat/lon are two hops away, not literals on the aircraft); `bsm:hasVelocity` \u2192 `bsm:Velocity` (speed/bearing/inclination); `bsm:hasOrientation` \u2192 `bsm:Orientation` (heading angle); `bsm:hasAltitude` \u2192 `bsm:Altitude` (altitude in metres); and, since Aircraft inherits from `bsm:Vehicle`, `bsm:hasObservation` \u2192 `bsm:Observation` with `bsm:observationDateTime`, which is exactly what a timestamped ADS-B report is.\n\n**Two altitudes.** `baroaltitude` and `geoaltitude` are two different measured altitudes of the same aircraft at the same time. `bsm:Altitude` has only one value property (`bsm:altitudeMeters`), so I emit two distinct `bsm:Altitude` instances (`altitude_baro_...`, `altitude_geo_...`) rather than piling two values onto one instance, which would make them indistinguishable.\n\n**heading \u2014 the near-synonym decision.** Two candidates share most of their meaning but differ on a qualifier: `bsm:absoluteBearingAngle` (\"Course over ground / track angle\") versus `bsm:headingAngle` (\"Heading \u2014 direction the longitudinal axis points\"). ADS-B feeds frequently publish track-over-ground under a field literally named \"heading\", so the column name and the true quantity may disagree; the column itself is silent on whether it is track or true heading, so this is genuinely ambiguous. I follow the column name (`heading` \u2192 `bsm:headingAngle` on `bsm:Orientation`) and record reduced confidence rather than defaulting to the more familiar-sounding \"bearing\".\n\n**vertrate.** The only vertical-velocity slot is `bsm:inclinationAngle`, but its stated unit is degrees while `vertrate` samples (-2.5, 0.0, 4.8) are metres per second. It is the closest concept (vertical component of the velocity vector) but the qualifier disagrees, so low confidence.\n\n**callsign vs squawk.** `bsm:alternateName`'s own description names \"callsigns, transponder-broadcast names\", so `callsign` ('VIPER11') maps there. `icao24` is the aircraft's primary broadcast identity \u2192 `bsm:conceptName`, and also `bsm:sourceIdentifier` for traceability. For `squawk` I checked the AlternateIdentifier caution: that class is only justified when the schema really shows more than one identification standard for the same entity. Here it does \u2014 `icao24` is the ICAO 24-bit address while `squawk` is a separate Mode A/3A transponder code \u2014 and \"squawk\" is not a generic id/code/type-sounding column name. So I model it as `bsm:AlternateIdentifier` with `bsm:alternateIdentifierStandardCode` as a constant naming the standard and `bsm:alternateIdentifierValue` from the column, at moderate confidence.\n\n**Unmapped.** `onground` (boolean) has no fit: `bsm:isActiveIndicator` means \"in service\", not \"on the ground\", and `bsm:operatingModeCode` covers manned/unmanned. Left unmapped rather than forced.\n\n**IRI transformation check.** Each IRI value reuses the referenced entity's subject expression verbatim: `aircraft_{icao24}`, `observation_{icao24}_{time}`, `location_{icao24}_{time}`, `point_{icao24}_{time}`, `velocity_{icao24}_{time}`, `orientation_{icao24}_{time}`, `altitude_baro_{icao24}_{time}`, `altitude_geo_{icao24}_{time}`, `altid_squawk_{icao24}_{squawk}`.\n\n```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"icao24\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"aircraft_{icao24}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Aircraft\"\n        }\n      ],\n      \"confidence\": 0.95,\n      \"basis\": \"name\",\n      \"reasoning\": \"The combination of icao24 (ICAO 24-bit transponder address), callsign, squawk and baroaltitude/geoaltitude is an ADS-B aircraft state vector, matching bsm:Aircraft ('a Vehicle designed to fly within the earth's atmosphere').\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"icao24 ('ab58b2') is the aircraft's permanent broadcast identity and the only always-populated name-like column, so it serves as the mandatory primary name.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"icao24\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:sourceIdentifier\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"icao24 is the originating dataset's key for the aircraft, giving traceability back to the ADS-B source record as bsm:sourceIdentifier describes.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"icao24\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.9,\n          \"basis\": \"description\",\n          \"reasoning\": \"bsm:alternateName explicitly lists 'callsigns, transponder-broadcast names', and the callsign column holds exactly that ('VIPER11', 'FALCON03').\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.5,\n          \"basis\": \"name\",\n          \"reasoning\": \"squawk is a Mode A transponder code ('7777'), a second identification standard alongside the ICAO 24-bit address, which is what bsm:AlternateIdentifier (standard + value) models.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"squawk\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_squawk_{icao24}_{squawk}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:AlternateIdentifier\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n                    \"confidence\": 0.5,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The scheme is not a column, so the standard behind the squawk column (Mode A/3A transponder code) is supplied as a constant.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"constant\",\n                          \"constant_value\": \"SQUAWK_MODE_A\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:alternateIdentifierValue\",\n                    \"confidence\": 0.6,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"The squawk column carries the identifier value itself as a string ('7777', '7776').\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"squawk\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasObservation\",\n          \"confidence\": 0.75,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Each row is one timestamped ADS-B report of the aircraft, and bsm:Vehicle (parent of Aircraft) links to bsm:Observation which carries bsm:observationDateTime.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"time\"\n              },\n              \"transformation\": {\n                \"expression\": \"observation_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Observation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:observationDateTime\",\n                    \"confidence\": 0.85,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"time is a 'timestamp with time zone' ('2026-03-11 08:20:00+00:00') giving the instant of the report.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"time\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.85,\n          \"basis\": \"structural\",\n          \"reasoning\": \"lat/lon give the aircraft's position, and bsm:hasGeographicLocation is the ontology's route from a BattlespaceConcept to a Location carrying a Geometry.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"transformation\": {\n                \"expression\": \"location_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Location\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:hasGeometry\",\n                    \"confidence\": 0.85,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"The Location's geometry component is the WGS84 point built from lat and lon.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"lat\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"point_{icao24}_{time}\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:AbsolutePoint\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:latitudeDecimal\",\n                              \"confidence\": 0.95,\n                              \"basis\": \"value\",\n                              \"reasoning\": \"lat is double precision with values like 54.401, i.e. decimal-degree WGS84 latitude.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lat\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\"\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:longitudeDecimal\",\n                              \"confidence\": 0.95,\n                              \"basis\": \"value\",\n                              \"reasoning\": \"lon is double precision with values like 18.71, i.e. decimal-degree WGS84 longitude.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lon\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\"\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasVelocity\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"The velocity column (231.4, 243.9 m/s) plus vertrate populate bsm:Velocity, reached via bsm:hasVelocity ('current velocity vector of the Object').\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"velocity\"\n              },\n              \"transformation\": {\n                \"expression\": \"velocity_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Velocity\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:speedMetersPerSecond\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"velocity values 231.4/243.9/198.6 are ADS-B ground speed in m/s, matching bsm:speedMetersPerSecond.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"velocity\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:inclinationAngle\",\n                    \"confidence\": 0.45,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"vertrate (-2.5, 0.0, +4.8, positive climbing) is the vertical component of the velocity vector, the only slot for which is bsm:inclinationAngle, though that property is specified in degrees while vertrate is m/s.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"vertrate\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasOrientation\",\n          \"confidence\": 0.6,\n          \"basis\": \"name\",\n          \"reasoning\": \"The heading column is carried by bsm:Orientation via bsm:hasOrientation; note bsm:absoluteBearingAngle (course over ground) is a near-synonym and the column does not say whether it is track or true heading, so the choice is genuinely ambiguous.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"transformation\": {\n                \"expression\": \"orientation_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Orientation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:headingAngle\",\n                    \"confidence\": 0.55,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column is literally named 'heading' with degree values 187.2/191.8/43.1, matching bsm:headingAngle rather than the qualified alternative bsm:absoluteBearingAngle (track over ground).\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"heading\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAltitude\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"baroaltitude and geoaltitude are two distinct altitude measurements in metres, each modelled as its own bsm:Altitude instance reached via bsm:hasAltitude.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"baroaltitude\"\n              },\n              \"transformation\": {\n                \"expression\": \"altitude_baro_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Altitude\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:altitudeMeters\",\n                    \"confidence\": 0.8,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"baroaltitude values 430.0/505.0/1180.0 are barometric altitude in metres, matching bsm:altitudeMeters.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"baroaltitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            },\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"geoaltitude\"\n              },\n              \"transformation\": {\n                \"expression\": \"altitude_geo_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Altitude\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:altitudeMeters\",\n                    \"confidence\": 0.8,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"geoaltitude values 452.6/521.3/1204.7 are geometric (WGS84) altitude in metres, matching bsm:altitudeMeters.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"geoaltitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\"\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"time\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"observation_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Observation\"\n        }\n      ],\n      \"confidence\": 0.75,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Every row of this timeseries is one observation of one aircraft at one instant, keyed by icao24 plus the 'timestamp with time zone' column time.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:observationDateTime\",\n          \"confidence\": 0.85,\n          \"basis\": \"value\",\n          \"reasoning\": \"time holds the report instant '2026-03-11 08:20:00+00:00', which is exactly bsm:observationDateTime.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"time\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"lat\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"location_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Location\"\n        }\n      ],\n      \"confidence\": 0.85,\n      \"basis\": \"structural\",\n      \"reasoning\": \"bsm:Location is the MIM wrapper the ontology requires between a BattlespaceConcept and the lat/lon Geometry of each report.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:hasGeometry\",\n          \"confidence\": 0.85,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The geometry of this Location is the AbsolutePoint built from the lat and lon columns of the same row.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"transformation\": {\n                \"expression\": \"point_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:AbsolutePoint\"\n                  }\n                ],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"lat\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"point_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AbsolutePoint\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"value\",\n      \"reasoning\": \"lat 54.401 / lon 18.71 are WGS84 decimal degrees, which is precisely bsm:AbsolutePoint ('position specified in WGS-84 latitude, longitude').\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:latitudeDecimal\",\n          \"confidence\": 0.95,\n          \"basis\": \"value\",\n          \"reasoning\": \"lat is double precision 54.401/54.3801/54.29, decimal-degree latitude.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:longitudeDecimal\",\n          \"confidence\": 0.95,\n          \"basis\": \"value\",\n          \"reasoning\": \"lon is double precision 18.71/18.612/18.55, decimal-degree longitude.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lon\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"velocity\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"velocity_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Velocity\"\n        }\n      ],\n      \"confidence\": 0.85,\n      \"basis\": \"name\",\n      \"reasoning\": \"The velocity and vertrate columns describe the aircraft's movement in speed and vertical component, which bsm:Velocity models.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:speedMetersPerSecond\",\n          \"confidence\": 0.9,\n          \"basis\": \"value\",\n          \"reasoning\": \"velocity 231.4/243.9/198.6 are metres per second, matching bsm:speedMetersPerSecond.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"velocity\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:inclinationAngle\",\n          \"confidence\": 0.45,\n          \"basis\": \"name\",\n          \"reasoning\": \"vertrate is the vertical part of the velocity vector (positive climbing, e.g. +4.8), closest to bsm:inclinationAngle despite that property's degree unit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"vertrate\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"heading\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"orientation_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Orientation\"\n        }\n      ],\n      \"confidence\": 0.6,\n      \"basis\": \"name\",\n      \"reasoning\": \"The heading column (degrees, 187.2/191.8/43.1) is the axis-direction quantity carried by bsm:Orientation, though it could equally be track over ground.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:headingAngle\",\n          \"confidence\": 0.55,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column name 'heading' matches bsm:headingAngle word-for-word; the qualifier distinguishing it from bsm:absoluteBearingAngle (course over ground) is not resolvable from the column itself.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"baroaltitude\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altitude_baro_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Altitude\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"baroaltitude (430.0, 505.0, 1180.0) is a metre-valued altitude of the aircraft, modelled by the bsm:Altitude extension class.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:altitudeMeters\",\n          \"confidence\": 0.8,\n          \"basis\": \"value\",\n          \"reasoning\": \"The double-precision metre values in baroaltitude fill bsm:altitudeMeters directly.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"baroaltitude\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"geoaltitude\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altitude_geo_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Altitude\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"geoaltitude (452.6, 521.3, 1204.7) is the geometric altitude of the aircraft in metres, a second bsm:Altitude instance distinct from the barometric one.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:altitudeMeters\",\n          \"confidence\": 0.8,\n          \"basis\": \"value\",\n          \"reasoning\": \"The double-precision metre values in geoaltitude fill bsm:altitudeMeters directly.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"geoaltitude\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"squawk\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_squawk_{icao24}_{squawk}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.5,\n      \"basis\": \"name\",\n      \"reasoning\": \"squawk ('7777', '7776') is the aircraft's Mode A transponder code, an identification under a different standard than the icao24 address, which is what bsm:AlternateIdentifier (standard code + value) represents.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.5,\n          \"basis\": \"name\",\n          \"reasoning\": \"No column names the scheme, so the standard implied by the squawk column name is given as the constant SQUAWK_MODE_A.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"SQUAWK_MODE_A\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.6,\n          \"basis\": \"value\",\n          \"reasoning\": \"squawk is text holding the four-digit code value itself ('7777'), matching bsm:alternateIdentifierValue as a string.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"squawk\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"onground\"\n  ]\n}\n```"
+}

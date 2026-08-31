@@ -1,0 +1,165 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260814_074413_5f723124
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900000> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "ORP GENERAL PULASKI",
+    "SPGP";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "NAVAL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Military";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900000" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "ORP ORZEL",
+    "SPOR";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "NAVAL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Military";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900001" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "LNS ZEMAITIS",
+    "LYZM";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "NAVAL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Military";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900002" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900003> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "HSWMS VISBY",
+    "SAVB";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "NAVAL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Military";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900003" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900004> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "BALTIC TRADER",
+    "SQEV";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "CONTAINERS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Cargo";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900004" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900005> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "NEMUNAS", "LYNM";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "DRY BULK";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Cargo";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900005" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900006> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "DANA MAERSK",
+    "OWDM";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "TANKERS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Tanker";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900006" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900007> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "SUOMI EXPRESS",
+    "OJPQ";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "RO-RO/PASSENGER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Passenger";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900007" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900008> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "EESTI STAR",
+    "ESES";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "DRY BULK";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Cargo";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900008" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900009> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "ROSTOCK CARRIER",
+    "DHRC";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "RO-RO";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#vesselCategoryCode> "Cargo";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "900009" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/DKAAR> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "AARHUS" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/EETLL> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "TALLINN" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/FIHEL> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "HELSINKI" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LTKLJ> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "KLAIPEDA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LVVNT> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "VENTSPILS" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/PLGDN> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "GDANSK", "ROSTOCK",
+    "STOCKHOLM" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/PLGDY> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "GDYNIA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/SEKAR> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "KARLSKRONA" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/SETRG> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Port>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "TRELLEBORG" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900000_2026-03-11T08%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "PLGDY", "TER", "2026-03-11T14:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T08:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900001_2026-03-11T09%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "PLGDY", "SAT", "2026-03-11T15:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T09:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900002_2026-03-11T10%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "LTKLJ", "TER", "2026-03-11T16:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T10:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900003_2026-03-11T11%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "5",
+    "SEKAR", "SAT", "2026-03-11T17:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T11:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900004_2026-03-11T12%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "LTKLJ", "TER", "2026-03-11T18:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T12:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900005_2026-03-11T13%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "LVVNT", "SAT", "2026-03-11T19:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T13:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900006_2026-03-11T14%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "DKAAR", "TER", "2026-03-11T20:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T14:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900007_2026-03-11T15%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "FIHEL", "SAT", "2026-03-11T21:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T15:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900008_2026-03-11T16%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "EETLL", "TER", "2026-03-11T22:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T16:25:00.000Z" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/900009_2026-03-11T17%3A25%3A00.000Z>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "0",
+    "SETRG", "SAT", "2026-03-11T23:00:00.000Z";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11T17:25:00.000Z" .

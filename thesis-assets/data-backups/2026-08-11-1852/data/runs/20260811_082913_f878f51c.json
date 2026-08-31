@@ -1,0 +1,33 @@
+{
+  "id": "20260811_082913_f878f51c",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-11-1028-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "openai/gpt-oss-120b",
+    "strategy": "zero_shot",
+    "ontology_format": "json_ld",
+    "include_descriptions": false
+  },
+  "status": "completed",
+  "mapping_id": "2796de21-dfa0-4243-bffd-c43719713e80",
+  "named_graph": "https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260811_082913_f878f51c",
+  "stats": {
+    "records_processed": 10,
+    "entities_extracted": 20,
+    "relations_extracted": 0,
+    "triples_written": 39,
+    "triples_in_db": 39,
+    "duration_seconds": 69.673335,
+    "prompt_tokens": 18082,
+    "completion_tokens": 2159
+  },
+  "error": null,
+  "created_at": "2026-08-11T08:29:13.971346",
+  "started_at": "2026-08-11T11:40:25.518256",
+  "finished_at": "2026-08-11T11:41:35.191591"
+}

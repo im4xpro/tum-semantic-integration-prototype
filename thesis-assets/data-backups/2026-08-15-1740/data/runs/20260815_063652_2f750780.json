@@ -1,0 +1,33 @@
+{
+  "id": "20260815_063652_2f750780",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-15-0836-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "openai/gpt-oss-120b",
+    "strategy": "zero_shot",
+    "ontology_format": "json_ld",
+    "include_descriptions": true
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 15.164313,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Traceback (most recent call last):\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 90, in _parse_json\n    return json.loads(text)\n           ^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/__init__.py\", line 346, in loads\n    return _default_decoder.decode(s)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/decoder.py\", line 356, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 57, in execute_run\n    mapping = _resolve_mapping(run, cancel, store)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 153, in _resolve_mapping\n    mapping = generator.generate(schema, ontology_manager, descriptions)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 56, in generate\n    raw = self._parse_json(response_text)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 92, in _parse_json\n    raise MappingGeneratorError(\npipeline.mapping.mapping_generator.MappingGeneratorError: Failed to parse LLM response as JSON: Expecting value: line 1 column 1 (char 0)\nResponse: \n",
+  "created_at": "2026-08-15T06:36:52.355129",
+  "started_at": "2026-08-15T07:35:07.662342",
+  "finished_at": "2026-08-15T07:35:22.826655"
+}

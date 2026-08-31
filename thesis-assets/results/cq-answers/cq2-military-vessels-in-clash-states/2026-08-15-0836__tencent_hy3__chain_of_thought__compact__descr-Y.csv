@@ -1,0 +1,11 @@
+vesselUri,vessel,vesselType,vesselFlagRaw,country,eventUri,event
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900002,277000201,Military,LT,Lithuania,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/LTU1001,LTU1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900002,LYZM,Military,LT,Lithuania,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/LTU1001,LTU1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,261000101,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,261000101,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1002,POL1002
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,261000102,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,261000102,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1002,POL1002
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,SPGP,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,SPGP,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1002,POL1002
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,SPOR,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,SPOR,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1002,POL1002

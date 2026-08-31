@@ -1,0 +1,98 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260810_204303_89cfc899
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/DEU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Protests";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/EST1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Strategic developments";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/FIN1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Protests";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LTU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Battles";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 2.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LTU1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Riots";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/LVA1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Protests";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Battles";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 3.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Battles";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 1.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/POL1003> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Violence against civilians";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 1.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/SWE1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Strategic developments";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#effectQuantityNumber> 0.0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Rostock> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.0924;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 12.0991;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Rostock" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Tallinn> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.437;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.7536;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Tallinn" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Helsinki> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 60.1699;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.9384;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Helsinki" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Klaipeda> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 55.7033;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 21.1443;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Klaipeda" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Riga> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 56.9496;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 24.1052;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Gdansk> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.352;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.6466;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdansk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Gdynia> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 54.5189;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.5305;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdynia" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/Stockholm> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#latitudeDecimal> 59.3293;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#longitudeDecimal> 18.0686;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Stockholm" .

@@ -1,0 +1,14 @@
+{
+    "time": "Timestamp with time zone. E.g., 2022-06-27 23:00:00+00:00",
+    "icao24": "The 24-bit ICAO transponder identifier of the airframe, as a 6-digit hexadecimal string. It identifies one specific aircraft and does not change during a registration period, so it can be used to track the same airframe across different flights. E.g., ab58b2",
+    "lat": "Last known latitude of the aircraft, as a decimal WGS84 coordinate. E.g., 31.046356201171875",
+    "lon": "Last known longitude of the aircraft, as a decimal WGS84 coordinate. E.g., -82.84369973575366",
+    "velocity": "Speed over ground of the aircraft, in metres per second. E.g., 234.97",
+    "heading": "Direction of movement as the clockwise angle in degrees from geographic north. Despite the column name this is the track angle over ground rather than the aircraft's nose heading. E.g., 354.98 is almost due north.",
+    "vertrate": "Vertical speed of the aircraft, in metres per second. A positive value indicates a climb, a negative value a descent, and zero indicates level flight. E.g., 0.0",
+    "callsign": "The callsign broadcast by the aircraft. Most airlines encode the airline and the flight number in it, but there is no unified system. E.g., DAL595",
+    "onground": "Flag indicating whether the aircraft was broadcasting surface positions (true) or airborne positions (false). May be absent.",
+    "squawk": "The 4-digit octal transponder code assigned to the aircraft by air traffic control, used for identification and to signal emergencies. E.g., 6132",
+    "baroaltitude": "Altitude of the aircraft measured by its barometer, in metres. It depends on weather conditions and is almost always present. E.g., 10058.4",
+    "geoaltitude": "Altitude of the aircraft determined by its GNSS (GPS) sensor, in metres. Present only when the aircraft is equipped for it, and typically differs from the barometric altitude by up to a few hundred metres. E.g., 10660.38"
+}

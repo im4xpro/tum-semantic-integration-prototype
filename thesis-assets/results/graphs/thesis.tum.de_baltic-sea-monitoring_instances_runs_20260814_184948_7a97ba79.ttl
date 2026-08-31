@@ -1,0 +1,86 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260814_184948_7a97ba79
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3c65aa> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3c65aa" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3e1f88> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3e1f88" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3f7a21" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_46b8c7> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "46b8c7" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_47c1a2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "47c1a2" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4841b9> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4841b9" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4ca8f1> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4ca8f1" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4d02f4> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4d02f4" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_51cc3b> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "51cc3b" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "ab58b2" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_1000> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "1000" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_2451> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "2451" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_3421> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "3421" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_4567> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "4567" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_7775> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "7775" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_7776> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "7776" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/squawk_7777> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "7777" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_DLH88X> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "DLH88X" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_FALCON03> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "FALCON03" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_LOT285> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "LOT285" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_RCH285> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "RCH285" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_SAS1742> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "SAS1742" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_VIPER11> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "VIPER11" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_VIPER12> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "VIPER12" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_VIPER13> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "VIPER13" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/call_VIPER21> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#AlternateIdentifier>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateIdentifierValue> "VIPER21" .

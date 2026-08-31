@@ -1,0 +1,460 @@
+{
+  "id": "0ed45d3c-f3d8-441d-a75b-6818faf38716",
+  "source_name": "acled_data",
+  "status": "draft",
+  "llm_model": "meta-llama/llama-3.3-70b-instruct",
+  "strategy": "few_shot",
+  "ontology_format": "turtle",
+  "include_descriptions": true,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "event_id_cnty",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "event_{event_id_cnty}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Action"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:actionDescriptionText",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "notes",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "description",
+          "reasoning": "The notes column provides a short description of the event, matching the actionDescriptionText property."
+        },
+        {
+          "property_uri": "bsm:eventStartDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_date",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The event_date column matches the eventStartDateTime property."
+        },
+        {
+          "property_uri": "bsm:involvedActor",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor1",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{actor1}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Actor"
+                  }
+                ],
+                "property_mappings": []
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor2",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{actor2}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Actor"
+                  }
+                ],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "structural",
+          "reasoning": "The actor1 and actor2 columns imply involvement in the Action, matching the involvedActor property."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "location",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "location_{location}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:locationName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "location",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The location column matches the locationName property."
+                  },
+                  {
+                    "property_uri": "bsm:hasGeometry",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "latitude",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "point_{latitude}_{longitude}",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:AbsolutePoint"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:latitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "latitude",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.9,
+                              "basis": "name",
+                              "reasoning": "The latitude column matches the latitudeDecimal property."
+                            },
+                            {
+                              "property_uri": "bsm:longitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "longitude",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.9,
+                              "basis": "name",
+                              "reasoning": "The longitude column matches the longitudeDecimal property."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "structural",
+                    "reasoning": "The latitude and longitude columns imply a geometric location, matching the hasGeometry property."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "structural",
+          "reasoning": "The location, latitude, and longitude columns imply a geographic location, matching the hasGeographicLocation property."
+        },
+        {
+          "property_uri": "bsm:hasResult",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "fatalities",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "effect_{fatalities}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:ActionEffect"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:effectQuantityNumber",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "fatalities",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The fatalities column matches the effectQuantityNumber property."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "structural",
+          "reasoning": "The fatalities column implies a result of the Action, matching the hasResult property."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "Each row carries a unique event_id_cnty, so each row is modeled as one Action entity."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "actor1",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{actor1}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Actor"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor1",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "The actor1 column matches the conceptName property."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "Each actor1 value is modeled as one Actor entity."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "actor2",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{actor2}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Actor"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor2",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "The actor2 column matches the conceptName property."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "Each actor2 value is modeled as one Actor entity."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "location",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "location_{location}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:locationName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "location",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The location column matches the locationName property."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "Each location value is modeled as one Location entity."
+    }
+  ],
+  "unmapped_fields": [
+    "time_precision",
+    "disorder_type",
+    "event_type",
+    "sub_event_type",
+    "assoc_actor_1",
+    "inter1",
+    "assoc_actor_2",
+    "inter2",
+    "interaction",
+    "civilian_targeting",
+    "iso",
+    "region",
+    "country",
+    "admin1",
+    "admin2",
+    "admin3",
+    "geo_precision",
+    "source",
+    "source_scale",
+    "tags",
+    "timestamp",
+    "population_1km",
+    "population_2km",
+    "population_5km",
+    "population_best"
+  ],
+  "generation_timestamp": "2026-08-11 10:22:41.949977",
+  "prompt_tokens": 14863,
+  "completion_tokens": 2372,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nGroup fields by the entity they describe. For each entity type:\n- Identify which column or constant value serves as the subject (entity identifier).\n- Specify the ontology class (type_mappings).\n- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence citing the actual evidence \u2014 the column or label name, the provided description, or how the grouping implies the class. Do not give generic or circular justifications.\n- Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.\n- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence \u2014 the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.\n- If a value points to another entity, set value_type to \"iri\" and include nested type_mappings/property_mappings if applicable.\n- If a field cannot be mapped to any ontology concept, add it to unmapped_fields.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped.\n- Omit subject_transformation and transformation when no expression is needed.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nReturn ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. Omit when the raw column value is used as-is.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}\n\nEXAMPLE\nGiven this (unrelated) schema:\n  order_id: text\n  customer_name: text\n  customer_email: text\n  total_amount: decimal\n\nA correct mapping is:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"order_id\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"order_{order_id}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"ex:Order\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Each row carries a unique order_id, so each row is modeled as one Order entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"ex:totalAmount\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column name 'total_amount' matches the property 'totalAmount'.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"total_amount\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"ex:placedBy\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Links each Order to the Customer subject via the shared customer_email identity.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"customer_email\"\n              },\n              \"transformation\": {\n                \"expression\": \"cust_{customer_email}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"ex:Customer\"\n                  }\n                ],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"customer_email\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"cust_{customer_email}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"ex:Customer\"\n        }\n      ],\n      \"confidence\": 0.95,\n      \"basis\": \"value\",\n      \"reasoning\": \"customer_email holds a unique per-person value, so it anchors a distinct Customer entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"ex:name\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column name 'customer_name' matches the property 'name'.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"customer_name\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": []\n}\n\nNote how the example satisfies the rules above: the IRI relation's transformation\n(\"cust_{customer_email}\") is identical to the referenced subject's own\nsubject_transformation, and every placeholder names a real column of that schema.",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: acled_data (type: relational)\n\nSCHEMA:\n  event_id_cnty: text \u2014 A unique alphanumeric event identifier by number and country acronym. This identifier remains constant even when the event details are updated. E.g., ETH9766\n  event_date: text \u2014 The date on which the event took place. Recorded as year-month-day. E.g., 2023-02-16\n  year: bigint \u2014 The year in which the event took place. E.g., 2018\n  time_precision: bigint \u2014 A numeric code between 1 and 3 indicating the level of precision of the date recorded for the event. The higher the number, the lower the precision. 1, 2, or 3; with 1 being the most precise.\n  disorder_type: text \u2014 The disorder category an event belongs to. Political violence, Demonstrations, or Strategic developments.\n  event_type: text \u2014 The type of event; further specifies the nature of the event. E.g., Battles\n  sub_event_type: text \u2014 A subcategory of the event type.\n  actor1: text \u2014 One of two main actors involved in the event (does not necessarily indicate the aggressor). E.g., Rioters (Papua New Guinea)\n  assoc_actor_1: text \u2014 Actor(s) involved in the event alongside Actor 1 or actor designations that further identify Actor 1. E.g., Labor Group (Spain); Women (Spain) Can have multiple actors separated by a semicolon, or can be blank.\n  inter1: text \u2014 A text value indicating the type of Actor 1 (for more, see the section Actor Names, Types, and \u2018Inter\u2019 Codes).\n  actor2: text \u2014 One of two main actors involved in the event (does not necessarily indicate the target or victim). E.g., Civilians (Kenya) Can be blank.\n  assoc_actor_2: text \u2014 Actor(s) involved in the event alongside Actor 2 or actor designation further identifying \u2018Actor 2. E.g., Labor Group (Spain); Women (Spain) Can have multiple actors separated by a semicolon, or can be blank.\n  inter2: text \u2014 A text value indicating the type of Actor 2 (for more, see the section Actor Names, Types, and \u2018Inter\u2019 Codes).\n  interaction: text \u2014 A text value based on a combination of Inter 1 and Inter 2 indicating the two actor types interacting in the event (for more, see the section Actor Names, Types, and \u2018Inter\u2019 Codes). E.g., Rebel group \u2013 Civilians\n  civilian_targeting: text \u2014 This column indicates whether the event involved civilian targeting. Either \"Civilians targeted\" or blank.\n  iso: bigint \u2014 A unique three-digit numeric code assigned to each country or territory according to ISO 3166. E.g., 231 for Ethiopia\n  region: text \u2014 The region of the world where the event took place. E.g., Eastern Africa\n  country: text \u2014 The country or territory in which the event took place. E.g., Ethiopia\n  admin1: text \u2014 The largest sub-national administrative region in which the event took place. E.g., Oromia\n  admin2: text \u2014 The second largest sub-national administrative region in which the event took place. E.g., Arsi Can be blank.\n  admin3: text \u2014 The third largest sub-national administrative region in which the event took place. E.g., Merti Can be blank.\n  location: text \u2014 The name of the location at which the event took place. E.g., Abomsa\n  latitude: double precision \u2014 The latitude of the location in four decimal degrees notation (EPSG:4326). E.g., 8.5907\n  longitude: double precision \u2014 The longitude of the location in four decimal degrees notation (EPSG:4326). E.g., 39.8588\n  geo_precision: bigint \u2014 A numeric code between 1 and 3 indicating the level of certainty of the location recorded for the event. The higher the number, the lower the precision. 1, 2, or 3; with 1 being the most precise.\n  source: text \u2014 The sources used to record the event. Separated by a semicolon. E.g., Ansar Allah; Yemen Data Project\n  source_scale: text \u2014 An indication of the geographic closeness of the used sources to the event (for more, see the section Source Scale).\n  notes: text \u2014 A short description of the event. E.g., On 16 February 2023, OLF-Shane abducted an unidentified number of civilians after stopping a vehicle in an area near Abomsa (Merti, Arsi, Oromia). The abductees were traveling from Adama to Abomsa, Arsi.\n  fatalities: bigint \u2014 The number of reported fatalities arising from an event. When there are conflicting reports, the most conservative estimate is recorded.\n  tags: text \u2014 Additional structured information about the event. Separated by a semicolon.\n  timestamp: bigint \u2014 An automatically generated Unix timestamp that represents the exact date and time an event was uploaded to the ACLED API. E.g., 1676909320\n  population_1km: double precision\n  population_2km: bigint\n  population_5km: bigint\n  population_best: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    event_id_cnty: 'POL1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: 'Naval Command of Poland'\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdansk'\n    admin3: ''\n    location: 'Gdansk'\n    latitude: 54.352\n    longitude: 18.6466\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported in the port district of Gdansk.'\n    fatalities: 3\n    tags: ''\n    timestamp: 1773216900\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 2:\n    event_id_cnty: 'POL1002'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdynia'\n    admin3: ''\n    location: 'Gdynia'\n    latitude: 54.5189\n    longitude: 18.5305\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Exchange of fire near the naval base at Gdynia.'\n    fatalities: 1\n    tags: ''\n    timestamp: 1773220500\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 3:\n    event_id_cnty: 'LTU1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Lithuania (2019-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 440\n    region: 'Europe'\n    country: 'Lithuania'\n    admin1: 'Klaipedos'\n    admin2: 'Klaipeda'\n    admin3: ''\n    location: 'Klaipeda'\n    latitude: 55.7033\n    longitude: 21.1443\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported near the Klaipeda seaport.'\n    fatalities: 2\n    tags: ''\n    timestamp: 1773224100\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n\nONTOLOGY:\n@prefix bsm:    <https://thesis.tum.de/baltic-sea-monitoring/ontology#> .\n@prefix mim:    <https://mimworld.org/mim/5.3/> .\n@prefix owl:    <http://www.w3.org/2002/07/owl#> .\n@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .\n@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .\n@prefix dcterms:<http://purl.org/dc/terms/> .\n@prefix sosa:   <http://www.w3.org/ns/sosa/> .\n@prefix ssn:    <http://www.w3.org/ns/ssn/> .\n@prefix geo:    <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n@prefix prov:   <http://www.w3.org/ns/prov#> .\n\n<https://thesis.tum.de/baltic-sea-monitoring/ontology>\n    a owl:Ontology ;\n    dcterms:title \"Baltic Sea Monitoring Ontology\" ;\n    dcterms:creator \"Maximilian Kaiser\" .\n\nbsm:isExtension a owl:AnnotationProperty ;\n    rdfs:label \"is thesis extension\" ;\n    rdfs:comment \"True when the annotated class/property is an addition not present in MIM 5.3\" .\n\nbsm:Concept a owl:Class ;\n    rdfs:label \"Concept\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/Concept#ConceptType> .\n\nbsm:BattlespaceConcept a owl:Class ;\n    rdfs:label \"Battlespace Concept\" ;\n    rdfs:subClassOf bsm:Concept ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept#BattlespaceConceptType> .\n\nbsm:Object a owl:Class ;\n    rdfs:label \"Object\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object#ObjectType> .\n\nbsm:Action a owl:Class ;\n    rdfs:label \"Action\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"An activity (or the occurrence of one) that may use resources and may be focused against an objective. Used for conflict events, incidents, movements and aircraft activities.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionType> .\n\nbsm:Actor a owl:Class ;\n    rdfs:label \"Actor\" ;\n    rdfs:subClassOf bsm:Object ;\n    rdfs:comment \"A person or a group of persons able to perform actions.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor#ActorType> .\n\nbsm:Person a owl:Class ;\n    rdfs:label \"Person\" ;\n    rdfs:subClassOf bsm:Actor ;\n    rdfs:comment \"A human being of military or civilian significance.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonType> .\n\nbsm:Organisation a owl:Class ;\n    rdfs:label \"Organisation\" ;\n    rdfs:subClassOf bsm:Actor ;\n    rdfs:comment \"An administrative or functional structure.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Organisation#OrganisationType> .\n\nbsm:Materiel a owl:Class ;\n    rdfs:label \"Materiel\" ;\n    rdfs:subClassOf bsm:Object ;\n    rdfs:comment \"Superclass for military supplies, vehicles, and other tools\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel#MaterielType> .\n\nbsm:ConsumableMateriel a owl:Class ;\n    rdfs:label \"ConsumableMateriel\" ;\n    rdfs:subClassOf bsm:Materiel ;\n    rdfs:comment \"Consumable goods, food, ammunition, etc.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/ConsumableMateriel> .\n\n\nbsm:Equipment a owl:Class ;\n    rdfs:label \"Equipment\" ;\n    rdfs:subClassOf bsm:Materiel ;\n    rdfs:comment \"Materiel that is neither intended for consumption nor an unexploded piece of ordnance.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#EquipmentType> .\n\nbsm:Vehicle a owl:Class ;\n    rdfs:label \"Vehicle\" ;\n    rdfs:subClassOf bsm:Equipment ;\n    rdfs:comment \"A conveyance for transporting persons or things. Common parent of Aircraft, Vessel and LandVehicle.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#VehicleType> .\n\nbsm:Aircraft a owl:Class ;\n    rdfs:label \"Aircraft\" ;\n    rdfs:subClassOf bsm:Vehicle ;\n    rdfs:comment \"A Vehicle designed to fly within the earth's atmosphere.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Aircraft#AircraftType> .\n\nbsm:Vessel a owl:Class ;\n    rdfs:label \"Vessel\" ;\n    rdfs:subClassOf bsm:Vehicle ;\n    rdfs:comment \"A Vehicle designed to operate on or under the water surface.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Vessel#VesselType> .\n\nbsm:LandVehicle a owl:Class ;\n    rdfs:label \"Land Vehicle\" ;\n    rdfs:subClassOf bsm:Vehicle ;\n    rdfs:comment \"A vehicle designed to operate on the ground.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/LandVehicle#LandVehicleType> .\n\nbsm:Location a owl:Class ;\n    rdfs:label \"Location\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"A position and geometry with respect to a horizontal frame of reference and a vertical datum. The MIM-standard wrapper around a Geometry.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LocationType> .\n\nbsm:Geometry a owl:Class ;\n    rdfs:label \"Geometry\" ;\n    rdfs:comment \"Measurements and relationships of points, lines, surfaces and volumes. Abstract parent of Point, Line, Surface in MIM.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#GeometryType> .\n\nbsm:Point a owl:Class ;\n    rdfs:label \"Point\" ;\n    rdfs:subClassOf bsm:Geometry ;\n    rdfs:comment \"A zero-dimensional location.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#PointType> .\n\nbsm:AbsolutePoint a owl:Class ;\n    rdfs:label \"Absolute Point\" ;\n    rdfs:subClassOf bsm:Point ;\n    rdfs:comment \"A Point with its position specified in WGS-84 latitude, longitude and vertical distance.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#AbsolutePointType> .\n\nbsm:Line a owl:Class ;\n    rdfs:label \"Line\" ;\n    rdfs:subClassOf bsm:Geometry ;\n    rdfs:comment \"A one-dimensional location, ordered sequence of points.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LineType> .\n\nbsm:Surface a owl:Class ;\n    rdfs:label \"Surface\" ;\n    rdfs:subClassOf bsm:Geometry ;\n    rdfs:comment \"A two-dimensional location. Mirrors mim:SurfaceType.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#SurfaceType> .\n\nbsm:Velocity a owl:Class ;\n    rdfs:label \"Velocity\" ;\n    rdfs:comment \"The movement of an Object in terms of speed, course and inclination.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#VelocityType> .\n\nbsm:Orientation a owl:Class ;\n    rdfs:label \"Orientation\" ;\n    rdfs:comment \"Inclination of the three principal axes of an Object (longitudinal, lateral, vertical) with respect to the geographic coordinate system.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Location#OrientationType> .\n\nbsm:Altitude a owl:Class ;\n    rdfs:label \"Altitude\" ;\n    rdfs:comment \"Altitude of an object (Extension)\" ;\n    bsm:isExtension true .\n\nbsm:Affiliation a owl:Class ;\n    rdfs:label \"Affiliation\" ;\n    rdfs:comment \"Membership or allegiance to an ethnic group, country, functional group, exercise group or religion.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Affiliation#AffiliationType> .\n\nbsm:GeopoliticalAffiliation a owl:Class ;\n    rdfs:label \"Geopolitical Affiliation\" ;\n    rdfs:subClassOf bsm:Affiliation ;\n    rdfs:comment \"Affiliation with a country or political entity: flag state of a vessel, country of registration of an aircraft, or the jurisdiction an actor is associated with.\" ;\n    bsm:isExtension true .\n\nbsm:EthnicAffiliation a owl:Class ;\n    rdfs:label \"Ethnic Affiliation\" ;\n    rdfs:subClassOf bsm:Affiliation ;\n    rdfs:comment \"Affiliation with an ethnic group.\" ;\n    bsm:isExtension true .\n\nbsm:ReligiousAffiliation a owl:Class ;\n    rdfs:label \"Religious Affiliation\" ;\n    rdfs:subClassOf bsm:Affiliation ;\n    rdfs:comment \"Affiliation with a religion or religious community.\" ;\n    bsm:isExtension true .\n\nbsm:Mobility a owl:Class ;\n    rdfs:label \"Mobility\" ;\n    rdfs:comment \"Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Mobility#MobilityType> .\n\nbsm:AlternateIdentifier a owl:Class ;\n    rdfs:label \"Alternate Identifier\" ;\n    rdfs:comment \"The alternate identification of a BattlespaceConcept used to communicate using another standard.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept#AlternateIdentifierType> .\n\nbsm:PersonNationality a owl:Class ;\n    rdfs:label \"Person Nationality\" ;\n    rdfs:comment \"A citizenship description for a Person\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonNationalityType> .\n\nbsm:PersonIdentificationDocument a owl:Class ;\n    rdfs:label \"Person Identification Document\" ;\n    rdfs:comment \"A formal identification document held by a Person like passport, national ID, driver's licence, etc.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonIdentificationDocumentType> .\n\nbsm:ActionEffect a owl:Class ;\n    rdfs:label \"Action Effect\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"The effectiveness of an Action against an Object or type of Object: fatalities, casualties, damage, destruction.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionEffectType> .\n\nbsm:ActionResource a owl:Class ;\n    rdfs:label \"Action Resource\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"An Object (or type of Object) used in conducting an Action.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionResourceType> .\n\nbsm:ActionObjective a owl:Class ;\n    rdfs:label \"Action Objective\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"The intended focus of an Action.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionObjectiveType> .\n\n# --------------------------------------------------\n#  Datatype properties\n\nbsm:conceptName a owl:DatatypeProperty ;\n    rdfs:label \"name\" ;\n    rdfs:domain bsm:Concept ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Primary name of the Concept. Mandatory in MIM.\" .\n\nbsm:alternateName a owl:DatatypeProperty ;\n    rdfs:label \"alternate name\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"An additional name by which the concept is known \u2014 aliases, callsigns, transponder-broadcast names, vessel AIS names.\" .\n\nbsm:additionalInformationText a owl:DatatypeProperty ;\n    rdfs:label \"additional information\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Free-text additional information about the concept that does not fit any structured attribute.\" .\n\nbsm:hostilityCode a owl:DatatypeProperty ;\n    rdfs:label \"hostility code\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Perceived hostility from following values (Friend, Hostile, Neutral, Suspect, Unknown, Pending, Assumed-Friend, Joker, Faker).\" .\n\nbsm:sourceIdentifier a owl:DatatypeProperty ;\n    rdfs:label \"source identifier\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"EXTENSION: the primary key or row identifier from the originating dataset that produced this concept instance, enabling traceability back to the source record.\" ;\n    bsm:isExtension true .\n\nbsm:typeName a owl:DatatypeProperty ;\n    rdfs:label \"type name\" ;\n    rdfs:domain bsm:Object ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Free-text name of the Object's type. Used for category strings that do not map to a closed MIM code list (e.g. vessel-type strings broadcast by maritime navigation systems, aircraft model designations).\" .\n\n#----- Person ------------------------------------------------------------------\n\nbsm:birthDate a owl:DatatypeProperty ;\n    rdfs:label \"birth date\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Date of birth of the Person.\" .\n\nbsm:deathDate a owl:DatatypeProperty ;\n    rdfs:label \"death date\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Date of death of the Person, if applicable.\" .\n\nbsm:genderCode a owl:DatatypeProperty ;\n    rdfs:label \"gender code\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Gender of the Person. Backed by the MIM GenderCode enumeration.\" .\n\nbsm:militaryStatusCode a owl:DatatypeProperty ;\n    rdfs:label \"military status code\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Whether the Person is civilian, military or paramilitary. Backed by the MIM PersonMilitaryStatusCode enumeration.\" .\n\nbsm:characteristicCode a owl:DatatypeProperty ;\n    rdfs:label \"characteristic code\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Profession, social status or legal/military involvement of the Person. Backed by the MIM PersonCharacteristicCode enumeration.\" .\n\nbsm:dutyStatusCode a owl:DatatypeProperty ;\n    rdfs:label \"duty status code\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Current duty status of the Person (active, on leave, retired, \u2026).\" .\n\n#----- Person Nationality ------------------------------------------------------\n\nbsm:nationalityCountryCode a owl:DatatypeProperty ;\n    rdfs:label \"nationality country code\" ;\n    rdfs:domain bsm:PersonNationality ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Country code of the Person's nationality. Backed by the MIM CountryCode enumeration.\" .\n\nbsm:nationalityReasonCode a owl:DatatypeProperty ;\n    rdfs:label \"nationality reason code\" ;\n    rdfs:domain bsm:PersonNationality ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Reason for which the nationality is held (birth, naturalisation, marriage, \u2026).\" .\n\n#----- Person Identification Document ------------------------------------------\n\nbsm:identificationDocumentCategoryCode a owl:DatatypeProperty ;\n    rdfs:label \"ID document category\" ;\n    rdfs:domain bsm:PersonIdentificationDocument ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Type of identification document (passport, national ID card, driver's licence, \u2026).\" .\n\nbsm:identificationDocumentIdentifier a owl:DatatypeProperty ;\n    rdfs:label \"ID document number\" ;\n    rdfs:domain bsm:PersonIdentificationDocument ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Reference number on the identification document.\" .\n\n#----- Organisation ------------------------------------------------------------\n\nbsm:descriptionText a owl:DatatypeProperty ;\n    rdfs:label \"description\" ;\n    rdfs:domain bsm:Organisation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Free-text description of the Organisation.\" .\n\nbsm:mainActivityCode a owl:DatatypeProperty ;\n    rdfs:label \"main activity code\" ;\n    rdfs:domain bsm:Organisation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Primary activity sector of the Organisation. Like industry, NGO.\" .\n\n#----- Materiel / Equipment / Vehicle ------------------------------------------\n\nbsm:serialNumberIdentifier a owl:DatatypeProperty ;\n    rdfs:label \"serial number\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Serial number assigned by the manufacturer or operator.\" .\n\nbsm:modelName a owl:DatatypeProperty ;\n    rdfs:label \"model name\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Manufacturer's model designation.\" .\n\nbsm:isActiveIndicator a owl:DatatypeProperty ;\n    rdfs:label \"is active\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range xsd:boolean ;\n    rdfs:comment \"True if the Materiel is currently active (in service).\" .\n\nbsm:operatingModeCode a owl:DatatypeProperty ;\n    rdfs:label \"operating mode code\" ;\n    rdfs:domain bsm:Vehicle ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Operating mode of the Vehicle: manned, unmanned, autonomous, remotely piloted.\" .\n\n#----- Aircraft ----------------------------------------------------------------\n\nbsm:designRangeCode a owl:DatatypeProperty ;\n    rdfs:label \"design range code\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Range category of the Aircraft.\" .\n\nbsm:designRoleCode a owl:DatatypeProperty ;\n    rdfs:label \"design role code\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Primary design role of the Aircraft (fighter, transport, surveillance, \u2026).\" .\n\nbsm:typeMainPurposeCode a owl:DatatypeProperty ;\n    rdfs:label \"type main purpose code\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Main purpose of the Aircraft type.\" .\n\nbsm:militaryCivilianCode a owl:DatatypeProperty ;\n    rdfs:label \"military/civilian code\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Whether the Aircraft is military or civilian.\" .\n\nbsm:wingSpanDimension a owl:DatatypeProperty ;\n    rdfs:label \"wing span\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Wing span of the Aircraft.\" .\n\nbsm:weaponTypeCode a owl:DatatypeProperty ;\n    rdfs:label \"weapon type code\" ;\n    rdfs:domain bsm:Aircraft ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Type of weapons the Aircraft is armed with.\" .\n\n#----- Vessel ------------------------------------------------------------------\n\nbsm:vesselCategoryCode a owl:DatatypeProperty ;\n    rdfs:label \"vessel category code\" ;\n    rdfs:domain bsm:Vessel ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Category of the Vessel: cargo, tanker, fishing, passenger, military, special-craft.\" .\n\nbsm:vesselMaximumSpeed a owl:DatatypeProperty ;\n    rdfs:label \"vessel maximum speed\" ;\n    rdfs:domain bsm:Vessel ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Maximum design speed of the Vessel. Mirrors mim:Vessel.maximumSpeed.\" .\n\n#----- Action ------------------------------------------------------------------\n\nbsm:actionDescriptionText a owl:DatatypeProperty ;\n    rdfs:label \"action description\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Free-text description of the Action.\" .\n\nbsm:classificationCode a owl:DatatypeProperty ;\n    rdfs:label \"classification code\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Classification of the Action.\" .\n\nbsm:eventStartDateTime a owl:DatatypeProperty ;\n    rdfs:label \"event start time\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Event Start Timestamp\" ;\n    bsm:isExtension true .\n\nbsm:eventEndDateTime a owl:DatatypeProperty ;\n    rdfs:label \"event end time\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Event End Timestamp\" ;\n    bsm:isExtension true .\n\n#----- Action Effect -----------------------------------------------------------\n\nbsm:effectDescriptionCode a owl:DatatypeProperty ;\n    rdfs:label \"effect description code\" ;\n    rdfs:domain bsm:ActionEffect ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Type of outcome (Fatalities, Casualties, Damaged, Destroyed, \u2026).\" .\n\nbsm:effectQuantityNumber a owl:DatatypeProperty ;\n    rdfs:label \"effect quantity\" ;\n    rdfs:domain bsm:ActionEffect ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Aggregated count for the effect, e.g. number of fatalities. Mirrors mim:ActionEffect.quantityNumber.\" .\n\nbsm:effectSeverityCode a owl:DatatypeProperty ;\n    rdfs:label \"effect severity code\" ;\n    rdfs:domain bsm:ActionEffect ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Severity grade of the effect.\" .\n\n#----- Geometry / Location -----------------------------------------------------\n\nbsm:latitudeDecimal a owl:DatatypeProperty ;\n    rdfs:label \"latitude (decimal degrees, WGS84)\" ;\n    rdfs:domain bsm:AbsolutePoint ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Latitude of the AbsolutePoint in decimal degrees.\" ;\n    owl:equivalentProperty geo:lat .\n\nbsm:longitudeDecimal a owl:DatatypeProperty ;\n    rdfs:label \"longitude (decimal degrees, WGS84)\" ;\n    rdfs:domain bsm:AbsolutePoint ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Longitude of the AbsolutePoint in decimal degrees\" ;\n    owl:equivalentProperty geo:long .\n\nbsm:locationName a owl:DatatypeProperty ;\n    rdfs:label \"location name\" ;\n    rdfs:domain bsm:Location ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Human-readable name of the Location.\" .\n\n#----- Velocity / Orientation / Altitude --------------------------------------------------\n\nbsm:speedMetersPerSecond a owl:DatatypeProperty ;\n    rdfs:label \"speed (m/s)\" ;\n    rdfs:domain bsm:Velocity ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Speed of the Object\" .\n\nbsm:absoluteBearingAngle a owl:DatatypeProperty ;\n    rdfs:label \"absolute bearing angle\" ;\n    rdfs:domain bsm:Velocity ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Course over ground / track angle, degrees clockwise from true north.\" .\n\nbsm:inclinationAngle a owl:DatatypeProperty ;\n    rdfs:label \"inclination angle\" ;\n    rdfs:domain bsm:Velocity ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Vertical inclination of the velocity vector, in degrees (positive climbing).\" .\n\nbsm:headingAngle a owl:DatatypeProperty ;\n    rdfs:label \"heading angle\" ;\n    rdfs:domain bsm:Orientation ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Heading (direction the longitudinal axis points), degrees true.\" .\n\nbsm:altitudeMeters a owl:DatatypeProperty ;\n    rdfs:label \"altitude in meters\" ;\n    rdfs:domain bsm:Altitude ;\n    rdfs:range xsd:double ;\n    rdfs:comment \"Altitude of the object in meters.\" .\n\n#----- AlternateIdentifier -----------------------------------------------------\n\nbsm:alternateIdentifierStandardCode a owl:DatatypeProperty ;\n    rdfs:label \"alternate identifier standard code\" ;\n    rdfs:domain bsm:AlternateIdentifier ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"The identifier authority/standard\" .\n\nbsm:alternateIdentifierValue a owl:DatatypeProperty ;\n    rdfs:label \"alternate identifier value\" ;\n    rdfs:domain bsm:AlternateIdentifier ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"The identifier value itself, as a string.\" .\n\n#----- Affiliation -------------------------------------------------------------\n\nbsm:geopoliticalAffiliationCode a owl:DatatypeProperty ;\n    rdfs:label \"geopolitical affiliation code\" ;\n    rdfs:domain bsm:GeopoliticalAffiliation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Country or political-entity code.\" .\n\nbsm:affiliationEthnicGroupCode a owl:DatatypeProperty ;\n    rdfs:label \"ethnic group code\" ;\n    rdfs:domain bsm:EthnicAffiliation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Ethnic group identifier.\" .\n\nbsm:affiliationReligionCode a owl:DatatypeProperty ;\n    rdfs:label \"religion code\" ;\n    rdfs:domain bsm:ReligiousAffiliation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Religion identifier.\" .\n\n###############################################################################\n#  Object properties (relationships)\n###############################################################################\n\n#----- Spatial / kinematic -----------------------------------------------------\n\nbsm:hasGeographicLocation a owl:ObjectProperty ;\n    rdfs:label \"has geographic location\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range bsm:Location ;\n    rdfs:comment \"Position of the BattlespaceConcept, expressed as a Location (which in turn carries a Geometry).\" .\n\nbsm:hasGeometry a owl:ObjectProperty ;\n    rdfs:label \"has geometry\" ;\n    rdfs:domain bsm:Location ;\n    rdfs:range bsm:Geometry ;\n    rdfs:comment \"Geometry component of a Location\" .\n\nbsm:hasVelocity a owl:ObjectProperty ;\n    rdfs:label \"has velocity\" ;\n    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;\n    rdfs:range bsm:Velocity ;\n    rdfs:comment \"Current velocity vector of the Object.\" .\n\nbsm:hasOrientation a owl:ObjectProperty ;\n    rdfs:label \"has orientation\" ;\n    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;\n    rdfs:range bsm:Orientation ;\n    rdfs:comment \"Current orientation of the Object's principal axes.\" .\n\nbsm:hasAltitude a owl:ObjectProperty ;\n    rdfs:label \"has altitude\" ;\n    rdfs:domain [ owl:unionOf (bsm:Object bsm:Observation) ] ;\n    rdfs:range bsm:Altitude ;\n    rdfs:comment \"Current altitude of the Object\" .\n\nbsm:hasMobility a owl:ObjectProperty ;\n    rdfs:label \"has mobility\" ;\n    rdfs:domain bsm:Equipment ;\n    rdfs:range bsm:Mobility ;\n    rdfs:comment \"Mobility characteristics of the Equipment.\" .\n\n#----- Identification & classification -----------------------------------------\n\nbsm:hasAlternateIdentifier a owl:ObjectProperty ;\n    rdfs:label \"has alternate identifier\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:range bsm:AlternateIdentifier ;\n    rdfs:comment \"Attaches a structured AlternateIdentifier (scheme + value) to the BattlespaceConcept.\" .\n\nbsm:hasAffiliation a owl:ObjectProperty ;\n    rdfs:label \"has affiliation\" ;\n    rdfs:domain bsm:Object ;\n    rdfs:range bsm:Affiliation ;\n    rdfs:comment \"Geopolitical, ethnic, religious or other affiliation of the Object: captures flag-state of vessels, origin-country of aircraft, nationality of persons.\" .\n\n#----- Person \u2194 Organisation associations --------------------------------------\n\nbsm:isMemberOf a owl:ObjectProperty ;\n    rdfs:label \"is member of\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Organisation ;\n    rdfs:comment \"Person is a formal member of the Organisation.\" ;\n    owl:inverseOf bsm:hasMember .\n\nbsm:hasMember a owl:ObjectProperty ;\n    rdfs:label \"has member\" ;\n    rdfs:domain bsm:Organisation ;\n    rdfs:range bsm:Person ;\n    rdfs:comment \"Inverse of bsm:isMemberOf.\" .\n\nbsm:isAssignedTo a owl:ObjectProperty ;\n    rdfs:label \"is assigned to\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Organisation ;\n    rdfs:comment \"Long-term assignment of a Person to an Organisation.\" ;\n    owl:inverseOf bsm:hasAssignedPerson .\n\nbsm:hasAssignedPerson a owl:ObjectProperty ;\n    rdfs:label \"has assigned person\" ;\n    rdfs:domain bsm:Organisation ;\n    rdfs:range bsm:Person ;\n    rdfs:comment \"Inverse of bsm:isAssignedTo.\" .\n\nbsm:isAttachedTo a owl:ObjectProperty ;\n    rdfs:label \"is attached to\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Organisation ;\n    rdfs:comment \"Temporary attachment of a Person to an Organisation.\" .\n\nbsm:hasSuperior a owl:ObjectProperty ;\n    rdfs:label \"has superior\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Person ;\n    rdfs:comment \"Direct superior of the Person in a chain of command.\" ;\n    owl:inverseOf bsm:hasSubordinate .\n\nbsm:hasSubordinate a owl:ObjectProperty ;\n    rdfs:label \"has subordinate\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Person ;\n    rdfs:comment \"Direct subordinate of the Person.\" .\n\nbsm:isOperativeOf a owl:ObjectProperty ;\n    rdfs:label \"is operative of\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:Organisation ;\n    rdfs:comment \"Person used as a secret or trusted agent of an Organisation.\" .\n\nbsm:hasNationality a owl:ObjectProperty ;\n    rdfs:label \"has nationality\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:PersonNationality ;\n    rdfs:comment \"Attaches a PersonNationality (country + reason) to the Person.\" .\n\nbsm:hasIdentificationDocument a owl:ObjectProperty ;\n    rdfs:label \"has identification document\" ;\n    rdfs:domain bsm:Person ;\n    rdfs:range bsm:PersonIdentificationDocument ;\n    rdfs:comment \"Attaches an identification document held by the Person.\" .\n\n#----- Materiel control / operation / ownership --------------------\n\nbsm:hasController a owl:ObjectProperty ;\n    rdfs:label \"has controller\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Actor ;\n    rdfs:comment \"The Actor that has authority over the Materiel.\" .\n\nbsm:hasOperator a owl:ObjectProperty ;\n    rdfs:label \"has operator\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Actor ;\n    rdfs:comment \"The Actor that operates the Materiel (uses it in practice, distinct from owning or controlling).\" ;\n    owl:inverseOf bsm:operatesMateriel .\n\nbsm:operatesMateriel a owl:ObjectProperty ;\n    rdfs:label \"operates materiel\" ;\n    rdfs:domain bsm:Actor ;\n    rdfs:range bsm:Materiel ;\n    rdfs:comment \"Mirrors mim:Actor.employedMateriel directly.\" .\n\nbsm:hasOwner a owl:ObjectProperty ;\n    rdfs:label \"has owner\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Actor ;\n    rdfs:comment \"The Actor that owns the Materiel.\" ;\n    owl:inverseOf bsm:ownsMateriel .\n\nbsm:ownsMateriel a owl:ObjectProperty ;\n    rdfs:label \"owns materiel\" ;\n    rdfs:domain bsm:Actor ;\n    rdfs:range bsm:Materiel ;\n    rdfs:comment \"Mirrors mim:Actor.ownedMateriel directly. Inverse of bsm:hasOwner.\" .\n\nbsm:isOnAccountOf a owl:ObjectProperty ;\n    rdfs:label \"is on account of\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Actor ;\n    rdfs:comment \"The Actor that holds accounting authority over the Materiel.\" .\n\nbsm:transportsActor a owl:ObjectProperty ;\n    rdfs:label \"transports actor\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Person ;\n    rdfs:comment \"The Materiel is responsible for movement of the Person.\" .\n\nbsm:isLoadedOn a owl:ObjectProperty ;\n    rdfs:label \"is loaded on\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Materiel ;\n    rdfs:comment \"Materiel that is loaded onto another (carrying) Materiel. Mirrors mim:Materiel.loadedMateriel.\" ;\n    owl:inverseOf bsm:carries .\n\nbsm:carries a owl:ObjectProperty ;\n    rdfs:label \"carries\" ;\n    rdfs:domain bsm:Materiel ;\n    rdfs:range bsm:Materiel ;\n    rdfs:comment \"Carrying Materiel. Mirrors mim:Materiel.carryingMateriel. Inverse of bsm:isLoadedOn.\" .\n\n#----- Action \u2014 focus / requirement / result -----------------------------------\n\nbsm:hasFocus a owl:ObjectProperty ;\n    rdfs:label \"has focus\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:ActionObjective ;\n    rdfs:comment \"ActionObjective the Action is directed at.\" .\n\nbsm:hasRequirement a owl:ObjectProperty ;\n    rdfs:label \"has requirement\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:ActionResource ;\n    rdfs:comment \"ActionResource(s) required/requested/allocated by the Action.\" .\n\nbsm:hasResult a owl:ObjectProperty ;\n    rdfs:label \"has result\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:ActionEffect ;\n    rdfs:comment \"ActionEffect resulting from the Action, like fatalities, damage, casualties.\" .\n\nbsm:hasSubAction a owl:ObjectProperty ;\n    rdfs:label \"has sub-action\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:Action ;\n    rdfs:comment \"Sub-action of the Action.\" .\n\nbsm:isCausedBy a owl:ObjectProperty ;\n    rdfs:label \"is caused by\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:Action ;\n    rdfs:comment \"The subject Action is carried out in reaction to the object Action.\" ;\n    owl:inverseOf bsm:hasResponse .\n\nbsm:hasResponse a owl:ObjectProperty ;\n    rdfs:label \"has response\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:Action ;\n    rdfs:comment \"Inverse of bsm:isCausedBy.\" .\n\nbsm:targetsObject a owl:ObjectProperty ;\n    rdfs:label \"targets object\" ;\n    rdfs:domain bsm:ActionObjective ;\n    rdfs:range bsm:Object ;\n    rdfs:comment \"Bridge from ActionObjective to the targeted Object.\" .\n\nbsm:resourceObject a owl:ObjectProperty ;\n    rdfs:label \"resource object\" ;\n    rdfs:domain bsm:ActionResource ;\n    rdfs:range bsm:Object ;\n    rdfs:comment \"Bridge from ActionResource to the participating Object (actor or piece of materiel).\" .\n\nbsm:effectOnObject a owl:ObjectProperty ;\n    rdfs:label \"effect on object\" ;\n    rdfs:domain bsm:ActionEffect ;\n    rdfs:range bsm:Object ;\n    rdfs:comment \"Object that the ActionEffect was observed on.\" .\n\nbsm:involvedActor a owl:ObjectProperty ;\n    rdfs:label \"involved actor\" ;\n    rdfs:domain bsm:Action ;\n    rdfs:range bsm:Actor ;\n    rdfs:comment \"EXTENSION: direct association between an Action and an involved Actor.\" ;\n    bsm:isExtension true .\n\n###############################################################################\n#  Extension: Sanction Designation\n###############################################################################\n\nbsm:SanctionDesignation a owl:Class ;\n    rdfs:label \"Sanction Designation\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    rdfs:comment \"EXTENSION: a formal designation/listing of an Actor under a sanctions, watch-list or debarment regime.\" ;\n    bsm:isExtension true .\n\nbsm:hasSanctionDesignation a owl:ObjectProperty ;\n    rdfs:label \"has sanction designation\" ;\n    rdfs:domain bsm:Actor ;\n    rdfs:range bsm:SanctionDesignation ;\n    rdfs:comment \"Attaches a SanctionDesignation to an Actor.\" ;\n    bsm:isExtension true .\n\nbsm:listingAuthority a owl:ObjectProperty ;\n    rdfs:label \"listing authority\" ;\n    rdfs:domain bsm:SanctionDesignation ;\n    rdfs:range bsm:Organisation ;\n    rdfs:comment \"Organisation that issued the sanction listing.\" ;\n    bsm:isExtension true .\n\nbsm:listingDate a owl:DatatypeProperty ;\n    rdfs:label \"listing date\" ;\n    rdfs:domain bsm:SanctionDesignation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Date on which the designation was issued.\" ;\n    bsm:isExtension true .\n\nbsm:delistingDate a owl:DatatypeProperty ;\n    rdfs:label \"delisting date\" ;\n    rdfs:domain bsm:SanctionDesignation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Date on which the designation was lifted, if applicable.\" ;\n    bsm:isExtension true .\n\nbsm:sanctionReason a owl:DatatypeProperty ;\n    rdfs:label \"sanction reason\" ;\n    rdfs:domain bsm:SanctionDesignation ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Free-text reason for which the designation was made.\" ;\n    bsm:isExtension true .\n\nbsm:sourceUrl a owl:DatatypeProperty ;\n    rdfs:label \"source URL\" ;\n    rdfs:domain bsm:SanctionDesignation ;\n    rdfs:range xsd:anyURI ;\n    rdfs:comment \"URL pointing to the public listing document.\" ;\n    bsm:isExtension true .\n\n###############################################################################\n#  Facility hierarchy\n###############################################################################\n\nbsm:Facility a owl:Class ;\n    rdfs:label \"Facility\" ;\n    rdfs:subClassOf bsm:Object ;\n    rdfs:comment \"An Object that is built, installed or established to serve a particular purpose and is identified by the service it provides rather than by its content.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#FacilityType> .\n\nbsm:TransportFacility a owl:Class ;\n    rdfs:label \"Transport Facility\" ;\n    rdfs:subClassOf bsm:Facility ;\n    rdfs:comment \"Facility supporting the movement of vehicles, persons or goods. Parent of air, maritime and ground transport facilities.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#TransportFacilityType> .\n\nbsm:MaritimeTransportFacility a owl:Class ;\n    rdfs:label \"Maritime Transport Facility\" ;\n    rdfs:subClassOf bsm:TransportFacility ;\n    rdfs:comment \"Maritime transport infrastructure \u2014 ports, harbours, piers, anchorages, naval bases.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MaritimeTransportFacilityType> .\n\nbsm:Port a owl:Class ;\n    rdfs:label \"Port\" ;\n    rdfs:subClassOf bsm:MaritimeTransportFacility ;\n    rdfs:comment \"Civilian or commercial port. Mirrors mim:PortType.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PortType> .\n\nbsm:MilitarySeaportOrNavalBase a owl:Class ;\n    rdfs:label \"Military Seaport or Naval Base\" ;\n    rdfs:subClassOf bsm:MaritimeTransportFacility ;\n    rdfs:comment \"Military seaport or naval base.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MilitarySeaportOrNavalBaseType> .\n\nbsm:Harbour a owl:Class ;\n    rdfs:label \"Harbour\" ;\n    rdfs:subClassOf bsm:MaritimeTransportFacility ;\n    rdfs:comment \"Harbour\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#HarbourType> .\n\nbsm:AirTransportFacility a owl:Class ;\n    rdfs:label \"Air Transport Facility\" ;\n    rdfs:subClassOf bsm:TransportFacility ;\n    rdfs:comment \"Air transport infrastructure.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirTransportFacilityType> .\n\nbsm:AirportOrAirbase a owl:Class ;\n    rdfs:label \"Airport or Airbase\" ;\n    rdfs:subClassOf bsm:AirTransportFacility ;\n    rdfs:comment \"Civilian airport or military airbase.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirportOrAirbaseType> .\n\nbsm:EnergyFacility a owl:Class ;\n    rdfs:label \"Energy Facility\" ;\n    rdfs:subClassOf bsm:Facility ;\n    rdfs:comment \"Energy generation, transmission or storage infrastructure like power plants, substations, offshore wind farms, gas terminals.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#EnergyFacilityType> .\n\nbsm:PetroleumProductionComplex a owl:Class ;\n    rdfs:label \"Petroleum Production Complex\" ;\n    rdfs:subClassOf bsm:Facility ;\n    rdfs:comment \"Refineries, oil terminals and gas terminals.\" ;\n    rdfs:isDefinedBy <https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PetroleumProductionComplexType> .\n\n#----- Facility attributes -----------------------------------------------------\n\nbsm:facilityIsActiveIndicator a owl:DatatypeProperty ;\n    rdfs:label \"facility is active\" ;\n    rdfs:domain bsm:Facility ;\n    rdfs:range xsd:boolean ;\n    rdfs:comment \"True if the Facility is currently in active operation.\" .\n\nbsm:facilityAccessRestrictionCode a owl:DatatypeProperty ;\n    rdfs:label \"facility access restriction code\" ;\n    rdfs:domain bsm:Facility ;\n    rdfs:range xsd:string ;\n    rdfs:comment \"Access-restriction class for the Facility (e.g. unrestricted, restricted, prohibited).\" .\n\nbsm:hasControlledFacility a owl:ObjectProperty ;\n    rdfs:label \"has controlled facility\" ;\n    rdfs:domain bsm:Actor ;\n    rdfs:range bsm:Facility ;\n    rdfs:comment \"Facility under the control of the Actor.\" .\n\n# ADSB Extensions\n\nbsm:Observation a owl:Class ;\n    rdfs:label \"Observation\" ;\n    rdfs:subClassOf bsm:BattlespaceConcept ;\n    bsm:isExtension true .\n\nbsm:hasObservation a owl:ObjectProperty ;\n    rdfs:label \"has observation\" ;\n    rdfs:domain bsm:Vehicle ;\n    rdfs:range bsm:Observation ;\n    bsm:isExtension true .\n\nbsm:observationDateTime a owl:DatatypeProperty ;\n    rdfs:label \"observation date time\" ;\n    rdfs:domain bsm:Observation ;\n    rdfs:range xsd:string ;\n    bsm:isExtension true .\n\nbsm:partOf a owl:ObjectProperty ;\n    rdfs:label \"part of\" ;\n    rdfs:domain bsm:BattlespaceConcept ;\n    rdfs:comment \"Indicates that an entity is a subpart of a higher concept, added initially for location hierarchy: City, Region, Country\" ;\n    bsm:isExtension true .\n\nReturn the mapping as JSON.",
+  "raw_response": "```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"event_id_cnty\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"event_{event_id_cnty}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Action\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Each row carries a unique event_id_cnty, so each row is modeled as one Action entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:actionDescriptionText\",\n          \"confidence\": 0.8,\n          \"basis\": \"description\",\n          \"reasoning\": \"The notes column provides a short description of the event, matching the actionDescriptionText property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"notes\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:eventStartDateTime\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The event_date column matches the eventStartDateTime property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"event_date\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:involvedActor\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The actor1 and actor2 columns imply involvement in the Action, matching the involvedActor property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor1\"\n              },\n              \"transformation\": {\n                \"expression\": \"actor_{actor1}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Actor\"\n                  }\n                ],\n                \"property_mappings\": []\n              }\n            },\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor2\"\n              },\n              \"transformation\": {\n                \"expression\": \"actor_{actor2}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Actor\"\n                  }\n                ],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.9,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The location, latitude, and longitude columns imply a geographic location, matching the hasGeographicLocation property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"location\"\n              },\n              \"transformation\": {\n                \"expression\": \"location_{location}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Location\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:locationName\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The location column matches the locationName property.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"location\"\n                        },\n                        \"transformation\": null,\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:hasGeometry\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"The latitude and longitude columns imply a geometric location, matching the hasGeometry property.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"latitude\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"point_{latitude}_{longitude}\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:AbsolutePoint\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:latitudeDecimal\",\n                              \"confidence\": 0.9,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The latitude column matches the latitudeDecimal property.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"latitude\"\n                                  },\n                                  \"transformation\": null,\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:longitudeDecimal\",\n                              \"confidence\": 0.9,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The longitude column matches the longitudeDecimal property.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"longitude\"\n                                  },\n                                  \"transformation\": null,\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasResult\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The fatalities column implies a result of the Action, matching the hasResult property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"fatalities\"\n              },\n              \"transformation\": {\n                \"expression\": \"effect_{fatalities}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:ActionEffect\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:effectQuantityNumber\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The fatalities column matches the effectQuantityNumber property.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"fatalities\"\n                        },\n                        \"transformation\": null,\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"actor1\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"actor_{actor1}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Actor\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Each actor1 value is modeled as one Actor entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"The actor1 column matches the conceptName property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor1\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"actor2\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"actor_{actor2}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Actor\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Each actor2 value is modeled as one Actor entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"The actor2 column matches the conceptName property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor2\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"location\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"location_{location}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Location\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Each location value is modeled as one Location entity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:locationName\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The location column matches the locationName property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"location\"\n              },\n              \"transformation\": null,\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"time_precision\",\n    \"disorder_type\",\n    \"event_type\",\n    \"sub_event_type\",\n    \"assoc_actor_1\",\n    \"inter1\",\n    \"assoc_actor_2\",\n    \"inter2\",\n    \"interaction\",\n    \"civilian_targeting\",\n    \"iso\",\n    \"region\",\n    \"country\",\n    \"admin1\",\n    \"admin2\",\n    \"admin3\",\n    \"geo_precision\",\n    \"source\",\n    \"source_scale\",\n    \"tags\",\n    \"timestamp\",\n    \"population_1km\",\n    \"population_2km\",\n    \"population_5km\",\n    \"population_best\"\n  ]\n}\n```"
+}

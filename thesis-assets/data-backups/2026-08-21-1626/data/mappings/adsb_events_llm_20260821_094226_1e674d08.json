@@ -1,0 +1,895 @@
+{
+  "id": "193417ea-3a8e-4f37-bfbf-8a8bcb3e3f42",
+  "source_name": "adsb_events",
+  "status": "draft",
+  "llm_model": "moonshotai/kimi-k3",
+  "strategy": "chain_of_thought",
+  "ontology_format": "json_ld",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "icao24",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "aircraft_{icao24}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Aircraft"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.91,
+          "basis": "value",
+          "reasoning": "Sample values such as VIPER11 and FALCON03 are callsigns, and bsm:alternateName explicitly mentions callsigns and transponder-broadcast names."
+        },
+        {
+          "property_uri": "bsm:sourceIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "icao24",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.58,
+          "basis": "name",
+          "reasoning": "icao24 is the source identifier column for the aircraft record, matching the extension property used for traceability back to the originating record."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "squawk",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "alternate_identifier_squawk_{icao24}_{squawk}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:AlternateIdentifier"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:alternateIdentifierStandardCode",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "constant",
+                          "column_name": null,
+                          "constant_value": "squawk"
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.5,
+                    "basis": "name",
+                    "reasoning": "The scheme qualifier is fixed from the column name squawk."
+                  },
+                  {
+                    "property_uri": "bsm:alternateIdentifierValue",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "squawk",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.6,
+                    "basis": "name",
+                    "reasoning": "The squawk column supplies the identifier value for that scheme."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.56,
+          "basis": "name",
+          "reasoning": "squawk is a distinct transponder identifier scheme alongside icao24, so it is attached as an AlternateIdentifier with a constant scheme of squawk."
+        },
+        {
+          "property_uri": "bsm:hasObservation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "time",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "observation_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Observation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:observationDateTime",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "time",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "name",
+                    "reasoning": "time is the observation timestamp for the per-row Observation entity."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.86,
+          "basis": "structural",
+          "reasoning": "Each timeseries row is one observation of the same Aircraft, linked by the Vehicle-to-Observation property bsm:hasObservation."
+        }
+      ],
+      "confidence": 0.93,
+      "basis": "name",
+      "reasoning": "ADS-B records are aircraft state reports and icao24 is the stable aircraft transponder address used as the Aircraft identifier."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "time",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "observation_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Observation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:observationDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "time",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.96,
+          "basis": "name",
+          "reasoning": "Column time directly matches the Observation timestamp property."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "location_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:hasGeometry",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "lat",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "absolute_point_{icao24}_{time}",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:AbsolutePoint"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:latitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lat",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.98,
+                              "basis": "name",
+                              "reasoning": "lat is decimal WGS-84 latitude."
+                            },
+                            {
+                              "property_uri": "bsm:longitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "lon",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.98,
+                              "basis": "name",
+                              "reasoning": "lon is decimal WGS-84 longitude."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.93,
+                    "basis": "structural",
+                    "reasoning": "The Location entity wraps the AbsolutePoint geometry built from lat and lon."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.94,
+          "basis": "structural",
+          "reasoning": "lat and lon on the same row support a Location wrapper, which the ontology expects before its Geometry component."
+        },
+        {
+          "property_uri": "bsm:hasVelocity",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "velocity",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "velocity_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Velocity"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:speedMetersPerSecond",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "velocity",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "name",
+                    "reasoning": "The velocity column is the ground-speed field in the ADS-B state vector."
+                  },
+                  {
+                    "property_uri": "bsm:absoluteBearingAngle",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "heading",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.62,
+                    "basis": "name",
+                    "reasoning": "heading is grouped with velocity as movement direction; the chose property means course/track rather than the Orientation headingAngle nose direction, so confidence is moderate."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.84,
+          "basis": "structural",
+          "reasoning": "velocity, heading and vertrate form the movement group of the state report, and the Velocity class is described as speed, course and inclination."
+        },
+        {
+          "property_uri": "bsm:hasAltitude",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "baroaltitude",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altitude_baro_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Altitude"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:altitudeMeters",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "baroaltitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.93,
+                    "basis": "name",
+                    "reasoning": "baroaltitude is an altitude value in meters, even though the ontology does not distinguish barometric from geometric altitude."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "baroaltitude supplies one altitude measurement for the observation."
+        },
+        {
+          "property_uri": "bsm:hasAltitude",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "geoaltitude",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altitude_geo_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Altitude"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:altitudeMeters",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "geoaltitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.93,
+                    "basis": "name",
+                    "reasoning": "geoaltitude is an altitude value in meters; a separate subject expression avoids merging it with the barometric altitude."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "geoaltitude supplies a second altitude measurement for the same observation."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "The timeseries has one record per report time, so icao24 plus time distinguishes each Observation for the same or different aircraft."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "lat",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "location_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:hasGeometry",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "absolute_point_{icao24}_{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:AbsolutePoint"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:latitudeDecimal",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "lat",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.98,
+                    "basis": "name",
+                    "reasoning": "lat matches AbsolutePoint latitude in decimal degrees."
+                  },
+                  {
+                    "property_uri": "bsm:longitudeDecimal",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "lon",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.98,
+                    "basis": "name",
+                    "reasoning": "lon matches AbsolutePoint longitude in decimal degrees."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.93,
+          "basis": "structural",
+          "reasoning": "The ontology models Location as the wrapper around Geometry, so the row's point geometry is attached through bsm:hasGeometry."
+        }
+      ],
+      "confidence": 0.92,
+      "basis": "structural",
+      "reasoning": "lat/lon evidence a Location wrapper because bsm:hasGeographicLocation targets bsm:Location rather than Geometry directly."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "lat",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "absolute_point_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AbsolutePoint"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:latitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.99,
+          "basis": "name",
+          "reasoning": "Column lat maps by name and numeric value to decimal latitude."
+        },
+        {
+          "property_uri": "bsm:longitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lon",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.99,
+          "basis": "name",
+          "reasoning": "Column lon maps by name and numeric value to decimal longitude."
+        }
+      ],
+      "confidence": 0.97,
+      "basis": "name",
+      "reasoning": "lat and lon are WGS-84 decimal coordinates, which is exactly the AbsolutePoint specialization of Point."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "velocity",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "velocity_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Velocity"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:speedMetersPerSecond",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "velocity",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "velocity is the speed component of the ADS-B movement vector."
+        },
+        {
+          "property_uri": "bsm:absoluteBearingAngle",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.62,
+          "basis": "name",
+          "reasoning": "heading is interpreted as course/track within the movement vector; the alternative bsm:headingAngle would only fit if the column meant aircraft nose direction rather than track."
+        }
+      ],
+      "confidence": 0.84,
+      "basis": "structural",
+      "reasoning": "The movement columns occur together per report, and bsm:Velocity is the ontology class for speed/course/inclination of an Object or Observation."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "baroaltitude",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altitude_baro_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Altitude"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:altitudeMeters",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "baroaltitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.93,
+          "basis": "name",
+          "reasoning": "baroaltitude carries the altitude value; the ontology has no separate barometric/geometric qualifier property."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "name",
+      "reasoning": "baroaltitude is populated as an altitude value in meters on every shown row."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "geoaltitude",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altitude_geo_{icao24}_{time}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Altitude"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:altitudeMeters",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "geoaltitude",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.93,
+          "basis": "name",
+          "reasoning": "geoaltitude carries the altitude value; a separate expression preserves it alongside baroaltitude without merging the two measurements."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "name",
+      "reasoning": "geoaltitude is populated as a second altitude value in meters on every shown row."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "squawk",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "alternate_identifier_squawk_{icao24}_{squawk}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "squawk"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.5,
+          "basis": "name",
+          "reasoning": "The standard/scheme is taken from the column name squawk as a constant."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "squawk",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.6,
+          "basis": "name",
+          "reasoning": "The squawk column supplies the alternate identifier value."
+        }
+      ],
+      "confidence": 0.56,
+      "basis": "name",
+      "reasoning": "squawk is a transponder code distinct from icao24, so it is modeled as value plus a fixed standard scheme."
+    }
+  ],
+  "unmapped_fields": [
+    "vertrate",
+    "onground"
+  ],
+  "generation_timestamp": "2026-08-21 10:53:46.783019",
+  "prompt_tokens": 19498,
+  "completion_tokens": 10796,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nFirst, think step by step in plain prose. Do not use triple backticks, code fences, or\nJSON syntax anywhere in this reasoning section \u2014 save all of that for the final block:\n- List the distinct entity types present in the schema (e.g. one column group per real-world entity).\n- For each entity type, decide which column or constant value is its identifier (the subject).\n- For each entity type, decide which ontology class it corresponds to.\n- For each entity type, check the ontology for object properties leading from it to other\n  classes. If the schema has columns supporting one of those linked classes, name it as its\n  own entity now, before moving to property mapping - do not discover it late and fold it\n  into another entity as literals just because its columns sit on the same source row.\n  Conversely, if a candidate linked class only fits because one column has a generic\n  id/code/type-sounding name, check whether the schema actually shows that class's\n  structure (e.g. more than one scheme/standard for the same entity) before creating it -\n  otherwise it stays a plain property of the entity you already have.\n- For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity. When two candidate properties are near-synonyms differing by only a qualifying word or prefix, say so explicitly and name the qualifier that decides between them - and if the column itself is silent on which one, do not default to the more common-sounding synonym; say explicitly that it is ambiguous.\n- If a value points to another entity, set value_type to \"iri\" and include nested\n  type_mappings/property_mappings if applicable. Write the referenced entity's\n  subject_transformation expression once and reuse that exact string for this value's\n  transformation rather than retyping it.\n- For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values \u2014 not generic filler.\n- Note any columns that have no suitable ontology match, and list them in unmapped_fields.\n- Before writing the JSON block, walk through every IRI-typed value once more and confirm\n  its transformation string is character-for-character identical to the subject_transformation\n  of the entity it references; fix any mismatch you find.\n- Also confirm every subject_transformation/transformation key you did not need is left out\n  entirely (never an empty {}), and that the JSON block itself will parse: escaped strings,\n  no trailing commas, matching brackets.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped. Construct each subject_transformation\n  expression once, then copy that exact string into every value.transformation meant to\n  reference it, rather than writing the two independently - re-typing the same-looking\n  expression a second time is the most common way a mismatch slips in. Before finalizing,\n  compare each IRI value's transformation string against the subject_transformation of the\n  entity it points to character by character - a different prefix, a pluralization, or\n  reordered placeholders all count as a mismatch and silently break the relation.\n- Do not fold every remaining column into the single most obvious entity as literal\n  properties. First check the ontology for object properties that lead from your entity to\n  other classes: a concept the ontology models as its own class one hop away is easy to miss\n  when its columns happen to sit right next to the primary entity's columns on the same\n  source row. If the schema has columns that populate such a linked class's identity or\n  properties, create it as its own subject_mapping and connect it with an \"iri\"-typed value\n  instead of discarding it or attaching it as a literal on the entity you already have.\n- Do not create a subject_mapping for a class the schema does not evidence. Every entity you\n  emit needs at least one column that plausibly identifies it or fills one of its properties;\n  do not add a class just because the ontology offers a plausible-sounding generic or\n  catalog type when nothing in the schema is specific to that class. Be especially wary of a\n  class that exists only to bundle one generic value together with the scheme, standard, or\n  type that qualifies it (recognizable by having just one or two generic-sounding\n  properties, e.g. a \"kind\"/\"standard\" field plus a \"value\" field): that shape models an\n  entity carrying more than one label or code under different schemes at once, and a single\n  column whose name merely contains a generic word like \"id\", \"code\", \"number\", or \"type\" is\n  not, by itself, evidence for it - most such columns are still a plain attribute of the\n  entity you already have. Only use that kind of class when the schema shows the actual\n  structure it models, e.g. several columns naming distinct schemes/standards for the same\n  entity, or a column that names the scheme itself.\n- Ontology properties are often near-synonyms whose local names differ by only one\n  qualifying word or prefix (e.g. two properties that share most of their name but differ\n  in tense, direction, or granularity). Read the full local name, not just its most\n  distinctive substring, and match every qualifying word against the column's exact meaning\n  rather than the nearer-sounding or more common alternative; if the column and the\n  candidate property disagree on a qualifier, treat it as ambiguous instead of assuming\n  they match. Do not default to whichever synonym sounds more common, more general, or more\n  familiar when the column itself does not clearly say so - that default guess is wrong just\n  as often as the alternative, and a wrong choice here typically also breaks any relation\n  that depends on this property to identify the entity, so treat it as high-stakes rather\n  than a minor label choice.\n- Omit subject_transformation and transformation entirely when no expression is needed - do\n  not include the key at all, and never emit it as an empty object {} or as null. An empty\n  object still means \"a transformation was given\" and requires its expression field, so\n  leaving the key out completely is the only valid way to skip it.\n- Output must be syntactically valid JSON: every string is properly escaped (quotes,\n  backslashes, newlines), no trailing commas, no comments, and every opening bracket or\n  brace has its matching close. Malformed JSON discards the entire response, not just the\n  affected field, so when in doubt keep punctuation simple rather than risk breaking the\n  parse.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nAfter your reasoning, output the final mapping as exactly one JSON code block\n(```json ... ```) matching this exact structure. This must be the only fenced block in\nyour entire response, with nothing before its opening ``` other than your plain-prose\nreasoning, and nothing at all after its closing ```:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces. This whole subject_transformation key is OPTIONAL: when no template is needed, omit the key entirely - never emit it as an empty object {}.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. This whole transformation key is OPTIONAL: when the raw column value is used as-is, omit the key entirely - never emit it as an empty object {}.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: adsb_events (type: timeseries)\n\nSCHEMA:\n  time: timestamp with time zone\n  icao24: text\n  lat: double precision\n  lon: double precision\n  velocity: double precision\n  heading: double precision\n  vertrate: double precision\n  callsign: text\n  onground: boolean\n  squawk: text\n  baroaltitude: double precision\n  geoaltitude: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    time: '2026-03-11 08:20:00+00:00'\n    icao24: 'ab58b2'\n    lat: 54.401\n    lon: 18.71\n    velocity: 231.4\n    heading: 187.2\n    vertrate: -2.5\n    callsign: 'VIPER11'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 430.0\n    geoaltitude: 452.6\n  record 2:\n    time: '2026-03-11 09:20:00+00:00'\n    icao24: '3f7a21'\n    lat: 54.3801\n    lon: 18.612\n    velocity: 243.9\n    heading: 191.8\n    vertrate: 0.0\n    callsign: 'VIPER12'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 505.0\n    geoaltitude: 521.3\n  record 3:\n    time: '2026-03-11 10:20:00+00:00'\n    icao24: '4841b9'\n    lat: 54.29\n    lon: 18.55\n    velocity: 198.6\n    heading: 43.1\n    vertrate: 4.8\n    callsign: 'FALCON03'\n    onground: False\n    squawk: '7776'\n    baroaltitude: 1180.0\n    geoaltitude: 1204.7\n\nONTOLOGY:\n{\n  \"@context\": {\n    \"brick\": \"https://brickschema.org/schema/Brick#\",\n    \"bsm\": \"https://thesis.tum.de/baltic-sea-monitoring/ontology#\",\n    \"csvw\": \"http://www.w3.org/ns/csvw#\",\n    \"dc\": \"http://purl.org/dc/elements/1.1/\",\n    \"dcam\": \"http://purl.org/dc/dcam/\",\n    \"dcat\": \"http://www.w3.org/ns/dcat#\",\n    \"dcmitype\": \"http://purl.org/dc/dcmitype/\",\n    \"dcterms\": \"http://purl.org/dc/terms/\",\n    \"doap\": \"http://usefulinc.com/ns/doap#\",\n    \"foaf\": \"http://xmlns.com/foaf/0.1/\",\n    \"geo\": \"http://www.opengis.net/ont/geosparql#\",\n    \"geo1\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\n    \"mim\": \"https://mimworld.org/mim/5.3/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\n    \"org\": \"http://www.w3.org/ns/org#\",\n    \"owl\": \"http://www.w3.org/2002/07/owl#\",\n    \"prof\": \"http://www.w3.org/ns/dx/prof/\",\n    \"prov\": \"http://www.w3.org/ns/prov#\",\n    \"qb\": \"http://purl.org/linked-data/cube#\",\n    \"rdf\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",\n    \"rdfs\": \"http://www.w3.org/2000/01/rdf-schema#\",\n    \"schema\": \"https://schema.org/\",\n    \"sh\": \"http://www.w3.org/ns/shacl#\",\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"sosa\": \"http://www.w3.org/ns/sosa/\",\n    \"ssn\": \"http://www.w3.org/ns/ssn/\",\n    \"time\": \"http://www.w3.org/2006/time#\",\n    \"vann\": \"http://purl.org/vocab/vann/\",\n    \"void\": \"http://rdfs.org/ns/void#\",\n    \"wgs\": \"https://www.w3.org/2003/01/geo/wgs84_pos#\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@graph\": [\n    {\n      \"@id\": \"_:cb1ecb55856aaeeffef6ed55665ab121b9e8a7d34eecff889f1664740f4ffcac8f\",\n      \"owl:unionOf\": {\n        \"@list\": [\n          {\n            \"@id\": \"bsm:Object\"\n          },\n          {\n            \"@id\": \"bsm:Observation\"\n          }\n        ]\n      }\n    },\n    {\n      \"@id\": \"_:cb76d44575e3791fdd3dc2013f4adbd4b07b253f80b9c2e3657db14483d514b703\",\n      \"owl:unionOf\": {\n        \"@list\": [\n          {\n            \"@id\": \"bsm:Object\"\n          },\n          {\n            \"@id\": \"bsm:Observation\"\n          }\n        ]\n      }\n    },\n    {\n      \"@id\": \"_:cbe38e0130eada4ef1204eec09a4909628ccc97e8f32fe812e722fbd9f3007e23f\",\n      \"owl:unionOf\": {\n        \"@list\": [\n          {\n            \"@id\": \"bsm:Object\"\n          },\n          {\n            \"@id\": \"bsm:Observation\"\n          }\n        ]\n      }\n    },\n    {\n      \"@id\": \"bsm:AbsolutePoint\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A Point with its position specified in WGS-84 latitude, longitude and vertical distance.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#AbsolutePointType\"\n      },\n      \"rdfs:label\": \"Absolute Point\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Point\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Action\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"An activity (or the occurrence of one) that may use resources and may be focused against an objective. Used for conflict events, incidents, movements and aircraft activities.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionType\"\n      },\n      \"rdfs:label\": \"Action\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:ActionEffect\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"The effectiveness of an Action against an Object or type of Object: fatalities, casualties, damage, destruction.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionEffectType\"\n      },\n      \"rdfs:label\": \"Action Effect\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:ActionObjective\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"The intended focus of an Action.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionObjectiveType\"\n      },\n      \"rdfs:label\": \"Action Objective\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:ActionResource\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"An Object (or type of Object) used in conducting an Action.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Action#ActionResourceType\"\n      },\n      \"rdfs:label\": \"Action Resource\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Actor\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A person or a group of persons able to perform actions.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor#ActorType\"\n      },\n      \"rdfs:label\": \"Actor\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Affiliation\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Membership or allegiance to an ethnic group, country, functional group, exercise group or religion.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Affiliation#AffiliationType\"\n      },\n      \"rdfs:label\": \"Affiliation\"\n    },\n    {\n      \"@id\": \"bsm:AirTransportFacility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Air transport infrastructure.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirTransportFacilityType\"\n      },\n      \"rdfs:label\": \"Air Transport Facility\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:TransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Aircraft\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A Vehicle designed to fly within the earth's atmosphere.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Aircraft#AircraftType\"\n      },\n      \"rdfs:label\": \"Aircraft\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Vehicle\"\n      }\n    },\n    {\n      \"@id\": \"bsm:AirportOrAirbase\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Civilian airport or military airbase.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#AirportOrAirbaseType\"\n      },\n      \"rdfs:label\": \"Airport or Airbase\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:AirTransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:AlternateIdentifier\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"The alternate identification of a BattlespaceConcept used to communicate using another standard.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept#AlternateIdentifierType\"\n      },\n      \"rdfs:label\": \"Alternate Identifier\"\n    },\n    {\n      \"@id\": \"bsm:Altitude\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Altitude of an object (Extension)\",\n      \"rdfs:label\": \"Altitude\"\n    },\n    {\n      \"@id\": \"bsm:BattlespaceConcept\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept#BattlespaceConceptType\"\n      },\n      \"rdfs:label\": \"Battlespace Concept\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Concept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Concept\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/Concept#ConceptType\"\n      },\n      \"rdfs:label\": \"Concept\"\n    },\n    {\n      \"@id\": \"bsm:ConsumableMateriel\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Consumable goods, food, ammunition, etc.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/ConsumableMateriel\"\n      },\n      \"rdfs:label\": \"ConsumableMateriel\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:EnergyFacility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Energy generation, transmission or storage infrastructure like power plants, substations, offshore wind farms, gas terminals.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#EnergyFacilityType\"\n      },\n      \"rdfs:label\": \"Energy Facility\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Facility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Equipment\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Materiel that is neither intended for consumption nor an unexploded piece of ordnance.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#EquipmentType\"\n      },\n      \"rdfs:label\": \"Equipment\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:EthnicAffiliation\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Affiliation with an ethnic group.\",\n      \"rdfs:label\": \"Ethnic Affiliation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Affiliation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Facility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"An Object that is built, installed or established to serve a particular purpose and is identified by the service it provides rather than by its content.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#FacilityType\"\n      },\n      \"rdfs:label\": \"Facility\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Geometry\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Measurements and relationships of points, lines, surfaces and volumes. Abstract parent of Point, Line, Surface in MIM.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#GeometryType\"\n      },\n      \"rdfs:label\": \"Geometry\"\n    },\n    {\n      \"@id\": \"bsm:GeopoliticalAffiliation\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Affiliation with a country or political entity: flag state of a vessel, country of registration of an aircraft, or the jurisdiction an actor is associated with.\",\n      \"rdfs:label\": \"Geopolitical Affiliation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Affiliation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Harbour\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Harbour\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#HarbourType\"\n      },\n      \"rdfs:label\": \"Harbour\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:MaritimeTransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:LandVehicle\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A vehicle designed to operate on the ground.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/LandVehicle#LandVehicleType\"\n      },\n      \"rdfs:label\": \"Land Vehicle\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Vehicle\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Line\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A one-dimensional location, ordered sequence of points.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LineType\"\n      },\n      \"rdfs:label\": \"Line\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Geometry\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Location\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A position and geometry with respect to a horizontal frame of reference and a vertical datum. The MIM-standard wrapper around a Geometry.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#LocationType\"\n      },\n      \"rdfs:label\": \"Location\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:MaritimeTransportFacility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Maritime transport infrastructure \\u2014 ports, harbours, piers, anchorages, naval bases.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MaritimeTransportFacilityType\"\n      },\n      \"rdfs:label\": \"Maritime Transport Facility\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:TransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Materiel\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Superclass for military supplies, vehicles, and other tools\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel#MaterielType\"\n      },\n      \"rdfs:label\": \"Materiel\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:MilitarySeaportOrNavalBase\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Military seaport or naval base.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#MilitarySeaportOrNavalBaseType\"\n      },\n      \"rdfs:label\": \"Military Seaport or Naval Base\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:MaritimeTransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Mobility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Description of the mobility characteristics of a unit or piece of equipment (terrain types, propulsion modes, range). Mirrors mim:MobilityType.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Mobility#MobilityType\"\n      },\n      \"rdfs:label\": \"Mobility\"\n    },\n    {\n      \"@id\": \"bsm:Object\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object#ObjectType\"\n      },\n      \"rdfs:label\": \"Object\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Observation\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:label\": \"Observation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Organisation\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"An administrative or functional structure.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Organisation#OrganisationType\"\n      },\n      \"rdfs:label\": \"Organisation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Orientation\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Inclination of the three principal axes of an Object (longitudinal, lateral, vertical) with respect to the geographic coordinate system.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#OrientationType\"\n      },\n      \"rdfs:label\": \"Orientation\"\n    },\n    {\n      \"@id\": \"bsm:Person\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A human being of military or civilian significance.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonType\"\n      },\n      \"rdfs:label\": \"Person\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:PersonIdentificationDocument\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A formal identification document held by a Person like passport, national ID, driver's licence, etc.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonIdentificationDocumentType\"\n      },\n      \"rdfs:label\": \"Person Identification Document\"\n    },\n    {\n      \"@id\": \"bsm:PersonNationality\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A citizenship description for a Person\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Actor/Person#PersonNationalityType\"\n      },\n      \"rdfs:label\": \"Person Nationality\"\n    },\n    {\n      \"@id\": \"bsm:PetroleumProductionComplex\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Refineries, oil terminals and gas terminals.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PetroleumProductionComplexType\"\n      },\n      \"rdfs:label\": \"Petroleum Production Complex\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Facility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Point\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A zero-dimensional location.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#PointType\"\n      },\n      \"rdfs:label\": \"Point\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Geometry\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Port\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Civilian or commercial port. Mirrors mim:PortType.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#PortType\"\n      },\n      \"rdfs:label\": \"Port\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:MaritimeTransportFacility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:ReligiousAffiliation\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Affiliation with a religion or religious community.\",\n      \"rdfs:label\": \"Religious Affiliation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Affiliation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:SanctionDesignation\",\n      \"@type\": \"owl:Class\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"EXTENSION: a formal designation/listing of an Actor under a sanctions, watch-list or debarment regime.\",\n      \"rdfs:label\": \"Sanction Designation\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Surface\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A two-dimensional location. Mirrors mim:SurfaceType.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#SurfaceType\"\n      },\n      \"rdfs:label\": \"Surface\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Geometry\"\n      }\n    },\n    {\n      \"@id\": \"bsm:TransportFacility\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"Facility supporting the movement of vehicles, persons or goods. Parent of air, maritime and ground transport facilities.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Facility#TransportFacilityType\"\n      },\n      \"rdfs:label\": \"Transport Facility\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Facility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Vehicle\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A conveyance for transporting persons or things. Common parent of Aircraft, Vessel and LandVehicle.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment#VehicleType\"\n      },\n      \"rdfs:label\": \"Vehicle\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Equipment\"\n      }\n    },\n    {\n      \"@id\": \"bsm:Velocity\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"The movement of an Object in terms of speed, course and inclination.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Location#VelocityType\"\n      },\n      \"rdfs:label\": \"Velocity\"\n    },\n    {\n      \"@id\": \"bsm:Vessel\",\n      \"@type\": \"owl:Class\",\n      \"rdfs:comment\": \"A Vehicle designed to operate on or under the water surface.\",\n      \"rdfs:isDefinedBy\": {\n        \"@id\": \"https://mimworld.org/mim/5.3/BattlespaceConcept/Object/Materiel/Equipment/Vessel#VesselType\"\n      },\n      \"rdfs:label\": \"Vessel\",\n      \"rdfs:subClassOf\": {\n        \"@id\": \"bsm:Vehicle\"\n      }\n    },\n    {\n      \"@id\": \"bsm:absoluteBearingAngle\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Course over ground / track angle, degrees clockwise from true north.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Velocity\"\n      },\n      \"rdfs:label\": \"absolute bearing angle\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:actionDescriptionText\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Free-text description of the Action.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"action description\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:additionalInformationText\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Free-text additional information about the concept that does not fit any structured attribute.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"additional information\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:affiliationEthnicGroupCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Ethnic group identifier.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:EthnicAffiliation\"\n      },\n      \"rdfs:label\": \"ethnic group code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:affiliationReligionCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Religion identifier.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ReligiousAffiliation\"\n      },\n      \"rdfs:label\": \"religion code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:alternateIdentifierStandardCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"The identifier authority/standard\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:AlternateIdentifier\"\n      },\n      \"rdfs:label\": \"alternate identifier standard code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:alternateIdentifierValue\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"The identifier value itself, as a string.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:AlternateIdentifier\"\n      },\n      \"rdfs:label\": \"alternate identifier value\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:alternateName\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"An additional name by which the concept is known \\u2014 aliases, callsigns, transponder-broadcast names, vessel AIS names.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"alternate name\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:altitudeMeters\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Altitude of the object in meters.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Altitude\"\n      },\n      \"rdfs:label\": \"altitude in meters\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:birthDate\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Date of birth of the Person.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"birth date\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:carries\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Carrying Materiel. Mirrors mim:Materiel.carryingMateriel. Inverse of bsm:isLoadedOn.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"carries\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:characteristicCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Profession, social status or legal/military involvement of the Person. Backed by the MIM PersonCharacteristicCode enumeration.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"characteristic code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:classificationCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Classification of the Action.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"classification code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:conceptName\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Primary name of the Concept. Mandatory in MIM.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Concept\"\n      },\n      \"rdfs:label\": \"name\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:deathDate\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Date of death of the Person, if applicable.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"death date\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:delistingDate\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Date on which the designation was lifted, if applicable.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      },\n      \"rdfs:label\": \"delisting date\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:descriptionText\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Free-text description of the Organisation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Organisation\"\n      },\n      \"rdfs:label\": \"description\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:designRangeCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Range category of the Aircraft.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"design range code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:designRoleCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Primary design role of the Aircraft (fighter, transport, surveillance, \\u2026).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"design role code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:dutyStatusCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Current duty status of the Person (active, on leave, retired, \\u2026).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"duty status code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:effectDescriptionCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Type of outcome (Fatalities, Casualties, Damaged, Destroyed, \\u2026).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionEffect\"\n      },\n      \"rdfs:label\": \"effect description code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:effectOnObject\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Object that the ActionEffect was observed on.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionEffect\"\n      },\n      \"rdfs:label\": \"effect on object\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:effectQuantityNumber\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Aggregated count for the effect, e.g. number of fatalities. Mirrors mim:ActionEffect.quantityNumber.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionEffect\"\n      },\n      \"rdfs:label\": \"effect quantity\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:effectSeverityCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Severity grade of the effect.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionEffect\"\n      },\n      \"rdfs:label\": \"effect severity code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:eventEndDateTime\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Event End Timestamp\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"event end time\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:eventStartDateTime\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Event Start Timestamp\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"event start time\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:facilityAccessRestrictionCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Access-restriction class for the Facility (e.g. unrestricted, restricted, prohibited).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Facility\"\n      },\n      \"rdfs:label\": \"facility access restriction code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:facilityIsActiveIndicator\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"True if the Facility is currently in active operation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Facility\"\n      },\n      \"rdfs:label\": \"facility is active\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:boolean\"\n      }\n    },\n    {\n      \"@id\": \"bsm:genderCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Gender of the Person. Backed by the MIM GenderCode enumeration.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"gender code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:geopoliticalAffiliationCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Country or political-entity code.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:GeopoliticalAffiliation\"\n      },\n      \"rdfs:label\": \"geopolitical affiliation code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasAffiliation\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Geopolitical, ethnic, religious or other affiliation of the Object: captures flag-state of vessels, origin-country of aircraft, nationality of persons.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Object\"\n      },\n      \"rdfs:label\": \"has affiliation\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Affiliation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasAlternateIdentifier\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Attaches a structured AlternateIdentifier (scheme + value) to the BattlespaceConcept.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"has alternate identifier\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:AlternateIdentifier\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasAltitude\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Current altitude of the Object\",\n      \"rdfs:domain\": {\n        \"@id\": \"_:cbe38e0130eada4ef1204eec09a4909628ccc97e8f32fe812e722fbd9f3007e23f\"\n      },\n      \"rdfs:label\": \"has altitude\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Altitude\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasAssignedPerson\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Inverse of bsm:isAssignedTo.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Organisation\"\n      },\n      \"rdfs:label\": \"has assigned person\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Person\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasControlledFacility\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Facility under the control of the Actor.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Actor\"\n      },\n      \"rdfs:label\": \"has controlled facility\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Facility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasController\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"The Actor that has authority over the Materiel.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"has controller\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasFocus\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"ActionObjective the Action is directed at.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"has focus\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:ActionObjective\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasGeographicLocation\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Position of the BattlespaceConcept, expressed as a Location (which in turn carries a Geometry).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"has geographic location\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Location\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasGeometry\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Geometry component of a Location\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Location\"\n      },\n      \"rdfs:label\": \"has geometry\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Geometry\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasIdentificationDocument\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Attaches an identification document held by the Person.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"has identification document\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:PersonIdentificationDocument\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasMember\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Inverse of bsm:isMemberOf.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Organisation\"\n      },\n      \"rdfs:label\": \"has member\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Person\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasMobility\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Mobility characteristics of the Equipment.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Equipment\"\n      },\n      \"rdfs:label\": \"has mobility\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Mobility\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasNationality\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Attaches a PersonNationality (country + reason) to the Person.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"has nationality\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:PersonNationality\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasObservation\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Vehicle\"\n      },\n      \"rdfs:label\": \"has observation\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Observation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasOperator\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:operatesMateriel\"\n      },\n      \"rdfs:comment\": \"The Actor that operates the Materiel (uses it in practice, distinct from owning or controlling).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"has operator\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasOrientation\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Current orientation of the Object's principal axes.\",\n      \"rdfs:domain\": {\n        \"@id\": \"_:cb1ecb55856aaeeffef6ed55665ab121b9e8a7d34eecff889f1664740f4ffcac8f\"\n      },\n      \"rdfs:label\": \"has orientation\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Orientation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasOwner\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:ownsMateriel\"\n      },\n      \"rdfs:comment\": \"The Actor that owns the Materiel.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"has owner\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasRequirement\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"ActionResource(s) required/requested/allocated by the Action.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"has requirement\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:ActionResource\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasResponse\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Inverse of bsm:isCausedBy.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"has response\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Action\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasResult\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"ActionEffect resulting from the Action, like fatalities, damage, casualties.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"has result\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:ActionEffect\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasSanctionDesignation\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Attaches a SanctionDesignation to an Actor.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Actor\"\n      },\n      \"rdfs:label\": \"has sanction designation\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasSubAction\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Sub-action of the Action.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"has sub-action\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Action\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasSubordinate\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Direct subordinate of the Person.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"has subordinate\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Person\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasSuperior\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:hasSubordinate\"\n      },\n      \"rdfs:comment\": \"Direct superior of the Person in a chain of command.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"has superior\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Person\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hasVelocity\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Current velocity vector of the Object.\",\n      \"rdfs:domain\": {\n        \"@id\": \"_:cb76d44575e3791fdd3dc2013f4adbd4b07b253f80b9c2e3657db14483d514b703\"\n      },\n      \"rdfs:label\": \"has velocity\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Velocity\"\n      }\n    },\n    {\n      \"@id\": \"bsm:headingAngle\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Heading (direction the longitudinal axis points), degrees true.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Orientation\"\n      },\n      \"rdfs:label\": \"heading angle\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:hostilityCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Perceived hostility from following values (Friend, Hostile, Neutral, Suspect, Unknown, Pending, Assumed-Friend, Joker, Faker).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"hostility code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:identificationDocumentCategoryCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Type of identification document (passport, national ID card, driver's licence, \\u2026).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:PersonIdentificationDocument\"\n      },\n      \"rdfs:label\": \"ID document category\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:identificationDocumentIdentifier\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Reference number on the identification document.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:PersonIdentificationDocument\"\n      },\n      \"rdfs:label\": \"ID document number\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:inclinationAngle\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Vertical inclination of the velocity vector, in degrees (positive climbing).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Velocity\"\n      },\n      \"rdfs:label\": \"inclination angle\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:involvedActor\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"EXTENSION: direct association between an Action and an involved Actor.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"involved actor\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isActiveIndicator\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"True if the Materiel is currently active (in service).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"is active\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:boolean\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isAssignedTo\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:hasAssignedPerson\"\n      },\n      \"rdfs:comment\": \"Long-term assignment of a Person to an Organisation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"is assigned to\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Organisation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isAttachedTo\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Temporary attachment of a Person to an Organisation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"is attached to\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Organisation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isCausedBy\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:hasResponse\"\n      },\n      \"rdfs:comment\": \"The subject Action is carried out in reaction to the object Action.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Action\"\n      },\n      \"rdfs:label\": \"is caused by\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Action\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isExtension\",\n      \"@type\": \"owl:AnnotationProperty\",\n      \"rdfs:comment\": \"True when the annotated class/property is an addition not present in MIM 5.3\",\n      \"rdfs:label\": \"is thesis extension\"\n    },\n    {\n      \"@id\": \"bsm:isLoadedOn\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:carries\"\n      },\n      \"rdfs:comment\": \"Materiel that is loaded onto another (carrying) Materiel. Mirrors mim:Materiel.loadedMateriel.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"is loaded on\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isMemberOf\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"owl:inverseOf\": {\n        \"@id\": \"bsm:hasMember\"\n      },\n      \"rdfs:comment\": \"Person is a formal member of the Organisation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"is member of\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Organisation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isOnAccountOf\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"The Actor that holds accounting authority over the Materiel.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"is on account of\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Actor\"\n      }\n    },\n    {\n      \"@id\": \"bsm:isOperativeOf\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Person used as a secret or trusted agent of an Organisation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"is operative of\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Organisation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:latitudeDecimal\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"owl:equivalentProperty\": {\n        \"@id\": \"geo1:lat\"\n      },\n      \"rdfs:comment\": \"Latitude of the AbsolutePoint in decimal degrees.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:AbsolutePoint\"\n      },\n      \"rdfs:label\": \"latitude (decimal degrees, WGS84)\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:listingAuthority\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Organisation that issued the sanction listing.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      },\n      \"rdfs:label\": \"listing authority\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Organisation\"\n      }\n    },\n    {\n      \"@id\": \"bsm:listingDate\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Date on which the designation was issued.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      },\n      \"rdfs:label\": \"listing date\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:locationName\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Human-readable name of the Location.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Location\"\n      },\n      \"rdfs:label\": \"location name\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:longitudeDecimal\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"owl:equivalentProperty\": {\n        \"@id\": \"geo1:long\"\n      },\n      \"rdfs:comment\": \"Longitude of the AbsolutePoint in decimal degrees\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:AbsolutePoint\"\n      },\n      \"rdfs:label\": \"longitude (decimal degrees, WGS84)\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:mainActivityCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Primary activity sector of the Organisation. Like industry, NGO.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Organisation\"\n      },\n      \"rdfs:label\": \"main activity code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:militaryCivilianCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Whether the Aircraft is military or civilian.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"military/civilian code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:militaryStatusCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Whether the Person is civilian, military or paramilitary. Backed by the MIM PersonMilitaryStatusCode enumeration.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Person\"\n      },\n      \"rdfs:label\": \"military status code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:modelName\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Manufacturer's model designation.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"model name\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:nationalityCountryCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Country code of the Person's nationality. Backed by the MIM CountryCode enumeration.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:PersonNationality\"\n      },\n      \"rdfs:label\": \"nationality country code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:nationalityReasonCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Reason for which the nationality is held (birth, naturalisation, marriage, \\u2026).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:PersonNationality\"\n      },\n      \"rdfs:label\": \"nationality reason code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:observationDateTime\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Observation\"\n      },\n      \"rdfs:label\": \"observation date time\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:operatesMateriel\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Mirrors mim:Actor.employedMateriel directly.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Actor\"\n      },\n      \"rdfs:label\": \"operates materiel\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:operatingModeCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Operating mode of the Vehicle: manned, unmanned, autonomous, remotely piloted.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Vehicle\"\n      },\n      \"rdfs:label\": \"operating mode code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:ownsMateriel\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Mirrors mim:Actor.ownedMateriel directly. Inverse of bsm:hasOwner.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Actor\"\n      },\n      \"rdfs:label\": \"owns materiel\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Materiel\"\n      }\n    },\n    {\n      \"@id\": \"bsm:partOf\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Indicates that an entity is a subpart of a higher concept, added initially for location hierarchy: City, Region, Country\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"part of\"\n    },\n    {\n      \"@id\": \"bsm:resourceObject\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Bridge from ActionResource to the participating Object (actor or piece of materiel).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionResource\"\n      },\n      \"rdfs:label\": \"resource object\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:sanctionReason\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"Free-text reason for which the designation was made.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      },\n      \"rdfs:label\": \"sanction reason\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:serialNumberIdentifier\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Serial number assigned by the manufacturer or operator.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"serial number\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:sourceIdentifier\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"EXTENSION: the primary key or row identifier from the originating dataset that produced this concept instance, enabling traceability back to the source record.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:BattlespaceConcept\"\n      },\n      \"rdfs:label\": \"source identifier\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:sourceUrl\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"bsm:isExtension\": true,\n      \"rdfs:comment\": \"URL pointing to the public listing document.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:SanctionDesignation\"\n      },\n      \"rdfs:label\": \"source URL\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:anyURI\"\n      }\n    },\n    {\n      \"@id\": \"bsm:speedMetersPerSecond\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Speed of the Object\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Velocity\"\n      },\n      \"rdfs:label\": \"speed (m/s)\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:targetsObject\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"Bridge from ActionObjective to the targeted Object.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:ActionObjective\"\n      },\n      \"rdfs:label\": \"targets object\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Object\"\n      }\n    },\n    {\n      \"@id\": \"bsm:transportsActor\",\n      \"@type\": \"owl:ObjectProperty\",\n      \"rdfs:comment\": \"The Materiel is responsible for movement of the Person.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Materiel\"\n      },\n      \"rdfs:label\": \"transports actor\",\n      \"rdfs:range\": {\n        \"@id\": \"bsm:Person\"\n      }\n    },\n    {\n      \"@id\": \"bsm:typeMainPurposeCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Main purpose of the Aircraft type.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"type main purpose code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:typeName\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Free-text name of the Object's type. Used for category strings that do not map to a closed MIM code list (e.g. vessel-type strings broadcast by maritime navigation systems, aircraft model designations).\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Object\"\n      },\n      \"rdfs:label\": \"type name\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:vesselCategoryCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Category of the Vessel: cargo, tanker, fishing, passenger, military, special-craft.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Vessel\"\n      },\n      \"rdfs:label\": \"vessel category code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:vesselMaximumSpeed\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Maximum design speed of the Vessel. Mirrors mim:Vessel.maximumSpeed.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Vessel\"\n      },\n      \"rdfs:label\": \"vessel maximum speed\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"bsm:weaponTypeCode\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Type of weapons the Aircraft is armed with.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"weapon type code\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:string\"\n      }\n    },\n    {\n      \"@id\": \"bsm:wingSpanDimension\",\n      \"@type\": \"owl:DatatypeProperty\",\n      \"rdfs:comment\": \"Wing span of the Aircraft.\",\n      \"rdfs:domain\": {\n        \"@id\": \"bsm:Aircraft\"\n      },\n      \"rdfs:label\": \"wing span\",\n      \"rdfs:range\": {\n        \"@id\": \"xsd:double\"\n      }\n    },\n    {\n      \"@id\": \"https://thesis.tum.de/baltic-sea-monitoring/ontology\",\n      \"@type\": \"owl:Ontology\",\n      \"dcterms:creator\": \"Maximilian Kaiser\",\n      \"dcterms:title\": \"Baltic Sea Monitoring Ontology\"\n    }\n  ]\n}\n\nThink step by step in plain prose, then return the mapping as exactly one JSON code block and nothing else.",
+  "raw_response": "The record is a single aircraft state report, so there is one stable aircraft entity and one per-row observation entity. The stable aircraft is keyed by icao24 and typed as bsm:Aircraft; ADS-B is an aircraft surveillance feed, and the sample rows are airborne with altitude and speed. callsign is mapped to bsm:alternateName rather than bsm:conceptName: the deciding qualifier is \u201calternate\u201d, and the ontology comment for bsm:alternateName explicitly names callsigns and transponder-broadcast names. icao24 is also carried as bsm:sourceIdentifier for traceability, while squawk is treated as a temporary transponder identifier and attached through bsm:hasAlternateIdentifier to a bsm:AlternateIdentifier whose standard is the constant string \u201csquawk\u201d; the schema does show more than one identifier scheme for the same aircraft (icao24 plus squawk), so the scheme-plus-value class is justified.\n\nEach row also evidenced a per-time bsm:Observation, identified by icao24 and time together so that two aircraft at the same timestamp do not merge. The aircraft points to that observation with bsm:hasObservation. From the observation I create a bsm:Location and a bsm:AbsolutePoint for lat/lon, because bsm:hasGeographicLocation leads to Location and Location in turn has bsm:hasGeometry to Geometry/AbsolutePoint. The movement column group velocity/heading/vertrate points to the one-hop bsm:Velocity class; I map velocity to bsm:speedMetersPerSecond and heading to bsm:absoluteBearingAngle. The near-synonym risk is bsm:absoluteBearingAngle versus bsm:headingAngle: the deciding qualifier is course/track versus nose direction. I choose absoluteBearingAngle only because the heading column sits in the same ADS-B velocity-vector group as speed and the bsm:Velocity class is described as speed, course and inclination; if heading meant aircraft nose direction, bsm:headingAngle on bsm:Orientation would be the alternative, so this remains a moderate-confidence choice.\n\nvertrate is not mapped: it is a vertical rate, while the only nearby Velocity property is bsm:inclinationAngle in degrees, so the qualifier \u201crate\u201d does not match \u201cangle\u201d. onground is not mapped because no ontology property captures on-ground versus airborne state. The two altitude columns are both kept as separate bsm:Altitude values on the observation; they share the same class and property, but their subject templates are prefixed with baro/geo so the two measurements do not merge.\n\n```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"icao24\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"aircraft_{icao24}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Aircraft\"\n        }\n      ],\n      \"confidence\": 0.93,\n      \"basis\": \"name\",\n      \"reasoning\": \"ADS-B records are aircraft state reports and icao24 is the stable aircraft transponder address used as the Aircraft identifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.91,\n          \"basis\": \"value\",\n          \"reasoning\": \"Sample values such as VIPER11 and FALCON03 are callsigns, and bsm:alternateName explicitly mentions callsigns and transponder-broadcast names.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:sourceIdentifier\",\n          \"confidence\": 0.58,\n          \"basis\": \"name\",\n          \"reasoning\": \"icao24 is the source identifier column for the aircraft record, matching the extension property used for traceability back to the originating record.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"icao24\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.56,\n          \"basis\": \"name\",\n          \"reasoning\": \"squawk is a distinct transponder identifier scheme alongside icao24, so it is attached as an AlternateIdentifier with a constant scheme of squawk.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"squawk\"\n              },\n              \"transformation\": {\n                \"expression\": \"alternate_identifier_squawk_{icao24}_{squawk}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:AlternateIdentifier\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n                    \"confidence\": 0.5,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The scheme qualifier is fixed from the column name squawk.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"constant\",\n                          \"constant_value\": \"squawk\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:alternateIdentifierValue\",\n                    \"confidence\": 0.6,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The squawk column supplies the identifier value for that scheme.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"squawk\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasObservation\",\n          \"confidence\": 0.86,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Each timeseries row is one observation of the same Aircraft, linked by the Vehicle-to-Observation property bsm:hasObservation.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"time\"\n              },\n              \"transformation\": {\n                \"expression\": \"observation_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Observation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:observationDateTime\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"time is the observation timestamp for the per-row Observation entity.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"time\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"time\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"observation_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Observation\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"The timeseries has one record per report time, so icao24 plus time distinguishes each Observation for the same or different aircraft.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:observationDateTime\",\n          \"confidence\": 0.96,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column time directly matches the Observation timestamp property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"time\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.94,\n          \"basis\": \"structural\",\n          \"reasoning\": \"lat and lon on the same row support a Location wrapper, which the ontology expects before its Geometry component.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"transformation\": {\n                \"expression\": \"location_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Location\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:hasGeometry\",\n                    \"confidence\": 0.93,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"The Location entity wraps the AbsolutePoint geometry built from lat and lon.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"lat\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"absolute_point_{icao24}_{time}\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:AbsolutePoint\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:latitudeDecimal\",\n                              \"confidence\": 0.98,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"lat is decimal WGS-84 latitude.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lat\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:longitudeDecimal\",\n                              \"confidence\": 0.98,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"lon is decimal WGS-84 longitude.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"lon\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasVelocity\",\n          \"confidence\": 0.84,\n          \"basis\": \"structural\",\n          \"reasoning\": \"velocity, heading and vertrate form the movement group of the state report, and the Velocity class is described as speed, course and inclination.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"velocity\"\n              },\n              \"transformation\": {\n                \"expression\": \"velocity_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Velocity\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:speedMetersPerSecond\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The velocity column is the ground-speed field in the ADS-B state vector.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"velocity\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:absoluteBearingAngle\",\n                    \"confidence\": 0.62,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"heading is grouped with velocity as movement direction; the chose property means course/track rather than the Orientation headingAngle nose direction, so confidence is moderate.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"heading\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAltitude\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"baroaltitude supplies one altitude measurement for the observation.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"baroaltitude\"\n              },\n              \"transformation\": {\n                \"expression\": \"altitude_baro_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Altitude\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:altitudeMeters\",\n                    \"confidence\": 0.93,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"baroaltitude is an altitude value in meters, even though the ontology does not distinguish barometric from geometric altitude.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"baroaltitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAltitude\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"geoaltitude supplies a second altitude measurement for the same observation.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"geoaltitude\"\n              },\n              \"transformation\": {\n                \"expression\": \"altitude_geo_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Altitude\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:altitudeMeters\",\n                    \"confidence\": 0.93,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"geoaltitude is an altitude value in meters; a separate subject expression avoids merging it with the barometric altitude.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"geoaltitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"lat\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"location_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Location\"\n        }\n      ],\n      \"confidence\": 0.92,\n      \"basis\": \"structural\",\n      \"reasoning\": \"lat/lon evidence a Location wrapper because bsm:hasGeographicLocation targets bsm:Location rather than Geometry directly.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:hasGeometry\",\n          \"confidence\": 0.93,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The ontology models Location as the wrapper around Geometry, so the row's point geometry is attached through bsm:hasGeometry.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"transformation\": {\n                \"expression\": \"absolute_point_{icao24}_{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:AbsolutePoint\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:latitudeDecimal\",\n                    \"confidence\": 0.98,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"lat matches AbsolutePoint latitude in decimal degrees.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"lat\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:longitudeDecimal\",\n                    \"confidence\": 0.98,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"lon matches AbsolutePoint longitude in decimal degrees.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"lon\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"lat\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"absolute_point_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AbsolutePoint\"\n        }\n      ],\n      \"confidence\": 0.97,\n      \"basis\": \"name\",\n      \"reasoning\": \"lat and lon are WGS-84 decimal coordinates, which is exactly the AbsolutePoint specialization of Point.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:latitudeDecimal\",\n          \"confidence\": 0.99,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column lat maps by name and numeric value to decimal latitude.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:longitudeDecimal\",\n          \"confidence\": 0.99,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column lon maps by name and numeric value to decimal longitude.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lon\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"velocity\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"velocity_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Velocity\"\n        }\n      ],\n      \"confidence\": 0.84,\n      \"basis\": \"structural\",\n      \"reasoning\": \"The movement columns occur together per report, and bsm:Velocity is the ontology class for speed/course/inclination of an Object or Observation.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:speedMetersPerSecond\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"velocity is the speed component of the ADS-B movement vector.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"velocity\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:absoluteBearingAngle\",\n          \"confidence\": 0.62,\n          \"basis\": \"name\",\n          \"reasoning\": \"heading is interpreted as course/track within the movement vector; the alternative bsm:headingAngle would only fit if the column meant aircraft nose direction rather than track.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"baroaltitude\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altitude_baro_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Altitude\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"name\",\n      \"reasoning\": \"baroaltitude is populated as an altitude value in meters on every shown row.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:altitudeMeters\",\n          \"confidence\": 0.93,\n          \"basis\": \"name\",\n          \"reasoning\": \"baroaltitude carries the altitude value; the ontology has no separate barometric/geometric qualifier property.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"baroaltitude\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"geoaltitude\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altitude_geo_{icao24}_{time}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Altitude\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"name\",\n      \"reasoning\": \"geoaltitude is populated as a second altitude value in meters on every shown row.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:altitudeMeters\",\n          \"confidence\": 0.93,\n          \"basis\": \"name\",\n          \"reasoning\": \"geoaltitude carries the altitude value; a separate expression preserves it alongside baroaltitude without merging the two measurements.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"geoaltitude\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"squawk\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"alternate_identifier_squawk_{icao24}_{squawk}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.56,\n      \"basis\": \"name\",\n      \"reasoning\": \"squawk is a transponder code distinct from icao24, so it is modeled as value plus a fixed standard scheme.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.5,\n          \"basis\": \"name\",\n          \"reasoning\": \"The standard/scheme is taken from the column name squawk as a constant.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"squawk\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.6,\n          \"basis\": \"name\",\n          \"reasoning\": \"The squawk column supplies the alternate identifier value.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"squawk\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"vertrate\",\n    \"onground\"\n  ]\n}\n```"
+}

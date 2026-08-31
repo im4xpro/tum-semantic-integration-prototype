@@ -1,0 +1,78 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260811_082913_17505240
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3c65aa> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 240.2;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 96.4;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 10970.0, 11012.8;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.0924,
+    12.0991 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3e1f88> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 252.7;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 176.4;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 232.0, 251.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.345,
+    18.63 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 243.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 191.8;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 505.0, 521.3;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.3801,
+    18.612 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_46b8c7> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 268.1;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 88.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 461.0, 479.8;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 59.937,
+    24.7556 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_47c1a2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 214.8;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 265.3;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 9780.0, 9822.5;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.36,
+    18.66 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4841b9> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 198.6;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 43.1;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 1180.0, 1204.7;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.29,
+    18.55 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4ca8f1> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 92.5;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 271.6;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 288.0, 302.1;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.33,
+    18.68 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4d02f4> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 176.3;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 12.7;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 688.0, 703.4;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 55.718,
+    21.16 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_51cc3b> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 187.9;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 154.2;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 8460.0, 8503.7;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 56.9496,
+    24.1052 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#speedMetersPerSecond> 231.4;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#headingAngle> 187.2;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#altitudeMeters> 430.0, 452.6;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.401,
+    18.71 .

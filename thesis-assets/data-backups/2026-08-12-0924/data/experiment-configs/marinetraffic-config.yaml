@@ -1,0 +1,38 @@
+name: "2026-08-11-1854-marinetraffic-experiment"
+description: "Experiment with MarineTraffic AIS vessel data source."
+
+data:
+  source_name: marinetraffic_vessels
+  limit: null
+  use_sample_data: true
+
+mapping:
+  mode: generate
+
+matrix:
+  provider_models:
+    - [openrouter, deepseek/deepseek-v4-flash]
+    - [openrouter, openai/gpt-oss-120b]
+    - [openrouter, tencent/hy3]
+    - [openrouter, meta-llama/llama-3.3-70b-instruct]
+    - [openrouter, qwen/qwen3.7-plus]
+    # - [openrouter, anthropic/claude-opus-5] # frontier leader
+    # - [openrouter, openai/gpt-5.6-sol] # frontier second
+    # - [openrouter, deepseek/deepseek-v4-flash] # most used on open router
+    # - [openrouter, moonshotai/kimi-k3] # best open model
+    # - [openrouter, openai/gpt-oss-120b] # open weight, optimized for running on a single H100
+
+  strategies:
+    - zero_shot
+    - few_shot
+    - chain_of_thought
+
+  ontology_formats:
+    - class_list
+    - turtle
+    - compact
+    - json_ld
+
+  include_descriptions:
+    - true
+    - false

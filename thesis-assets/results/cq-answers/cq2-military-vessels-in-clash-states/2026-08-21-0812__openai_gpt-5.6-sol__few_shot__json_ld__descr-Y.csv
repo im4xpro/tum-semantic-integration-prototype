@@ -1,0 +1,6 @@
+vesselUri,vessel,vesselType,vesselFlagRaw,country,eventUri,event
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900002,LYZM,Military,LT,Lithuania,https://thesis.tum.de/baltic-sea-monitoring/instances/acled_action_LTU1001,LTU1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,SPGP,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled_action_POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900000,SPGP,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled_action_POL1002,POL1002
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,SPOR,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled_action_POL1001,POL1001
+https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_900001,SPOR,Military,PL,Poland,https://thesis.tum.de/baltic-sea-monitoring/instances/acled_action_POL1002,POL1002

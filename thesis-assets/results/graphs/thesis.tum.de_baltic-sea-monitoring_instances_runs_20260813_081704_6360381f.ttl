@@ -1,0 +1,68 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260813_081704_6360381f
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A3c65aa>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A3e1f88>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A3f7a21>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A46b8c7>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A47c1a2>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A4841b9>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A4ca8f1>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A4d02f4>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3A51cc3b>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/urn%3Aadsb%3Aaircraft%3Aab58b2>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/3c65aa/2026-03-11%2016%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/3e1f88/2026-03-11%2011%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/3f7a21/2026-03-11%2009%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/46b8c7/2026-03-11%2013%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/47c1a2/2026-03-11%2014%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/4841b9/2026-03-11%2010%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/4ca8f1/2026-03-11%2015%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/4d02f4/2026-03-11%2012%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/51cc3b/2026-03-11%2017%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/obs/ab58b2/2026-03-11%2008%3A20%3A00%2B00%3A00>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation> .

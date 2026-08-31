@@ -1,0 +1,33 @@
+{
+  "id": "20260812_081041_94155421",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-12-1009-marinetraffic-experiment",
+    "source_name": "marinetraffic_vessels",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "openai/gpt-oss-120b",
+    "strategy": "few_shot",
+    "ontology_format": "turtle",
+    "include_descriptions": false
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 132.524085,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Traceback (most recent call last):\n  File \"/app/src/pipeline/mapping/llm_clients/openrouter.py\", line 31, in complete\n    response = self._client.chat.completions.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_utils/_utils.py\", line 298, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py\", line 1296, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_base_client.py\", line 1375, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_base_client.py\", line 1153, in request\n    return self._process_response(\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_base_client.py\", line 1242, in _process_response\n    return api_response.parse()\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_response.py\", line 328, in parse\n    parsed = self._parse(to=to)\n             ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/openai/_response.py\", line 270, in _parse\n    data = response.json()\n           ^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/httpx/_models.py\", line 832, in json\n    return jsonlib.loads(self.content, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/__init__.py\", line 346, in loads\n    return _default_decoder.decode(s)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/decoder.py\", line 338, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/json/decoder.py\", line 356, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 631 column 1 (char 3465)\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 57, in execute_run\n    mapping = _resolve_mapping(run, cancel, store)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 153, in _resolve_mapping\n    mapping = generator.generate(schema, ontology_manager, descriptions)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 50, in generate\n    response_text, prompt_tokens, completion_tokens = self._client.complete(\n                                                      ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/llm_clients/openrouter.py\", line 47, in complete\n    raise LLMClientError(f\"OpenRouter API call failed: {e}\")\npipeline.mapping.llm_clients.base.LLMClientError: OpenRouter API call failed: Expecting value: line 631 column 1 (char 3465)\n",
+  "created_at": "2026-08-12T08:10:41.988457",
+  "started_at": "2026-08-12T14:05:42.097526",
+  "finished_at": "2026-08-12T14:07:54.621611"
+}

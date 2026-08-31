@@ -1,0 +1,207 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260812_210759_9f9c2980
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/DEU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Protest held at the ferry terminal in Rostock.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Germany/Mecklenburg-Vorpommern/Rostock> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Germany/Mecklenburg-Vorpommern/Rostock>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Rostock";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Germany/Mecklenburg-Vorpommern/Rostock> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/EST1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Reinforcement of coastal surveillance reported at Tallinn.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Change to group/activity";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Estonia/Harju/Tallinn> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Estonia/Harju/Tallinn>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Tallinn";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Estonia/Harju/Tallinn> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/FIN1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Demonstration held in central Helsinki.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Finland/Uusimaa/Helsinki> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Finland/Uusimaa/Helsinki>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Helsinki";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Finland/Uusimaa/Helsinki> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/LTU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported near the Klaipeda seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Lithuania/Klaipedos/Klaipeda> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Lithuania/Klaipedos/Klaipeda>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Klaipeda";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Lithuania/Klaipedos/Klaipeda> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/LTU1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Violent demonstration dispersed near the seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Violent demonstration";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Lithuania/Klaipedos/Klaipeda> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/LVA1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Peaceful demonstration held at the port of Riga.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Latvia/Riga/Riga> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Latvia/Riga/Riga> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Latvia/Riga/Riga> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/POL1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported in the port district of Gdansk.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Poland/Pomorskie/Gdansk> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Poland/Pomorskie/Gdansk>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdansk";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Poland/Pomorskie/Gdansk> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/POL1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Exchange of fire near the naval base at Gdynia.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Poland/Pomorskie/Gdynia> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Poland/Pomorskie/Gdynia>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdynia";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Poland/Pomorskie/Gdynia> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/POL1003> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Civilians targeted in the same district later the same day.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Attack";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Poland/Pomorskie/Gdansk> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled_event/SWE1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Naval readiness exercise announced.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Other";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> <https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Sweden/Stockholm/Stockholm> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/loc/Sweden/Stockholm/Stockholm>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Stockholm";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Sweden/Stockholm/Stockholm> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Estonia/Harju> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Harju";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Estonia> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Estonia> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Estonia";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Finland/Uusimaa> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Uusimaa";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Finland> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Finland> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Finland";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Germany/Mecklenburg-Vorpommern>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Mecklenburg-Vorpommern";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Germany> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Germany> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Germany";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Latvia/Riga> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Latvia> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Latvia> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Latvia";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Lithuania/Klaipedos> a
+    <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Klaipedos";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Lithuania> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Lithuania> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Lithuania";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Sweden/Stockholm> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Stockholm";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Sweden> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Sweden> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Sweden";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Estonia/Harju/Tallinn>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Tallinn";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Estonia/Harju> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Finland/Uusimaa/Helsinki>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Helsinki";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Finland/Uusimaa> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Germany/Mecklenburg-Vorpommern/Rostock>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Rostock";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Germany/Mecklenburg-Vorpommern> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Latvia/Riga/Riga> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Latvia/Riga> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Lithuania/Klaipedos/Klaipeda>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Klaipeda";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Lithuania/Klaipedos> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Poland/Pomorskie/Gdansk>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdansk";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Poland/Pomorskie> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Poland/Pomorskie> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Pomorskie";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/country/Poland> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Poland/Pomorskie/Gdynia>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdynia";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Poland/Pomorskie> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/adm2/Sweden/Stockholm/Stockholm>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Stockholm";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/adm1/Sweden/Stockholm> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Europe" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/country/Poland> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Poland";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#partOf> <https://thesis.tum.de/baltic-sea-monitoring/instances/region/Europe> .

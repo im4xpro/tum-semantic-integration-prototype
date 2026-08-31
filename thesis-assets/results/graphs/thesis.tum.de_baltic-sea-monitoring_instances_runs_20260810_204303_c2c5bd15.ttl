@@ -1,0 +1,234 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260810_204303_c2c5bd15
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/DEU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Demonstrations";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Protest held at the ferry terminal in Rostock.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Germany)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Germany)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Protesters (Germany)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Protesters> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/EST1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Strategic developments";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Reinforcement of coastal surveillance reported at Tallinn.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Change to group/activity";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Estonia%20(2021-)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Estonia%20(2021-)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Military Forces of Estonia (2021-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/FIN1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Demonstrations";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Demonstration held in central Helsinki.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Finland)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Finland)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Protesters (Finland)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Protesters> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/LTU1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Political violence";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported near the Klaipeda seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Lithuania%20(2019-)>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Unidentified%20Armed%20Group%20(Baltic)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Lithuania%20(2019-)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Military Forces of Lithuania (2019-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Unidentified%20Armed%20Group%20(Baltic)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Unidentified Armed Group (Baltic)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Rebels> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/LTU1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Demonstrations";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Violent demonstration dispersed near the seaport.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Violent demonstration";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Police%20Forces%20of%20Lithuania%20(2019-)>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Rioters%20(Lithuania)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Police%20Forces%20of%20Lithuania%20(2019-)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Police Forces of Lithuania (2019-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Rioters%20(Lithuania)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Rioters (Lithuania)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Rioters> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/LVA1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Demonstrations";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Peaceful demonstration held at the port of Riga.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Peaceful protest";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Latvia)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Protesters%20(Latvia)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Protesters (Latvia)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Protesters>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasMember> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Dockworkers%20(Latvia)> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Political violence";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Armed clash reported in the port district of Gdansk.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Unidentified%20Armed%20Group%20(Baltic)>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Poland%20(2023-)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Poland%20(2023-)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Military Forces of Poland (2023-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasMember> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Naval%20Command%20of%20Poland> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1002> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Political violence";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Exchange of fire near the naval base at Gdynia.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Armed clash";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Unidentified%20Armed%20Group%20(Baltic)>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Poland%20(2023-)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/POL1003> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Political violence";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Civilians targeted in the same district later the same day.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Attack";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Unidentified%20Armed%20Group%20(Baltic)>,
+    <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Civilians%20(Poland)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Civilians%20(Poland)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Civilians (Poland)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Civilians> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aevent/SWE1001> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Action>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hostilityCode> "Strategic developments";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#actionDescriptionText> "Naval readiness exercise announced.";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#classificationCode> "Other";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#eventStartDateTime> "2026-03-11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#involvedActor> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Sweden%20(2022-)>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#sourceIdentifier> "Baltic Monitoring Desk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Military%20Forces%20of%20Sweden%20(2022-)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Military Forces of Sweden (2022-)";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasAffiliation> <https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Germany/Rostock>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Mecklenburg-Vorpommern",
+    "Rostock";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Rostock" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Estonia/Tallinn>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Harju", "Tallinn";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Tallinn" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Finland/Helsinki>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Uusimaa", "Helsinki";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Helsinki" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Lithuania/Klaipeda>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Klaipedos",
+    "Klaipeda";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Klaipeda" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Latvia/Riga>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Riga";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Riga" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Dockworkers%20(Latvia)>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Dockworkers (Latvia)" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Poland/Gdansk>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Pomorskie",
+    "Gdansk";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdansk" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aactor/Naval%20Command%20of%20Poland>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Organisation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "Naval Command of Poland" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Poland/Gdynia>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Gdynia", "Pomorskie";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Gdynia" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Alocation/Sweden/Stockholm>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Location>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "Stockholm";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#additionalInformationText> "Europe";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#locationName> "Stockholm" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Civilians>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "Civilians" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/State%20forces>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "State forces" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Protesters>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "Protesters" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Rioters>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "Rioters" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/acled%3Aaffiliation/Rebels>
+  a <https://thesis.tum.de/baltic-sea-monitoring/ontology#GeopoliticalAffiliation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#geopoliticalAffiliationCode>
+    "Rebels" .

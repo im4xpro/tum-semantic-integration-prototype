@@ -1,0 +1,68 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260811_082925_5d967983
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/211000701> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ROSTOCK CARRIER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.105,
+    12.118;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 104 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/219000401> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "DANA MAERSK";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 55.6761,
+    12.5683;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 126 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/230000501> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "SUOMI EXPRESS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 60.152,
+    24.921;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 198 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/261000101> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP GENERAL PULASKI";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.361,
+    18.672;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 84 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/261000102> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "ORP ORZEL";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.488,
+    18.541;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 62 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/261000103> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "BALTIC TRADER";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 54.348,
+    18.639;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 112 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/265000301> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "HSWMS VISBY";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 59.341,
+    18.092;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 0 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/276000601> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "EESTI STAR";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 59.441,
+    24.748;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 88 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/277000201> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LNS ZEMAITIS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 55.712,
+    21.129;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 45 .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/277000202> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Vessel>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "NEMUNAS";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasGeographicLocation> 55.694,
+    21.161;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#hasVelocity> 71 .

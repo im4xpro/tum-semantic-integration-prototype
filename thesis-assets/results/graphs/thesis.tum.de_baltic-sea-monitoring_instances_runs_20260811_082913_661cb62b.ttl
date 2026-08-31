@@ -1,0 +1,19 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260811_082913_661cb62b
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/icao24> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#alternateName> "DLH88X", "VIPER13",
+    "VIPER12", "VIPER21", "SAS1742", "FALCON03", "LOT285", "RCH285", "VIPER11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#isActiveIndicator> false .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/time> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Observation>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#observationDateTime> "2026-03-11 16:20:00+00:00",
+    "2026-03-11 11:20:00+00:00", "2026-03-11 09:20:00+00:00", "2026-03-11 13:20:00+00:00",
+    "2026-03-11 14:20:00+00:00", "2026-03-11 10:20:00+00:00", "2026-03-11 15:20:00+00:00",
+    "2026-03-11 12:20:00+00:00", "2026-03-11 17:20:00+00:00", "2026-03-11 08:20:00+00:00" .

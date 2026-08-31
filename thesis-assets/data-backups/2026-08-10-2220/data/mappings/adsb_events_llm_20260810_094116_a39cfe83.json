@@ -1,0 +1,341 @@
+{
+  "id": "bbcde560-88ec-48db-a8e7-4d75efaa8d30",
+  "source_name": "adsb_events",
+  "status": "draft",
+  "llm_model": "deepseek/deepseek-v4-flash",
+  "strategy": "zero_shot",
+  "ontology_format": "class_list",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "icao24",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "aircraft/{icao24}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Aircraft"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "The column 'callsign' is a flight name, and 'alternateName' is the most appropriate property for a name that is not the primary concept name."
+        },
+        {
+          "property_uri": "bsm:hasObservation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "icao24",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "obs/{icao24}/{time}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Observation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:observationDateTime",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "time",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "name",
+                    "reasoning": "The column 'time' is a timestamp and directly matches the property 'observationDateTime' of the Observation class."
+                  },
+                  {
+                    "property_uri": "bsm:hasVelocity",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "icao24",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "obs/{icao24}/{time}/velocity",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:Velocity"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:speedMetersPerSecond",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "velocity",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.95,
+                              "basis": "name",
+                              "reasoning": "The column 'velocity' is a speed in m/s and directly matches the property 'speedMetersPerSecond' of the Velocity class."
+                            },
+                            {
+                              "property_uri": "bsm:absoluteBearingAngle",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "heading",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.9,
+                              "basis": "name",
+                              "reasoning": "The column 'heading' is an angle in degrees and matches the property 'absoluteBearingAngle' which represents the direction of movement."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The ontology has 'hasVelocity' as an object property, and the data includes velocity and heading which are properties of the Velocity class."
+                  },
+                  {
+                    "property_uri": "bsm:hasAltitude",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "icao24",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "obs/{icao24}/{time}/altitude",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:Altitude"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:altitudeMeters",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "baroaltitude",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 0.95,
+                              "basis": "name",
+                              "reasoning": "The column 'baroaltitude' is an altitude in meters and directly matches the property 'altitudeMeters' of the Altitude class."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "name",
+                    "reasoning": "The ontology has 'hasAltitude' as an object property, and the data includes barometric altitude which is a property of the Altitude class."
+                  },
+                  {
+                    "property_uri": "bsm:hasGeographicLocation",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "icao24",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "obs/{icao24}/{time}/location",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:Location"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:hasGeometry",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "icao24",
+                                    "constant_value": null
+                                  },
+                                  "transformation": {
+                                    "expression": "obs/{icao24}/{time}/point",
+                                    "language": "python"
+                                  },
+                                  "value_type": {
+                                    "type": "iri",
+                                    "type_mappings": [
+                                      {
+                                        "class_uri": "bsm:AbsolutePoint"
+                                      }
+                                    ],
+                                    "property_mappings": [
+                                      {
+                                        "property_uri": "bsm:latitudeDecimal",
+                                        "values": [
+                                          {
+                                            "value_source": {
+                                              "source": "column",
+                                              "column_name": "lat",
+                                              "constant_value": null
+                                            },
+                                            "transformation": null,
+                                            "value_type": {
+                                              "type": "literal",
+                                              "type_mappings": [],
+                                              "property_mappings": []
+                                            }
+                                          }
+                                        ],
+                                        "confidence": 0.95,
+                                        "basis": "name",
+                                        "reasoning": "The column 'lat' is latitude in decimal degrees and directly matches the property 'latitudeDecimal' of AbsolutePoint."
+                                      },
+                                      {
+                                        "property_uri": "bsm:longitudeDecimal",
+                                        "values": [
+                                          {
+                                            "value_source": {
+                                              "source": "column",
+                                              "column_name": "lon",
+                                              "constant_value": null
+                                            },
+                                            "transformation": null,
+                                            "value_type": {
+                                              "type": "literal",
+                                              "type_mappings": [],
+                                              "property_mappings": []
+                                            }
+                                          }
+                                        ],
+                                        "confidence": 0.95,
+                                        "basis": "name",
+                                        "reasoning": "The column 'lon' is longitude in decimal degrees and directly matches the property 'longitudeDecimal' of AbsolutePoint."
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "confidence": 0.95,
+                              "basis": "structural",
+                              "reasoning": "The Location class has 'hasGeometry' to link to a Geometry, and the data's lat/lon are best captured by a Point geometry."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "structural",
+                    "reasoning": "The ontology uses 'hasGeographicLocation' to link to a Location, and the data provides latitude and longitude which are best represented through a Location with a Point geometry."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "structural",
+          "reasoning": "The ontology defines 'hasObservation' on Vehicle (and thus Aircraft) to link to Observation entities, and each record represents an observation of the aircraft at a point in time."
+        }
+      ],
+      "confidence": 0.95,
+      "basis": "name",
+      "reasoning": "The column 'icao24' is a unique transponder code for an aircraft, and the ontology class 'Aircraft' directly matches the entity type of the data source."
+    }
+  ],
+  "unmapped_fields": [
+    "geoaltitude",
+    "vertrate",
+    "onground",
+    "squawk"
+  ],
+  "generation_timestamp": "2026-08-10 15:04:52.007863",
+  "prompt_tokens": 3903,
+  "completion_tokens": 6391,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nGroup fields by the entity they describe. For each entity type:\n- Identify which column or constant value serves as the subject (entity identifier).\n- Specify the ontology class (type_mappings).\n- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence citing the actual evidence \u2014 the column or label name, the provided description, or how the grouping implies the class. Do not give generic or circular justifications.\n- Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.\n- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence \u2014 the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.\n- If a value points to another entity, set value_type to \"iri\" and include nested type_mappings/property_mappings if applicable.\n- If a field cannot be mapped to any ontology concept, add it to unmapped_fields.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped.\n- Omit subject_transformation and transformation when no expression is needed.\n\nReturn ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. Omit when the raw column value is used as-is.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: adsb_events (type: timeseries)\n\nSCHEMA:\n  time: timestamp with time zone\n  icao24: text\n  lat: double precision\n  lon: double precision\n  velocity: double precision\n  heading: double precision\n  vertrate: double precision\n  callsign: text\n  onground: boolean\n  squawk: text\n  baroaltitude: double precision\n  geoaltitude: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    time: '2026-03-11 08:20:00+00:00'\n    icao24: 'ab58b2'\n    lat: 54.401\n    lon: 18.71\n    velocity: 231.4\n    heading: 187.2\n    vertrate: -2.5\n    callsign: 'VIPER11'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 430.0\n    geoaltitude: 452.6\n  record 2:\n    time: '2026-03-11 09:20:00+00:00'\n    icao24: '3f7a21'\n    lat: 54.3801\n    lon: 18.612\n    velocity: 243.9\n    heading: 191.8\n    vertrate: 0.0\n    callsign: 'VIPER12'\n    onground: False\n    squawk: '7777'\n    baroaltitude: 505.0\n    geoaltitude: 521.3\n  record 3:\n    time: '2026-03-11 10:20:00+00:00'\n    icao24: '4841b9'\n    lat: 54.29\n    lon: 18.55\n    velocity: 198.6\n    heading: 43.1\n    vertrate: 4.8\n    callsign: 'FALCON03'\n    onground: False\n    squawk: '7776'\n    baroaltitude: 1180.0\n    geoaltitude: 1204.7\n\nONTOLOGY:\nConcept [bsm:Concept] | data: name [bsm:conceptName]\nBattlespace Concept [bsm:BattlespaceConcept] | subClassOf: Concept [bsm:Concept] | data: alternate name [bsm:alternateName], additional information [bsm:additionalInformationText], hostility code [bsm:hostilityCode], source identifier [bsm:sourceIdentifier] | obj: has geographic location [bsm:hasGeographicLocation], has alternate identifier [bsm:hasAlternateIdentifier], part of [bsm:partOf]\nObject [bsm:Object] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: type name [bsm:typeName] | obj: has affiliation [bsm:hasAffiliation]\nAction [bsm:Action] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: action description [bsm:actionDescriptionText], classification code [bsm:classificationCode], event start time [bsm:eventStartDateTime], event end time [bsm:eventEndDateTime] | obj: has focus [bsm:hasFocus], has requirement [bsm:hasRequirement], has result [bsm:hasResult], has sub-action [bsm:hasSubAction], is caused by [bsm:isCausedBy], has response [bsm:hasResponse], involved actor [bsm:involvedActor]\nActor [bsm:Actor] | subClassOf: Object [bsm:Object] | obj: operates materiel [bsm:operatesMateriel], owns materiel [bsm:ownsMateriel], has sanction designation [bsm:hasSanctionDesignation], has controlled facility [bsm:hasControlledFacility]\nPerson [bsm:Person] | subClassOf: Actor [bsm:Actor] | data: birth date [bsm:birthDate], death date [bsm:deathDate], gender code [bsm:genderCode], military status code [bsm:militaryStatusCode], characteristic code [bsm:characteristicCode], duty status code [bsm:dutyStatusCode] | obj: is member of [bsm:isMemberOf], is assigned to [bsm:isAssignedTo], is attached to [bsm:isAttachedTo], has superior [bsm:hasSuperior], has subordinate [bsm:hasSubordinate], is operative of [bsm:isOperativeOf], has nationality [bsm:hasNationality], has identification document [bsm:hasIdentificationDocument]\nOrganisation [bsm:Organisation] | subClassOf: Actor [bsm:Actor] | data: description [bsm:descriptionText], main activity code [bsm:mainActivityCode] | obj: has member [bsm:hasMember], has assigned person [bsm:hasAssignedPerson]\nMateriel [bsm:Materiel] | subClassOf: Object [bsm:Object] | data: serial number [bsm:serialNumberIdentifier], model name [bsm:modelName], is active [bsm:isActiveIndicator] | obj: has controller [bsm:hasController], has operator [bsm:hasOperator], has owner [bsm:hasOwner], is on account of [bsm:isOnAccountOf], transports actor [bsm:transportsActor], is loaded on [bsm:isLoadedOn], carries [bsm:carries]\nConsumableMateriel [bsm:ConsumableMateriel] | subClassOf: Materiel [bsm:Materiel]\nEquipment [bsm:Equipment] | subClassOf: Materiel [bsm:Materiel] | obj: has mobility [bsm:hasMobility]\nVehicle [bsm:Vehicle] | subClassOf: Equipment [bsm:Equipment] | data: operating mode code [bsm:operatingModeCode] | obj: has observation [bsm:hasObservation]\nAircraft [bsm:Aircraft] | subClassOf: Vehicle [bsm:Vehicle] | data: design range code [bsm:designRangeCode], design role code [bsm:designRoleCode], type main purpose code [bsm:typeMainPurposeCode], military/civilian code [bsm:militaryCivilianCode], wing span [bsm:wingSpanDimension], weapon type code [bsm:weaponTypeCode]\nVessel [bsm:Vessel] | subClassOf: Vehicle [bsm:Vehicle] | data: vessel category code [bsm:vesselCategoryCode], vessel maximum speed [bsm:vesselMaximumSpeed]\nLand Vehicle [bsm:LandVehicle] | subClassOf: Vehicle [bsm:Vehicle]\nLocation [bsm:Location] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: location name [bsm:locationName] | obj: has geometry [bsm:hasGeometry]\nGeometry [bsm:Geometry]\nPoint [bsm:Point] | subClassOf: Geometry [bsm:Geometry]\nAbsolute Point [bsm:AbsolutePoint] | subClassOf: Point [bsm:Point] | data: latitude (decimal degrees, WGS84) [bsm:latitudeDecimal], longitude (decimal degrees, WGS84) [bsm:longitudeDecimal]\nLine [bsm:Line] | subClassOf: Geometry [bsm:Geometry]\nSurface [bsm:Surface] | subClassOf: Geometry [bsm:Geometry]\nVelocity [bsm:Velocity] | data: speed (m/s) [bsm:speedMetersPerSecond], absolute bearing angle [bsm:absoluteBearingAngle], inclination angle [bsm:inclinationAngle]\nOrientation [bsm:Orientation] | data: heading angle [bsm:headingAngle]\nAltitude [bsm:Altitude] | data: altitude in meters [bsm:altitudeMeters]\nAffiliation [bsm:Affiliation]\nGeopolitical Affiliation [bsm:GeopoliticalAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: geopolitical affiliation code [bsm:geopoliticalAffiliationCode]\nEthnic Affiliation [bsm:EthnicAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: ethnic group code [bsm:affiliationEthnicGroupCode]\nReligious Affiliation [bsm:ReligiousAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: religion code [bsm:affiliationReligionCode]\nMobility [bsm:Mobility]\nAlternate Identifier [bsm:AlternateIdentifier] | data: alternate identifier standard code [bsm:alternateIdentifierStandardCode], alternate identifier value [bsm:alternateIdentifierValue]\nPerson Nationality [bsm:PersonNationality] | data: nationality country code [bsm:nationalityCountryCode], nationality reason code [bsm:nationalityReasonCode]\nPerson Identification Document [bsm:PersonIdentificationDocument] | data: ID document category [bsm:identificationDocumentCategoryCode], ID document number [bsm:identificationDocumentIdentifier]\nAction Effect [bsm:ActionEffect] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: effect description code [bsm:effectDescriptionCode], effect quantity [bsm:effectQuantityNumber], effect severity code [bsm:effectSeverityCode] | obj: effect on object [bsm:effectOnObject]\nAction Resource [bsm:ActionResource] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: resource object [bsm:resourceObject]\nAction Objective [bsm:ActionObjective] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: targets object [bsm:targetsObject]\nSanction Designation [bsm:SanctionDesignation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: listing date [bsm:listingDate], delisting date [bsm:delistingDate], sanction reason [bsm:sanctionReason], source URL [bsm:sourceUrl] | obj: listing authority [bsm:listingAuthority]\nFacility [bsm:Facility] | subClassOf: Object [bsm:Object] | data: facility is active [bsm:facilityIsActiveIndicator], facility access restriction code [bsm:facilityAccessRestrictionCode]\nTransport Facility [bsm:TransportFacility] | subClassOf: Facility [bsm:Facility]\nMaritime Transport Facility [bsm:MaritimeTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nPort [bsm:Port] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nMilitary Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nHarbour [bsm:Harbour] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nAir Transport Facility [bsm:AirTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nAirport or Airbase [bsm:AirportOrAirbase] | subClassOf: Air Transport Facility [bsm:AirTransportFacility]\nEnergy Facility [bsm:EnergyFacility] | subClassOf: Facility [bsm:Facility]\nPetroleum Production Complex [bsm:PetroleumProductionComplex] | subClassOf: Facility [bsm:Facility]\nObservation [bsm:Observation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: observation date time [bsm:observationDateTime]\n(unattached: no declared domain class) | obj: has velocity [bsm:hasVelocity], has orientation [bsm:hasOrientation], has altitude [bsm:hasAltitude]\n\nReturn the mapping as JSON.",
+  "raw_response": "{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"icao24\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"aircraft/{icao24}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Aircraft\"\n        }\n      ],\n      \"confidence\": 0.95,\n      \"basis\": \"name\",\n      \"reasoning\": \"The column 'icao24' is a unique transponder code for an aircraft, and the ontology class 'Aircraft' directly matches the entity type of the data source.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column 'callsign' is a flight name, and 'alternateName' is the most appropriate property for a name that is not the primary concept name.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasObservation\",\n          \"confidence\": 0.95,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The ontology defines 'hasObservation' on Vehicle (and thus Aircraft) to link to Observation entities, and each record represents an observation of the aircraft at a point in time.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"icao24\"\n              },\n              \"transformation\": {\n                \"expression\": \"obs/{icao24}/{time}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Observation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:observationDateTime\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The column 'time' is a timestamp and directly matches the property 'observationDateTime' of the Observation class.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"time\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:hasVelocity\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The ontology has 'hasVelocity' as an object property, and the data includes velocity and heading which are properties of the Velocity class.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"icao24\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"obs/{icao24}/{time}/velocity\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:Velocity\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:speedMetersPerSecond\",\n                              \"confidence\": 0.95,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The column 'velocity' is a speed in m/s and directly matches the property 'speedMetersPerSecond' of the Velocity class.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"velocity\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:absoluteBearingAngle\",\n                              \"confidence\": 0.9,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The column 'heading' is an angle in degrees and matches the property 'absoluteBearingAngle' which represents the direction of movement.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"heading\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:hasAltitude\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"The ontology has 'hasAltitude' as an object property, and the data includes barometric altitude which is a property of the Altitude class.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"icao24\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"obs/{icao24}/{time}/altitude\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:Altitude\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:altitudeMeters\",\n                              \"confidence\": 0.95,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"The column 'baroaltitude' is an altitude in meters and directly matches the property 'altitudeMeters' of the Altitude class.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"baroaltitude\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:hasGeographicLocation\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"The ontology uses 'hasGeographicLocation' to link to a Location, and the data provides latitude and longitude which are best represented through a Location with a Point geometry.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"icao24\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"obs/{icao24}/{time}/location\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:Location\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:hasGeometry\",\n                              \"confidence\": 0.95,\n                              \"basis\": \"structural\",\n                              \"reasoning\": \"The Location class has 'hasGeometry' to link to a Geometry, and the data's lat/lon are best captured by a Point geometry.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"icao24\"\n                                  },\n                                  \"transformation\": {\n                                    \"expression\": \"obs/{icao24}/{time}/point\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"iri\",\n                                    \"type_mappings\": [\n                                      {\n                                        \"class_uri\": \"bsm:AbsolutePoint\"\n                                      }\n                                    ],\n                                    \"property_mappings\": [\n                                      {\n                                        \"property_uri\": \"bsm:latitudeDecimal\",\n                                        \"confidence\": 0.95,\n                                        \"basis\": \"name\",\n                                        \"reasoning\": \"The column 'lat' is latitude in decimal degrees and directly matches the property 'latitudeDecimal' of AbsolutePoint.\",\n                                        \"values\": [\n                                          {\n                                            \"value_source\": {\n                                              \"source\": \"column\",\n                                              \"column_name\": \"lat\"\n                                            },\n                                            \"value_type\": {\n                                              \"type\": \"literal\",\n                                              \"type_mappings\": [],\n                                              \"property_mappings\": []\n                                            }\n                                          }\n                                        ]\n                                      },\n                                      {\n                                        \"property_uri\": \"bsm:longitudeDecimal\",\n                                        \"confidence\": 0.95,\n                                        \"basis\": \"name\",\n                                        \"reasoning\": \"The column 'lon' is longitude in decimal degrees and directly matches the property 'longitudeDecimal' of AbsolutePoint.\",\n                                        \"values\": [\n                                          {\n                                            \"value_source\": {\n                                              \"source\": \"column\",\n                                              \"column_name\": \"lon\"\n                                            },\n                                            \"value_type\": {\n                                              \"type\": \"literal\",\n                                              \"type_mappings\": [],\n                                              \"property_mappings\": []\n                                            }\n                                          }\n                                        ]\n                                      }\n                                    ]\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"geoaltitude\",\n    \"vertrate\",\n    \"onground\",\n    \"squawk\"\n  ]\n}"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "20260815_160929_94f0741a",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-15-1808-acled-experiment",
+    "source_name": "acled_data",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "openai/gpt-5.6-sol",
+    "strategy": "zero_shot",
+    "ontology_format": "class_list",
+    "include_descriptions": false
+  },
+  "status": "completed",
+  "mapping_id": "cfe36091-a21c-4607-9763-833238e3351b",
+  "named_graph": "https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260815_160929_94f0741a",
+  "stats": {
+    "records_processed": 10,
+    "entities_extracted": 107,
+    "relations_extracted": 97,
+    "triples_written": 335,
+    "triples_in_db": 335,
+    "duration_seconds": 84.210613,
+    "prompt_tokens": 5584,
+    "completion_tokens": 8244
+  },
+  "error": null,
+  "created_at": "2026-08-15T16:09:29.312864",
+  "started_at": "2026-08-15T16:18:11.736500",
+  "finished_at": "2026-08-15T16:19:35.947113"
+}

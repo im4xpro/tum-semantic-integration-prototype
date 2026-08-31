@@ -1,0 +1,33 @@
+{
+  "id": "20260821_094226_62728168",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-21-1141-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "anthropic/claude-opus-5",
+    "strategy": "chain_of_thought",
+    "ontology_format": "json_ld",
+    "include_descriptions": false
+  },
+  "status": "completed",
+  "mapping_id": "30043a9f-a8f4-42ed-9b1b-4f879878d441",
+  "named_graph": "https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260821_094226_62728168",
+  "stats": {
+    "records_processed": 10,
+    "entities_extracted": 90,
+    "relations_extracted": 80,
+    "triples_written": 279,
+    "triples_in_db": 279,
+    "duration_seconds": 105.307519,
+    "prompt_tokens": 29607,
+    "completion_tokens": 10554
+  },
+  "error": null,
+  "created_at": "2026-08-21T09:42:26.455530",
+  "started_at": "2026-08-21T10:21:44.835654",
+  "finished_at": "2026-08-21T10:23:30.143173"
+}

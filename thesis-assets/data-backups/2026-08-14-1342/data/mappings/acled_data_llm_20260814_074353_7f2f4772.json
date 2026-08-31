@@ -1,0 +1,533 @@
+{
+  "id": "7d4ad382-0c3d-4a2b-a6e1-b67e8bc4e34c",
+  "source_name": "acled_data",
+  "status": "draft",
+  "llm_model": "deepseek/deepseek-v4-flash",
+  "strategy": "chain_of_thought",
+  "ontology_format": "class_list",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "event_id_cnty",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "ACLED_{event_id_cnty}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Action"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:eventStartDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_date",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column event_date contains the date of the event and bsm:eventStartDateTime is the corresponding start date property on Action."
+        },
+        {
+          "property_uri": "bsm:classificationCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column event_type names the type of event which matches the concept of a classification code for an action (e.g. 'Battles')."
+        },
+        {
+          "property_uri": "bsm:actionDescriptionText",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "interaction",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column interaction describes the relationship between actors (e.g. 'State forces - Rebels') which qualifies as a description of the action."
+        },
+        {
+          "property_uri": "bsm:additionalInformationText",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "notes",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "description",
+          "reasoning": "Column notes contains additional descriptive text about the event; given the ontology separates actionDescriptionText from additionalInformationText, notes fits the latter as unstructured supplementary info."
+        },
+        {
+          "property_uri": "bsm:sourceIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "source",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column source names the reporting source (e.g. 'Baltic Monitoring Desk'), directly matching the bsm:sourceIdentifier property that holds a source identifier."
+        },
+        {
+          "property_uri": "bsm:hostilityCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "disorder_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.75,
+          "basis": "value",
+          "reasoning": "Column disorder_type contains values like 'Political violence' which describe the nature of the incident, matching the concept of hostility code on a battlespace concept."
+        },
+        {
+          "property_uri": "bsm:hasSubAction",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "sub_event_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.6,
+          "basis": "name",
+          "reasoning": "Column sub_event_type is a more specific classification under event_type; bsm:hasSubAction links an action to a more specific sub-action, though the ontology also has classificationCode as an alternative."
+        },
+        {
+          "property_uri": "bsm:hasResult",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "fatalities",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "EFFECT_{event_id_cnty}_fatalities",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:ActionEffect"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:effectQuantityNumber",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "fatalities",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.85,
+                    "basis": "name",
+                    "reasoning": "Column fatalities is a numeric count directly fitting effectQuantityNumber which stores effect quantities."
+                  },
+                  {
+                    "property_uri": "bsm:effectDescriptionCode",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "constant",
+                          "column_name": null,
+                          "constant_value": "fatalities"
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.55,
+                    "basis": "weak",
+                    "reasoning": "No explicit column describes the effect type, but fatalities logically indicates a casualty effect; using a constant 'fatalities' as the code."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column fatalities is a numeric outcome of the action; bsm:hasResult connects an action to an ActionEffect which can hold effectQuantityNumber for counts like fatalities."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "location",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "LOC_{country}_{admin1}_{location}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:locationName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "location",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 1.0,
+                    "basis": "name",
+                    "reasoning": "Column location directly provides the name of the place and the property is bsm:locationName."
+                  },
+                  {
+                    "property_uri": "bsm:hasGeometry",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "latitude",
+                          "constant_value": null
+                        },
+                        "transformation": {
+                          "expression": "POINT_{latitude}_{longitude}",
+                          "language": "python"
+                        },
+                        "value_type": {
+                          "type": "iri",
+                          "type_mappings": [
+                            {
+                              "class_uri": "bsm:AbsolutePoint"
+                            }
+                          ],
+                          "property_mappings": [
+                            {
+                              "property_uri": "bsm:latitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "latitude",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 1.0,
+                              "basis": "name",
+                              "reasoning": "Column latitude maps directly to bsm:latitudeDecimal which records latitude in decimal degrees WGS84."
+                            },
+                            {
+                              "property_uri": "bsm:longitudeDecimal",
+                              "values": [
+                                {
+                                  "value_source": {
+                                    "source": "column",
+                                    "column_name": "longitude",
+                                    "constant_value": null
+                                  },
+                                  "transformation": null,
+                                  "value_type": {
+                                    "type": "literal",
+                                    "type_mappings": [],
+                                    "property_mappings": []
+                                  }
+                                }
+                              ],
+                              "confidence": 1.0,
+                              "basis": "name",
+                              "reasoning": "Column longitude maps directly to bsm:longitudeDecimal which records longitude in decimal degrees WGS84."
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "structural",
+                    "reasoning": "Latitude and longitude columns together define the geographic coordinates; bsm:hasGeometry connects a Location to an AbsolutePoint holding those coordinates."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "Every event has a location name and coordinates; bsm:hasGeographicLocation links an action to the Location entity where the event occurred."
+        },
+        {
+          "property_uri": "bsm:involvedActor",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor1",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "ACTOR_{actor1}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:typeName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "inter1",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.7,
+                    "basis": "structural",
+                    "reasoning": "Column inter1 classifies actor1 (e.g. 'State forces'); bsm:typeName on Object provides a classification name for the actor. Although the property name is generic, inter1 holds the type of the actor."
+                  }
+                ]
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor2",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "ACTOR_{actor2}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:typeName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "inter2",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.7,
+                    "basis": "structural",
+                    "reasoning": "Column inter2 classifies actor2 (e.g. 'Rebels'); bsm:typeName on Object provides the classification name for the second actor as well."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "Column actor1 names a primary participating actor; bsm:involvedActor links the Action to the Actor (Organisation) that took part."
+        }
+      ],
+      "confidence": 0.95,
+      "basis": "name",
+      "reasoning": "Column event_id_cnty is the unique identifier for each conflict event which is an instance of Action in the battlespace ontology."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "assoc_actor_1",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "ASSOC_{assoc_actor_1}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [],
+      "confidence": 0.7,
+      "basis": "structural",
+      "reasoning": "assoc_actor_1 contains the name of an organisation associated with the primary actor actor1; it forms its own Organisation entity referenced by the primary actor via hasMember."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "assoc_actor_2",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "ASSOC_{assoc_actor_2}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [],
+      "confidence": 0.7,
+      "basis": "structural",
+      "reasoning": "assoc_actor_2 contains the name of an organisation associated with the secondary actor actor2; it forms its own Organisation entity referenced by actor2 via hasMember."
+    }
+  ],
+  "unmapped_fields": [
+    "year",
+    "time_precision",
+    "geo_precision",
+    "civilian_targeting",
+    "iso",
+    "region",
+    "admin2",
+    "admin3",
+    "tags",
+    "timestamp",
+    "population_1km",
+    "population_2km",
+    "population_5km",
+    "population_best",
+    "source_scale"
+  ],
+  "generation_timestamp": "2026-08-14 07:57:34.513321",
+  "prompt_tokens": 6010,
+  "completion_tokens": 7077,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nFirst, think step by step in plain prose. Do not use triple backticks, code fences, or\nJSON syntax anywhere in this reasoning section \u2014 save all of that for the final block:\n- List the distinct entity types present in the schema (e.g. one column group per real-world entity).\n- For each entity type, decide which column or constant value is its identifier (the subject).\n- For each entity type, decide which ontology class it corresponds to.\n- For each entity type, check the ontology for object properties leading from it to other\n  classes. If the schema has columns supporting one of those linked classes, name it as its\n  own entity now, before moving to property mapping - do not discover it late and fold it\n  into another entity as literals just because its columns sit on the same source row.\n  Conversely, if a candidate linked class only fits because one column has a generic\n  id/code/type-sounding name, check whether the schema actually shows that class's\n  structure (e.g. more than one scheme/standard for the same entity) before creating it -\n  otherwise it stays a plain property of the entity you already have.\n- For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity. When two candidate properties are near-synonyms differing by only a qualifying word or prefix, say so explicitly and name the qualifier that decides between them - and if the column itself is silent on which one, do not default to the more common-sounding synonym; say explicitly that it is ambiguous.\n- If a value points to another entity, set value_type to \"iri\" and include nested\n  type_mappings/property_mappings if applicable. Write the referenced entity's\n  subject_transformation expression once and reuse that exact string for this value's\n  transformation rather than retyping it.\n- For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values \u2014 not generic filler.\n- Note any columns that have no suitable ontology match, and list them in unmapped_fields.\n- Before writing the JSON block, walk through every IRI-typed value once more and confirm\n  its transformation string is character-for-character identical to the subject_transformation\n  of the entity it references; fix any mismatch you find.\n- Also confirm every subject_transformation/transformation key you did not need is left out\n  entirely (never an empty {}), and that the JSON block itself will parse: escaped strings,\n  no trailing commas, matching brackets.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped. Construct each subject_transformation\n  expression once, then copy that exact string into every value.transformation meant to\n  reference it, rather than writing the two independently - re-typing the same-looking\n  expression a second time is the most common way a mismatch slips in. Before finalizing,\n  compare each IRI value's transformation string against the subject_transformation of the\n  entity it points to character by character - a different prefix, a pluralization, or\n  reordered placeholders all count as a mismatch and silently break the relation.\n- Do not fold every remaining column into the single most obvious entity as literal\n  properties. First check the ontology for object properties that lead from your entity to\n  other classes: a concept the ontology models as its own class one hop away is easy to miss\n  when its columns happen to sit right next to the primary entity's columns on the same\n  source row. If the schema has columns that populate such a linked class's identity or\n  properties, create it as its own subject_mapping and connect it with an \"iri\"-typed value\n  instead of discarding it or attaching it as a literal on the entity you already have.\n- Do not create a subject_mapping for a class the schema does not evidence. Every entity you\n  emit needs at least one column that plausibly identifies it or fills one of its properties;\n  do not add a class just because the ontology offers a plausible-sounding generic or\n  catalog type when nothing in the schema is specific to that class. Be especially wary of a\n  class that exists only to bundle one generic value together with the scheme, standard, or\n  type that qualifies it (recognizable by having just one or two generic-sounding\n  properties, e.g. a \"kind\"/\"standard\" field plus a \"value\" field): that shape models an\n  entity carrying more than one label or code under different schemes at once, and a single\n  column whose name merely contains a generic word like \"id\", \"code\", \"number\", or \"type\" is\n  not, by itself, evidence for it - most such columns are still a plain attribute of the\n  entity you already have. Only use that kind of class when the schema shows the actual\n  structure it models, e.g. several columns naming distinct schemes/standards for the same\n  entity, or a column that names the scheme itself.\n- Ontology properties are often near-synonyms whose local names differ by only one\n  qualifying word or prefix (e.g. two properties that share most of their name but differ\n  in tense, direction, or granularity). Read the full local name, not just its most\n  distinctive substring, and match every qualifying word against the column's exact meaning\n  rather than the nearer-sounding or more common alternative; if the column and the\n  candidate property disagree on a qualifier, treat it as ambiguous instead of assuming\n  they match. Do not default to whichever synonym sounds more common, more general, or more\n  familiar when the column itself does not clearly say so - that default guess is wrong just\n  as often as the alternative, and a wrong choice here typically also breaks any relation\n  that depends on this property to identify the entity, so treat it as high-stakes rather\n  than a minor label choice.\n- Omit subject_transformation and transformation entirely when no expression is needed - do\n  not include the key at all, and never emit it as an empty object {} or as null. An empty\n  object still means \"a transformation was given\" and requires its expression field, so\n  leaving the key out completely is the only valid way to skip it.\n- Output must be syntactically valid JSON: every string is properly escaped (quotes,\n  backslashes, newlines), no trailing commas, no comments, and every opening bracket or\n  brace has its matching close. Malformed JSON discards the entire response, not just the\n  affected field, so when in doubt keep punctuation simple rather than risk breaking the\n  parse.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nAfter your reasoning, output the final mapping as exactly one JSON code block\n(```json ... ```) matching this exact structure. This must be the only fenced block in\nyour entire response, with nothing before its opening ``` other than your plain-prose\nreasoning, and nothing at all after its closing ```:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces. This whole subject_transformation key is OPTIONAL: when no template is needed, omit the key entirely - never emit it as an empty object {}.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. This whole transformation key is OPTIONAL: when the raw column value is used as-is, omit the key entirely - never emit it as an empty object {}.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: acled_data (type: relational)\n\nSCHEMA:\n  event_id_cnty: text\n  event_date: text\n  year: bigint\n  time_precision: bigint\n  disorder_type: text\n  event_type: text\n  sub_event_type: text\n  actor1: text\n  assoc_actor_1: text\n  inter1: text\n  actor2: text\n  assoc_actor_2: text\n  inter2: text\n  interaction: text\n  civilian_targeting: text\n  iso: bigint\n  region: text\n  country: text\n  admin1: text\n  admin2: text\n  admin3: text\n  location: text\n  latitude: double precision\n  longitude: double precision\n  geo_precision: bigint\n  source: text\n  source_scale: text\n  notes: text\n  fatalities: bigint\n  tags: text\n  timestamp: bigint\n  population_1km: double precision\n  population_2km: bigint\n  population_5km: bigint\n  population_best: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    event_id_cnty: 'POL1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: 'Naval Command of Poland'\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdansk'\n    admin3: ''\n    location: 'Gdansk'\n    latitude: 54.352\n    longitude: 18.6466\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported in the port district of Gdansk.'\n    fatalities: 3\n    tags: ''\n    timestamp: 1773216900\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 2:\n    event_id_cnty: 'POL1002'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdynia'\n    admin3: ''\n    location: 'Gdynia'\n    latitude: 54.5189\n    longitude: 18.5305\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Exchange of fire near the naval base at Gdynia.'\n    fatalities: 1\n    tags: ''\n    timestamp: 1773220500\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 3:\n    event_id_cnty: 'LTU1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Lithuania (2019-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 440\n    region: 'Europe'\n    country: 'Lithuania'\n    admin1: 'Klaipedos'\n    admin2: 'Klaipeda'\n    admin3: ''\n    location: 'Klaipeda'\n    latitude: 55.7033\n    longitude: 21.1443\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported near the Klaipeda seaport.'\n    fatalities: 2\n    tags: ''\n    timestamp: 1773224100\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n\nONTOLOGY:\nConcept [bsm:Concept] | data: name [bsm:conceptName]\nBattlespace Concept [bsm:BattlespaceConcept] | subClassOf: Concept [bsm:Concept] | data: alternate name [bsm:alternateName], additional information [bsm:additionalInformationText], hostility code [bsm:hostilityCode], source identifier [bsm:sourceIdentifier] | obj: has geographic location [bsm:hasGeographicLocation], has alternate identifier [bsm:hasAlternateIdentifier], part of [bsm:partOf]\nObject [bsm:Object] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: type name [bsm:typeName] | obj: has affiliation [bsm:hasAffiliation]\nAction [bsm:Action] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: action description [bsm:actionDescriptionText], classification code [bsm:classificationCode], event start time [bsm:eventStartDateTime], event end time [bsm:eventEndDateTime] | obj: has focus [bsm:hasFocus], has requirement [bsm:hasRequirement], has result [bsm:hasResult], has sub-action [bsm:hasSubAction], is caused by [bsm:isCausedBy], has response [bsm:hasResponse], involved actor [bsm:involvedActor]\nActor [bsm:Actor] | subClassOf: Object [bsm:Object] | obj: operates materiel [bsm:operatesMateriel], owns materiel [bsm:ownsMateriel], has sanction designation [bsm:hasSanctionDesignation], has controlled facility [bsm:hasControlledFacility]\nPerson [bsm:Person] | subClassOf: Actor [bsm:Actor] | data: birth date [bsm:birthDate], death date [bsm:deathDate], gender code [bsm:genderCode], military status code [bsm:militaryStatusCode], characteristic code [bsm:characteristicCode], duty status code [bsm:dutyStatusCode] | obj: is member of [bsm:isMemberOf], is assigned to [bsm:isAssignedTo], is attached to [bsm:isAttachedTo], has superior [bsm:hasSuperior], has subordinate [bsm:hasSubordinate], is operative of [bsm:isOperativeOf], has nationality [bsm:hasNationality], has identification document [bsm:hasIdentificationDocument]\nOrganisation [bsm:Organisation] | subClassOf: Actor [bsm:Actor] | data: description [bsm:descriptionText], main activity code [bsm:mainActivityCode] | obj: has member [bsm:hasMember], has assigned person [bsm:hasAssignedPerson]\nMateriel [bsm:Materiel] | subClassOf: Object [bsm:Object] | data: serial number [bsm:serialNumberIdentifier], model name [bsm:modelName], is active [bsm:isActiveIndicator] | obj: has controller [bsm:hasController], has operator [bsm:hasOperator], has owner [bsm:hasOwner], is on account of [bsm:isOnAccountOf], transports actor [bsm:transportsActor], is loaded on [bsm:isLoadedOn], carries [bsm:carries]\nConsumableMateriel [bsm:ConsumableMateriel] | subClassOf: Materiel [bsm:Materiel]\nEquipment [bsm:Equipment] | subClassOf: Materiel [bsm:Materiel] | obj: has mobility [bsm:hasMobility]\nVehicle [bsm:Vehicle] | subClassOf: Equipment [bsm:Equipment] | data: operating mode code [bsm:operatingModeCode] | obj: has observation [bsm:hasObservation]\nAircraft [bsm:Aircraft] | subClassOf: Vehicle [bsm:Vehicle] | data: design range code [bsm:designRangeCode], design role code [bsm:designRoleCode], type main purpose code [bsm:typeMainPurposeCode], military/civilian code [bsm:militaryCivilianCode], wing span [bsm:wingSpanDimension], weapon type code [bsm:weaponTypeCode]\nVessel [bsm:Vessel] | subClassOf: Vehicle [bsm:Vehicle] | data: vessel category code [bsm:vesselCategoryCode], vessel maximum speed [bsm:vesselMaximumSpeed]\nLand Vehicle [bsm:LandVehicle] | subClassOf: Vehicle [bsm:Vehicle]\nLocation [bsm:Location] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: location name [bsm:locationName] | obj: has geometry [bsm:hasGeometry]\nGeometry [bsm:Geometry]\nPoint [bsm:Point] | subClassOf: Geometry [bsm:Geometry]\nAbsolute Point [bsm:AbsolutePoint] | subClassOf: Point [bsm:Point] | data: latitude (decimal degrees, WGS84) [bsm:latitudeDecimal], longitude (decimal degrees, WGS84) [bsm:longitudeDecimal]\nLine [bsm:Line] | subClassOf: Geometry [bsm:Geometry]\nSurface [bsm:Surface] | subClassOf: Geometry [bsm:Geometry]\nVelocity [bsm:Velocity] | data: speed (m/s) [bsm:speedMetersPerSecond], absolute bearing angle [bsm:absoluteBearingAngle], inclination angle [bsm:inclinationAngle]\nOrientation [bsm:Orientation] | data: heading angle [bsm:headingAngle]\nAltitude [bsm:Altitude] | data: altitude in meters [bsm:altitudeMeters]\nAffiliation [bsm:Affiliation]\nGeopolitical Affiliation [bsm:GeopoliticalAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: geopolitical affiliation code [bsm:geopoliticalAffiliationCode]\nEthnic Affiliation [bsm:EthnicAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: ethnic group code [bsm:affiliationEthnicGroupCode]\nReligious Affiliation [bsm:ReligiousAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: religion code [bsm:affiliationReligionCode]\nMobility [bsm:Mobility]\nAlternate Identifier [bsm:AlternateIdentifier] | data: alternate identifier standard code [bsm:alternateIdentifierStandardCode], alternate identifier value [bsm:alternateIdentifierValue]\nPerson Nationality [bsm:PersonNationality] | data: nationality country code [bsm:nationalityCountryCode], nationality reason code [bsm:nationalityReasonCode]\nPerson Identification Document [bsm:PersonIdentificationDocument] | data: ID document category [bsm:identificationDocumentCategoryCode], ID document number [bsm:identificationDocumentIdentifier]\nAction Effect [bsm:ActionEffect] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: effect description code [bsm:effectDescriptionCode], effect quantity [bsm:effectQuantityNumber], effect severity code [bsm:effectSeverityCode] | obj: effect on object [bsm:effectOnObject]\nAction Resource [bsm:ActionResource] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: resource object [bsm:resourceObject]\nAction Objective [bsm:ActionObjective] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: targets object [bsm:targetsObject]\nSanction Designation [bsm:SanctionDesignation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: listing date [bsm:listingDate], delisting date [bsm:delistingDate], sanction reason [bsm:sanctionReason], source URL [bsm:sourceUrl] | obj: listing authority [bsm:listingAuthority]\nFacility [bsm:Facility] | subClassOf: Object [bsm:Object] | data: facility is active [bsm:facilityIsActiveIndicator], facility access restriction code [bsm:facilityAccessRestrictionCode]\nTransport Facility [bsm:TransportFacility] | subClassOf: Facility [bsm:Facility]\nMaritime Transport Facility [bsm:MaritimeTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nPort [bsm:Port] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nMilitary Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nHarbour [bsm:Harbour] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nAir Transport Facility [bsm:AirTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nAirport or Airbase [bsm:AirportOrAirbase] | subClassOf: Air Transport Facility [bsm:AirTransportFacility]\nEnergy Facility [bsm:EnergyFacility] | subClassOf: Facility [bsm:Facility]\nPetroleum Production Complex [bsm:PetroleumProductionComplex] | subClassOf: Facility [bsm:Facility]\nObservation [bsm:Observation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: observation date time [bsm:observationDateTime]\n(unattached: no declared domain class) | obj: has velocity [bsm:hasVelocity], has orientation [bsm:hasOrientation], has altitude [bsm:hasAltitude]\n\nThink step by step in plain prose, then return the mapping as exactly one JSON code block and nothing else.",
+  "raw_response": "First, let me analyze the schema and ontology step by step.\n\nThe schema describes conflict events with actors, locations, dates, fatalities, etc. The primary entity is clearly an \"event\" - each row is one conflict event.\n\n**Entity Types:**\n\n1. **Event/Action** - Each record is a conflict event with event_id_cnty as unique identifier. The ontology has `bsm:Action` which fits: it has `actionDescriptionText`, `classificationCode`, `eventStartDateTime`, and object properties like `involvedActor`, `hasFocus`, `hasResult`, `hasGeographicLocation`.\n\n2. **Actor** - actor1, assoc_actor_1, actor2, assoc_actor_2 represent four actor slots per event. actor1 and actor2 are the main actors; assoc_actor_1 and assoc_actor_2 are associated actors. The ontology has `bsm:Organisation` or `bsm:Actor`. Given these are military forces, armed groups, state forces, etc., `bsm:Organisation` fits well.\n\n3. **Location** - location, admin1, admin2, admin3, country, region, latitude, longitude. The ontology has `bsm:Location` with `locationName` and `hasGeometry` pointing to `bsm:AbsolutePoint` with latitude/longitude.\n\n4. **Actual Event Location (Point/Geometry)** - The latitude/longitude columns form a separate entity (AbsolutePoint) linked to Location via hasGeometry.\n\n5. **Event Type Classification** - event_type, sub_event_type, disorder_type, inter1, inter2, interaction, civilian_targeting. These could be classification codes or descriptions for the Action.\n\nLet me think about the identifier for each entity:\n\n**Action (Event):** event_id_cnty is the unique identifier. The class `bsm:Action` has `sourceIdentifier` inherited from BattlespaceConcept for this.\n\n**Actor (Organisation):** actor1/actor2 have names like \"Military Forces of Poland (2023-)\" - these are organizations. But there's no separate ID column for actors - they appear by name. I'll use the actor name as identifier.\n\n**Location:** location name combined with admin1 might be needed for uniqueness. But the location column alone is the primary location name.\n\n**AbsolutePoint:** latitude+longitude pair. Since these are coordinates, they form a unique location.\n\n**Remaining Columns:**\n- event_date, year, time_precision \u2192 date/time properties\n- fatalities \u2192 count/effect quantity\n- source, source_scale \u2192 source information\n- notes \u2192 additional information text\n- iso \u2192 country code\n- population_* \u2192 population data (not in ontology, unmapped)\n- tags, timestamp \u2192 not clearly mappable\n- geo_precision \u2192 precision indicator\n\nLet me check object properties:\n- `bsm:Action` has `involvedActor` \u2192 links to Actor\n- `bsm:Action` has `hasGeographicLocation` \u2192 links to Location\n- `bsm:Location` has `hasGeometry` \u2192 links to Geometry/AbsolutePoint\n- `bsm:Action` has `hasResult` \u2192 could link to ActionEffect for fatalities\n- `bsm:Action` has `hasSubAction` \u2192 for sub_event_type as classification\n- `bsm:Actor` has `hasAffiliation` \u2192 inter1/inter2 are affiliation types\n\n**Near-synonym check:** \n- `bsm:actionDescriptionText` vs `bsm:additionalInformationText` - notes column fits `additionalInformationText` better (it's descriptive note, not the action description proper). The `actionDescriptionText` would be more for structured description of the action itself.\n- `bsm:classificationCode` vs `bsm:hostilityCode` - event_type/sub_event_type are about type of event, not hostility level. `classificationCode` fits event_type classification better.\n- `bsm:eventStartDateTime` - event_date fits this.\n\nLet me now build the mapping. I need to create separate entities for Action, Actor(s), Location, and AbsolutePoint.\n\nFor actors: actor1 and actor2 are different actors, and assoc_actor_1/2 are associated. These could be separate subject mappings or I could treat each actor occurrence as an individual entity. Given the schema, each actor name appears per event. I'll create one subject mapping for Actor/Organisation that can be referenced multiple times.\n\nFor the interaction/inter1/inter2 - these describe the affiliation/side. `bsm:hasAffiliation` leads to `bsm:Affiliation` and its subclasses. inter1 values like \"State forces\" match `bsm:GeopoliticalAffiliation` with a code. But having just one column without a separate standard/scheme column, this is more evidence for it being a plain property of the actor rather than a separate entity. I'll treat it as a literal mapping.\n\nActually, let me re-examine: The ontology has `bsm:GeopoliticalAffiliation` with `geopoliticalAffiliationCode`. The inter1 values are \"State forces\", \"Rebels\" - these look like affiliation codes/names. Since it's just a single column without a scheme/standard distinction, I'll map it as a literal property value.\n\n**Subject transformations:**\n\nFor Action (event_id_cnty): `ACLED_{event_id_cnty}`\nFor Actor (actor name): `ACTOR_{actor_name}` (but actor1 and actor2 are different columns, so I need to handle both)\nFor Location: `LOC_{country}_{admin1}_{location}`\nFor AbsolutePoint: `POINT_{latitude}_{longitude}`\n\nWait - I need to be careful. The subject expression must be distinct for each entity. For Actor, if I use actor1 column, it only gets actors from that column. But actor2 has different values. The schema has actor1 and actor2 as separate columns in the same record - they're two different actors per event. I should create a separate subject mapping for each, or better, treat each occurrence.\n\nActually, looking at the sample, actor1 and actor2 are distinct entities (different force/group). I'll create one Actor subject mapping that handles both, but the source column will vary. This is tricky with RML - typically you'd have a logical source that unpivots. But the format here expects direct column mappings.\n\nGiven the constraints, I'll create four actor-related subject mappings: one per actor column (actor1, assoc_actor_1, actor2, assoc_actor_2). Each points to `bsm:Organisation`.\n\nLet me think again - the `involvedActor` property on Action links to Actor. The schema has two main actors and two associated actors. I'll map actor1 and actor2 as `involvedActor` values, and assoc_actor_1/2 similarly or as `hasMember` of the main actor.\n\nActually, I'm overcomplicating. Let me simplify and map the core entities clearly.\n\n**Final entity list:**\n1. **Action** (event) - class: bsm:Action\n2. **Organisation** (actor1) - class: bsm:Organisation\n3. **Organisation** (actor2) - class: bsm:Organisation\n4. **Organisation** (assoc_actor_1) - class: bsm:Organisation\n5. **Organisation** (assoc_actor_2) - class: bsm:Organisation\n6. **Location** - class: bsm:Location\n7. **AbsolutePoint** - class: bsm:AbsolutePoint\n8. **ActionEffect** (fatalities) - class: bsm:ActionEffect\n\nWait, for ActionEffect - fatalities is just a number. The ActionEffect requires effectDescriptionCode and effectQuantityNumber. Fatalities is just a count - could be effectQuantityNumber with effectDescriptionCode \"fatalities\" but that's a guess. I'll map it as a literal property of Action instead using `bsm:effectQuantityNumber` via the `hasResult` property... Actually, the ontology doesn't have a direct \"fatalities\" property on Action. But bsm:Action has `hasResult` \u2192 ActionEffect which has effectQuantityNumber. This is a stretch but plausible.\n\nLet me be conservative and map fatalities as a property of Action by treating it as an effect quantity through ActionEffect.\n\nLet me write the mapping now.\n\nFor the Actor entities - actor1, assoc_actor_1, actor2, assoc_actor_2 all have the same structure. I'll create a single subject mapping pattern for \"actor\" but with different column sources. However, the format requires separate subject_mappings for different source columns.\n\nI'll create one for actor1 (primary actor 1) and note that actor2 follows the same pattern.\n\nActually, let me look at the sample more carefully:\n- actor1: \"Military Forces of Poland (2023-)\" \n- assoc_actor_1: \"Naval Command of Poland\"\n- actor2: \"Unidentified Armed Group (Baltic)\"\n- assoc_actor_2: \"\" (empty)\n\nThe associated actors are typically empty or a sub-unit. They could be linked via `hasMember` or `hasSubordinate`... but that requires knowing the relationship precisely. Actually, assoc_actor could be `hasAssignedPerson` or `hasMember` of the main actor1. But since these are organizations, `hasMember` fits (the associated actor is a member/sub-unit of the main actor).\n\nFor inter1/inter2 - these are classifications like \"State forces\", \"Rebels\". These map to `bsm:geopoliticalAffiliationCode` on a `bsm:GeopoliticalAffiliation` entity which would be linked via `bsm:hasAffiliation`. But since it's just a single code with no separate identifier, I'll treat it as a literal property of the Organisation.\n\nWait - `bsm:Organisation` doesn't have a direct property for affiliation code. But `bsm:Object` has `hasAffiliation` which goes to Affiliation entities. The Affiliation subclasses have code properties. I think mapping inter1 to the string value as the geopolitical affiliation code is reasonable.\n\nLet me now write the concrete mapping:\n\n**Subject for Action:** `ACLED_{event_id_cnty}` - unique per event\n\n**Subject for Actor (actor1):** `ACTOR_{actor1}` - using actor1 column\n\n**Subject for Location:** `LOC_{country}_{admin1}_{location}` - combining country, admin1, and location\n\n**Subject for AbsolutePoint:** `POINT_{latitude}_{longitude}` - combining coordinates\n\nNow for property mappings on Action:\n- event_date \u2192 `bsm:eventStartDateTime` (as datetime literal)\n- event_type \u2192 `bsm:classificationCode` (type of action)\n- sub_event_type \u2192 `bsm:classificationCode`? No, this could be `bsm:hasSubAction` pointing to another Action, but it's a text description... I'll map sub_event_type as `bsm:actionDescriptionText`\n- notes \u2192 `bsm:additionalInformationText`\n- fatalities \u2192 map to ActionEffect with effectQuantityNumber, and ActionEffect linked via hasResult\n- source \u2192 `bsm:sourceIdentifier`\n- disorder_type \u2192 `bsm:classificationCode` as well? Or hostiltyCode? \"Political violence\" sounds like a hostility classification. I'll use `bsm:hostilityCode`\n- interaction \u2192 This describes the interaction type. Probably another classification. I'll map it as `bsm:classificationCode` too but that's ambiguous... No, interaction is \"State forces - Rebels\" which is already captured by actor1/actor2 and their affiliations. I'll leave it unmapped or map to classificationCode.\n\nActually, interaction could be a description of the action - `bsm:actionDescriptionText` fits because it describes the interaction between actors.\n\nLet me check the near-synonym rule again. `bsm:actionDescriptionText` and `bsm:additionalInformationText` - the notes column clearly describes additional information, not the action description proper. The interaction column says \"State forces - Rebels\" which describes the action. So interaction \u2192 actionDescriptionText, notes \u2192 additionalInformationText.\n\n**Unmapped fields:** year (redundant with event_date), time_precision, geo_precision, iso (redundant with country), assoc_actor_1/2 (mapped as separate entities), inter1/inter2 (mapped as affiliation), civilian_targeting, region (redundant with admin1 hierarchy), admin1/2/3 (part of location), tags, timestamp, population_*, latitude/longitude (part of AbsolutePoint).\n\nWait, I need to include inter1/inter2 somehow. They describe the type of actor (State forces vs Rebels). This is the actor's affiliation. I'll map them to geopoliticalAffiliationCode on a GeopoliticalAffiliation entity, but since it's just a single column value without a separate entity structure in the schema, I'll treat it as a literal mapping via `hasAffiliation`.\n\nActually, `bsm:Object` has `hasAffiliation` property. And `bsm:GeopoliticalAffiliation` has `geopoliticalAffiliationCode`. I can create an Affiliation entity for each unique inter1 value, but the schema doesn't give a separate ID for it - the inter1 value IS the code. So I'd use the inter1 value as identifier for the GeopoliticalAffiliation entity.\n\nLet me create a subject mapping for GeopoliticalAffiliation using inter1 value as the identifier.\n\nSubject for GeopoliticalAffiliation: `AFFIL_{inter1}`\n\nThis is getting complex. Let me simplify by focusing on the most important entities and making reasonable mappings.\n\nHere's my plan:\n1. Action (event) - main entity\n2. Organisation for actor1 and actor2 (separate mappings)\n3. Location\n4. AbsolutePoint (geometry of location)\n5. ActionEffect for fatalities\n6. GeopoliticalAffiliation for inter1/inter2\n\nI'll now write the JSON mapping.\n\nActually, for inter1/inter2, I realize the sample shows inter1=\"State forces\" for actor1, and inter2=\"Rebels\" for actor2. So inter1 relates to actor1 and inter2 relates to actor2. I'll connect the Affiliation to the respective Organisation via `hasAffiliation`.\n\nLet me trace through one record to verify:\n- Action (event POL1001) has involvedActor pointing to Organisation1 (\"Military Forces of Poland\")\n- Organisation1 has hasAffiliation pointing to GeopoliticalAffiliation (\"State forces\")\n- Action (event POL1001) has involvedActor pointing to Organisation2 (\"Unidentified Armed Group\")\n- Organisation2 has hasAffiliation pointing to GeopoliticalAffiliation (\"Rebels\")\n\nThat works. Now let me write the complete JSON.\n\nFor the eventAction's interaction with location: event has hasGeographicLocation pointing to Location (Gdansk). Location has hasGeometry pointing to AbsolutePoint (54.352, 18.6466).\n\nFor fatalities: Action has hasResult pointing to ActionEffect. ActionEffect has effectQuantityNumber = 3, effectDescriptionCode = \"fatalities\" (I'll use a constant for this).\n\nLet me finalize and write the JSON.\n\nOne more check - for the assoc_actor columns:\nassoc_actor_1 in record 1 is \"Naval Command of Poland\" - this could be a separate Organisation, potentially linked to actor1 via hasMember or hasSubordinate. Since the ontology has `hasMember` on Organisation, I'll use that: Organisation1 (actor1) hasMember Organisation (assoc_actor_1).\n\nFor assoc_actor_2 in record 2 - it's empty, so the record would be skipped for that entity.\n\nI think I have a solid plan. Let me write the mapping now.\n\nFor the format, I need to be careful with transformation expressions - they must be identical when referencing the same entity. Let me define the expressions first:\n\n- Action: `ACLED_{event_id_cnty}`\n- Organisation (actor1): `ACTOR_{actor1}`\n- Organisation (actor2): `ACTOR_{actor2}`\n- Organisation (assoc_actor_1): `ASSOC_{assoc_actor_1}`\n- Organisation (assoc_actor_2): `ASSOC_{assoc_actor_2}`\n- Location: `LOC_{country}_{admin1}_{location}`\n- AbsolutePoint: `POINT_{latitude}_{longitude}`\n- ActionEffect: `EFFECT_{event_id_cnty}_fatalities`\n- GeopoliticalAffiliation (inter1): `AFFIL_{inter1}`\n- GeopoliticalAffiliation (inter2): `AFFIL_{inter2}`\n\nNow every time I reference one of these as an IRI value, the transformation must be byte-for-byte identical.\n\nLet me write the JSON now, keeping it clean and syntactically valid.\n\nI notice that some events have empty assoc_actor_1/2 and inter2 values (from sample record 2). The expressions will be built from those columns - if empty, the entity is skipped.\n\nFor civilian_targeting - this is a tag/category. The ontology doesn't have a perfect match. I'll leave it unmapped.\n\nFor source_scale - \"Subnational\" - not in ontology, unmapped.\n\nFor population_* columns - no match in ontology, unmapped.\n\nFor tags - no match, unmapped.\n\nFor timestamp - could be eventStartDateTime but we already have event_date. Unmapped.\n\nFor iso - country code, we have country column. Unmapped.\n\nFor geo_precision - precision indicator, unmapped.\n\nFor time_precision - unmapped.\n\nFor year - redundant with event_date, unmapped.\n\nOK, let me write the final JSON.\n\nLet me reconsider - the transformation expressions must only use column placeholders in {column_name} format. My proposed expressions look good.\n\nFor the ActionEffect's effectDescriptionCode - I'll use a constant value \"fatalities\" since there's no column specifying the effect type.\n\nFor event_date as eventStartDateTime - the format is '2026-03-11' which is a date. I'll map it as a literal with appropriate type.\n\nLet me now produce the final JSON mapping.```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"event_id_cnty\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"ACLED_{event_id_cnty}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Action\"\n        }\n      ],\n      \"confidence\": 0.95,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column event_id_cnty is the unique identifier for each conflict event which is an instance of Action in the battlespace ontology.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:eventStartDateTime\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column event_date contains the date of the event and bsm:eventStartDateTime is the corresponding start date property on Action.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"event_date\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:classificationCode\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column event_type names the type of event which matches the concept of a classification code for an action (e.g. 'Battles').\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"event_type\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:actionDescriptionText\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column interaction describes the relationship between actors (e.g. 'State forces - Rebels') which qualifies as a description of the action.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"interaction\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:additionalInformationText\",\n          \"confidence\": 0.9,\n          \"basis\": \"description\",\n          \"reasoning\": \"Column notes contains additional descriptive text about the event; given the ontology separates actionDescriptionText from additionalInformationText, notes fits the latter as unstructured supplementary info.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"notes\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:sourceIdentifier\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column source names the reporting source (e.g. 'Baltic Monitoring Desk'), directly matching the bsm:sourceIdentifier property that holds a source identifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"source\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hostilityCode\",\n          \"confidence\": 0.75,\n          \"basis\": \"value\",\n          \"reasoning\": \"Column disorder_type contains values like 'Political violence' which describe the nature of the incident, matching the concept of hostility code on a battlespace concept.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"disorder_type\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasSubAction\",\n          \"confidence\": 0.6,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column sub_event_type is a more specific classification under event_type; bsm:hasSubAction links an action to a more specific sub-action, though the ontology also has classificationCode as an alternative.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"sub_event_type\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasResult\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column fatalities is a numeric outcome of the action; bsm:hasResult connects an action to an ActionEffect which can hold effectQuantityNumber for counts like fatalities.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"fatalities\"\n              },\n              \"transformation\": {\n                \"expression\": \"EFFECT_{event_id_cnty}_fatalities\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:ActionEffect\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:effectQuantityNumber\",\n                    \"confidence\": 0.85,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"Column fatalities is a numeric count directly fitting effectQuantityNumber which stores effect quantities.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"fatalities\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:effectDescriptionCode\",\n                    \"confidence\": 0.55,\n                    \"basis\": \"weak\",\n                    \"reasoning\": \"No explicit column describes the effect type, but fatalities logically indicates a casualty effect; using a constant 'fatalities' as the code.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"constant\",\n                          \"constant_value\": \"fatalities\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"Every event has a location name and coordinates; bsm:hasGeographicLocation links an action to the Location entity where the event occurred.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"location\"\n              },\n              \"transformation\": {\n                \"expression\": \"LOC_{country}_{admin1}_{location}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Location\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:locationName\",\n                    \"confidence\": 1.0,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"Column location directly provides the name of the place and the property is bsm:locationName.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"location\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:hasGeometry\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"Latitude and longitude columns together define the geographic coordinates; bsm:hasGeometry connects a Location to an AbsolutePoint holding those coordinates.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"latitude\"\n                        },\n                        \"transformation\": {\n                          \"expression\": \"POINT_{latitude}_{longitude}\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"iri\",\n                          \"type_mappings\": [\n                            {\n                              \"class_uri\": \"bsm:AbsolutePoint\"\n                            }\n                          ],\n                          \"property_mappings\": [\n                            {\n                              \"property_uri\": \"bsm:latitudeDecimal\",\n                              \"confidence\": 1.0,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"Column latitude maps directly to bsm:latitudeDecimal which records latitude in decimal degrees WGS84.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"latitude\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            },\n                            {\n                              \"property_uri\": \"bsm:longitudeDecimal\",\n                              \"confidence\": 1.0,\n                              \"basis\": \"name\",\n                              \"reasoning\": \"Column longitude maps directly to bsm:longitudeDecimal which records longitude in decimal degrees WGS84.\",\n                              \"values\": [\n                                {\n                                  \"value_source\": {\n                                    \"source\": \"column\",\n                                    \"column_name\": \"longitude\"\n                                  },\n                                  \"value_type\": {\n                                    \"type\": \"literal\",\n                                    \"type_mappings\": [],\n                                    \"property_mappings\": []\n                                  }\n                                }\n                              ]\n                            }\n                          ]\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:involvedActor\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column actor1 names a primary participating actor; bsm:involvedActor links the Action to the Actor (Organisation) that took part.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor1\"\n              },\n              \"transformation\": {\n                \"expression\": \"ACTOR_{actor1}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Organisation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:typeName\",\n                    \"confidence\": 0.7,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"Column inter1 classifies actor1 (e.g. 'State forces'); bsm:typeName on Object provides a classification name for the actor. Although the property name is generic, inter1 holds the type of the actor.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"inter1\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            },\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"actor2\"\n              },\n              \"transformation\": {\n                \"expression\": \"ACTOR_{actor2}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [\n                  {\n                    \"class_uri\": \"bsm:Organisation\"\n                  }\n                ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:typeName\",\n                    \"confidence\": 0.7,\n                    \"basis\": \"structural\",\n                    \"reasoning\": \"Column inter2 classifies actor2 (e.g. 'Rebels'); bsm:typeName on Object provides the classification name for the second actor as well.\",\n                    \"values\": [\n                      {\n                        \"value_source\": {\n                          \"source\": \"column\",\n                          \"column_name\": \"inter2\"\n                        },\n                        \"value_type\": {\n                          \"type\": \"literal\",\n                          \"type_mappings\": [],\n                          \"property_mappings\": []\n                        }\n                      }\n                    ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"assoc_actor_1\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"ASSOC_{assoc_actor_1}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Organisation\"\n        }\n      ],\n      \"confidence\": 0.7,\n      \"basis\": \"structural\",\n      \"reasoning\": \"assoc_actor_1 contains the name of an organisation associated with the primary actor actor1; it forms its own Organisation entity referenced by the primary actor via hasMember.\",\n      \"property_mappings\": []\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"assoc_actor_2\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"ASSOC_{assoc_actor_2}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Organisation\"\n        }\n      ],\n      \"confidence\": 0.7,\n      \"basis\": \"structural\",\n      \"reasoning\": \"assoc_actor_2 contains the name of an organisation associated with the secondary actor actor2; it forms its own Organisation entity referenced by actor2 via hasMember.\",\n      \"property_mappings\": []\n    }\n  ],\n  \"unmapped_fields\": [\n    \"year\",\n    \"time_precision\",\n    \"geo_precision\",\n    \"civilian_targeting\",\n    \"iso\",\n    \"region\",\n    \"admin2\",\n    \"admin3\",\n    \"tags\",\n    \"timestamp\",\n    \"population_1km\",\n    \"population_2km\",\n    \"population_5km\",\n    \"population_best\",\n    \"source_scale\"\n  ]\n}\n```"
+}

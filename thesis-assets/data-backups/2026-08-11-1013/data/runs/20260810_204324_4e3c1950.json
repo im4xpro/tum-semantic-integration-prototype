@@ -1,0 +1,33 @@
+{
+  "id": "20260810_204324_4e3c1950",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-10-2242-marinetraffic-experiment",
+    "source_name": "marinetraffic_vessels",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "qwen/qwen3.7-plus",
+    "strategy": "zero_shot",
+    "ontology_format": "compact",
+    "include_descriptions": true
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 0.0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Server restarted while run was in progress",
+  "created_at": "2026-08-10T20:43:24.543553",
+  "started_at": null,
+  "finished_at": null
+}

@@ -1,0 +1,33 @@
+{
+  "id": "20260811_165501_28f45452",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-11-1854-marinetraffic-experiment",
+    "source_name": "marinetraffic_vessels",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "deepseek/deepseek-v4-flash",
+    "strategy": "chain_of_thought",
+    "ontology_format": "turtle",
+    "include_descriptions": false
+  },
+  "status": "completed",
+  "mapping_id": "0cf477ff-0eb1-4fd5-8cfc-207c84a13491",
+  "named_graph": "https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260811_165501_28f45452",
+  "stats": {
+    "records_processed": 10,
+    "entities_extracted": 10,
+    "relations_extracted": 0,
+    "triples_written": 50,
+    "triples_in_db": 50,
+    "duration_seconds": 60.517237,
+    "prompt_tokens": 14047,
+    "completion_tokens": 4422
+  },
+  "error": null,
+  "created_at": "2026-08-11T16:55:01.189138",
+  "started_at": "2026-08-11T21:40:03.154816",
+  "finished_at": "2026-08-11T21:41:03.672053"
+}

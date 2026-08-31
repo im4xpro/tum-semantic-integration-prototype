@@ -1,0 +1,1097 @@
+{
+  "id": "a43d836b-3c6d-4faf-992f-95f2d8a0700e",
+  "source_name": "marinetraffic_vessels",
+  "status": "draft",
+  "llm_model": "tencent/hy3",
+  "strategy": "zero_shot",
+  "ontology_format": "class_list",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "ship_id",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "vessel_{ship_id}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Vessel"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "shipname",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column 'shipname' matches the label 'name' of bsm:conceptName and sample 'ORP GENERAL PULASKI' is a naming literal."
+        },
+        {
+          "property_uri": "bsm:typeName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "type_name",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column 'type_name' exactly aligns with property bsm:typeName (type name) and holds values like 'Frigate'."
+        },
+        {
+          "property_uri": "bsm:sourceIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "ship_id",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'ship_id' is a source-specific identifier matching bsm:sourceIdentifier for tracking source IDs."
+        },
+        {
+          "property_uri": "bsm:serialNumberIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "imo",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.75,
+          "basis": "name",
+          "reasoning": "Column 'imo' holds the vessel's IMO number, which fits bsm:serialNumberIdentifier as a unique materiel serial."
+        },
+        {
+          "property_uri": "bsm:vesselCategoryCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "shiptype",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'shiptype' provides numeric vessel type codes like '35' corresponding to bsm:vesselCategoryCode."
+        },
+        {
+          "property_uri": "bsm:vesselMaximumSpeed",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "max_speed",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'max_speed' with sample 13.5 directly matches bsm:vesselMaximumSpeed for vessel speed limit."
+        },
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "ais_type_summary",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.5,
+          "basis": "value",
+          "reasoning": "Column 'ais_type_summary' contains descriptive role text like 'Military' suitable as bsm:alternateName."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "mmsi",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_{mmsi}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column 'mmsi' is a standard maritime identifier, matching bsm:hasAlternateIdentifier linking to bsm:AlternateIdentifier."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_{callsign}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'callsign' is a radio call sign, fitting bsm:alternateIdentifierValue under bsm:hasAlternateIdentifier."
+        },
+        {
+          "property_uri": "bsm:hasObservation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "timestamp",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "obs_{ship_id}_{timestamp}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "structural",
+          "reasoning": "The repeating per-timestamp position block (lat/lon/speed/timestamp) implies a bsm:Observation linked via bsm:hasObservation from Vehicle."
+        }
+      ],
+      "confidence": 0.98,
+      "basis": "name",
+      "reasoning": "The source stream name 'marinetraffic_vessels' and column 'type_name' with values like 'Frigate' indicate instances of class bsm:Vessel."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "mmsi",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_{mmsi}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "mmsi",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "Column 'mmsi' value '261000101' is the literal for bsm:alternateIdentifierValue."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "MMSI"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "Constant 'MMSI' denotes the standard code for column 'mmsi' matching bsm:alternateIdentifierStandardCode."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "name",
+      "reasoning": "Column 'mmsi' is a standard identifier, indicating class bsm:AlternateIdentifier."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "callsign",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_{callsign}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "callsign",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column 'callsign' value 'SPGP' is the literal for bsm:alternateIdentifierValue."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "CALLSIGN"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Constant 'CALLSIGN' denotes the standard code for column 'callsign' matching bsm:alternateIdentifierStandardCode."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "Column 'callsign' is a designated identifier, indicating class bsm:AlternateIdentifier."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "timestamp",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "obs_{ship_id}_{timestamp}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Observation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:observationDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "timestamp",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column 'timestamp' with value '2026-03-11T08:25:00.000Z' maps to bsm:observationDateTime."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "point_{ship_id}_{timestamp}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "structural",
+          "reasoning": "Columns lat/lon describe a point location for the observation, linked via bsm:hasGeographicLocation."
+        },
+        {
+          "property_uri": "bsm:hasVelocity",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "speed",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "vel_{ship_id}_{timestamp}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "structural",
+          "reasoning": "Columns speed and course represent a velocity vector for the observation, linked via unattached bsm:hasVelocity."
+        },
+        {
+          "property_uri": "bsm:hasOrientation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "ori_{ship_id}_{timestamp}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "structural",
+          "reasoning": "Column heading represents orientation for the observation, linked via unattached bsm:hasOrientation."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "structural",
+      "reasoning": "The per-record timestamp with position data forms an observation instance of bsm:Observation."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "lat",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "point_{ship_id}_{timestamp}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AbsolutePoint"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:latitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lat",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column 'lat' with value 54.3610 directly maps to bsm:latitudeDecimal."
+        },
+        {
+          "property_uri": "bsm:longitudeDecimal",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "lon",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.95,
+          "basis": "name",
+          "reasoning": "Column 'lon' with value 18.6720 directly maps to bsm:longitudeDecimal."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "name",
+      "reasoning": "Columns lat/lon are decimal degrees, matching class bsm:AbsolutePoint."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "speed",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "vel_{ship_id}_{timestamp}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Velocity"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:speedMetersPerSecond",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "speed",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'speed' with value 84 maps to bsm:speedMetersPerSecond despite possible unit mismatch."
+        },
+        {
+          "property_uri": "bsm:absoluteBearingAngle",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "course",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'course' with value 173 maps to bsm:absoluteBearingAngle as directional bearing."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "name",
+      "reasoning": "Column 'speed' is a speed measure, indicating class bsm:Velocity."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "heading",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "ori_{ship_id}_{timestamp}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Orientation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:headingAngle",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "heading",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "Column 'heading' with value 175 directly maps to bsm:headingAngle."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "name",
+      "reasoning": "Column 'heading' is an angle, indicating class bsm:Orientation."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "last_port_id",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "port_{last_port_id}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Port"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "last_port",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'last_port' provides port name 'GDYNIA' mappable to bsm:alternateName of the port concept."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "last_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_{last_port_unlocode}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'last_port_unlocode' like 'PLGDY' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "name",
+      "reasoning": "Column 'last_port_id' with associated 'last_port' name 'GDYNIA' denotes a maritime port instance of bsm:Port."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "next_port_id",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "port_{next_port_id}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Port"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "next_port_name",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'next_port_name' provides port name, mappable to bsm:alternateName of the port concept."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "next_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_{next_port_unlocode}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'next_port_unlocode' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "structural",
+      "reasoning": "Columns 'next_port_id', 'next_port_name' repeat the port structure seen in last_port, implying bsm:Port entities."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "current_port_id",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "port_{current_port_id}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Port"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "current_port",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "name",
+          "reasoning": "Column 'current_port' provides port name, mappable to bsm:alternateName of the port concept."
+        },
+        {
+          "property_uri": "bsm:hasAlternateIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "current_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "altid_{current_port_unlocode}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "Column 'current_port_unlocode' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier."
+        }
+      ],
+      "confidence": 0.7,
+      "basis": "structural",
+      "reasoning": "Columns 'current_port_id', 'current_port' mirror port structure, implying bsm:Port despite sparse population."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "last_port_unlocode",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_{last_port_unlocode}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "last_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column 'last_port_unlocode' value 'PLGDY' is the literal for bsm:alternateIdentifierValue."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "UNLOCODE"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Constant 'UNLOCODE' denotes the standard code for column 'last_port_unlocode' matching bsm:alternateIdentifierStandardCode."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "Column 'last_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "next_port_unlocode",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_{next_port_unlocode}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "next_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column 'next_port_unlocode' value maps to bsm:alternateIdentifierValue."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "UNLOCODE"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Constant 'UNLOCODE' denotes the standard code for column 'next_port_unlocode' matching bsm:alternateIdentifierStandardCode."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "Column 'next_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "current_port_unlocode",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "altid_{current_port_unlocode}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:AlternateIdentifier"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:alternateIdentifierValue",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "current_port_unlocode",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Column 'current_port_unlocode' value maps to bsm:alternateIdentifierValue."
+        },
+        {
+          "property_uri": "bsm:alternateIdentifierStandardCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "constant",
+                "column_name": null,
+                "constant_value": "UNLOCODE"
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "name",
+          "reasoning": "Constant 'UNLOCODE' denotes the standard code for column 'current_port_unlocode' matching bsm:alternateIdentifierStandardCode."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "name",
+      "reasoning": "Column 'current_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier."
+    }
+  ],
+  "unmapped_fields": [
+    "status",
+    "dsrc",
+    "utc_seconds",
+    "market",
+    "flag",
+    "length",
+    "width",
+    "grt",
+    "dwt",
+    "draught",
+    "year_built",
+    "ship_country",
+    "ship_class",
+    "rot",
+    "destination",
+    "eta",
+    "l_fore",
+    "w_left",
+    "last_port_country",
+    "next_port_country",
+    "current_port_country",
+    "eta_calc",
+    "eta_updated",
+    "distance_to_go",
+    "distance_travelled",
+    "avg_speed"
+  ],
+  "generation_timestamp": "2026-08-11 22:16:36.250709",
+  "prompt_tokens": 5234,
+  "completion_tokens": 15242,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nGroup fields by the entity they describe. For each entity type:\n- Identify which column or constant value serves as the subject (entity identifier).\n- Specify the ontology class (type_mappings).\n- Report your confidence (0.0-1.0) that this entity grouping and class assignment are correct; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence citing the actual evidence \u2014 the column or label name, the provided description, or how the grouping implies the class. Do not give generic or circular justifications.\n- Map each remaining field to an ontology property (property_mappings), noting whether the value is a literal or a URI.\n- For each individual column-to-property mapping, report your confidence (0.0-1.0) that the column maps to that specific property; tag the single best evidence category in `basis` (name, description, value, structural, or weak); and justify it in one concrete sentence naming the actual evidence \u2014 the column name versus the property label, the column description text, or the sample values/datatype fit. Do not give generic or circular justifications.\n- If a value points to another entity, set value_type to \"iri\" and include nested type_mappings/property_mappings if applicable.\n- If a field cannot be mapped to any ontology concept, add it to unmapped_fields.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped.\n- Omit subject_transformation and transformation when no expression is needed.\n- Weigh evidence in this order: the column/field name first, then sample values and\n  structural position (e.g. which columns repeat vs vary per record). Use the field\n  description only as a tie-breaker when name and values leave real ambiguity \u2014 never as\n  the primary reason for a mapping. A description restates or elaborates the name; it does\n  not outrank it.\n- Before finalizing, re-check every class_uri and property_uri you used against the\n  ontology block below. If one does not appear there verbatim, remove or correct that\n  mapping rather than leaving it in.\n\nReturn ONLY valid JSON matching this exact structure. No explanation, no markdown, no code blocks:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. Omit when the raw column value is used as-is.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: marinetraffic_vessels (type: stream)\n\nSCHEMA:\n  mmsi: text\n  imo: text\n  ship_id: text\n  lat: double precision\n  lon: double precision\n  speed: double precision\n  heading: integer\n  course: integer\n  status: text\n  timestamp: timestamp with time zone\n  dsrc: text\n  utc_seconds: integer\n  market: text\n  shipname: text\n  shiptype: text\n  callsign: text\n  flag: text\n  length: integer\n  width: double precision\n  grt: integer\n  dwt: integer\n  draught: integer\n  year_built: integer\n  ship_country: text\n  ship_class: text\n  rot: integer\n  type_name: text\n  ais_type_summary: text\n  destination: text\n  eta: timestamp with time zone\n  l_fore: integer\n  w_left: integer\n  current_port: text\n  last_port: text\n  last_port_time: timestamp with time zone\n  current_port_id: text\n  current_port_unlocode: text\n  current_port_country: text\n  last_port_id: text\n  last_port_unlocode: text\n  last_port_country: text\n  next_port_id: text\n  next_port_unlocode: text\n  next_port_name: text\n  next_port_country: text\n  eta_calc: timestamp with time zone\n  eta_updated: timestamp with time zone\n  distance_to_go: integer\n  distance_travelled: integer\n  avg_speed: double precision\n  max_speed: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    mmsi: '261000101'\n    imo: '9701234'\n    ship_id: '900000'\n    lat: '54.3610'\n    lon: '18.6720'\n    speed: '84'\n    heading: '175'\n    course: '173'\n    status: '0'\n    timestamp: '2026-03-11T08:25:00.000Z'\n    dsrc: 'TER'\n    utc_seconds: '10'\n    market: 'NAVAL'\n    shipname: 'ORP GENERAL PULASKI'\n    shiptype: '35'\n    callsign: 'SPGP'\n    flag: 'PL'\n    length: '90'\n    width: '12.50'\n    grt: '3200'\n    dwt: '4100'\n    draught: '48'\n    year_built: '2005'\n    ship_country: 'Poland'\n    ship_class: ''\n    rot: '0'\n    type_name: 'Frigate'\n    ais_type_summary: 'Military'\n    destination: 'PLGDY'\n    eta: '2026-03-11T14:00:00.000Z'\n    l_fore: '20'\n    w_left: '6'\n    current_port: ''\n    last_port: 'GDYNIA'\n    last_port_time: '2026-03-10T12:00:00.000Z'\n    current_port_id: ''\n    current_port_unlocode: ''\n    current_port_country: ''\n    last_port_id: '1200'\n    last_port_unlocode: 'PLGDY'\n    last_port_country: 'PL'\n    next_port_id: ''\n    next_port_unlocode: ''\n    next_port_name: ''\n    next_port_country: ''\n    eta_calc: ''\n    eta_updated: ''\n    distance_to_go: '0'\n    distance_travelled: '40'\n    avg_speed: '9.0'\n    max_speed: '13.0'\n  record 2:\n    mmsi: '261000102'\n    imo: '9701235'\n    ship_id: '900001'\n    lat: '54.4880'\n    lon: '18.5410'\n    speed: '62'\n    heading: '11'\n    course: '8'\n    status: '0'\n    timestamp: '2026-03-11T09:25:00.000Z'\n    dsrc: 'SAT'\n    utc_seconds: '11'\n    market: 'NAVAL'\n    shipname: 'ORP ORZEL'\n    shiptype: '35'\n    callsign: 'SPOR'\n    flag: 'PL'\n    length: '101'\n    width: '13.50'\n    grt: '4100'\n    dwt: '5400'\n    draught: '51'\n    year_built: '2006'\n    ship_country: 'Poland'\n    ship_class: ''\n    rot: '0'\n    type_name: 'Submarine'\n    ais_type_summary: 'Military'\n    destination: 'PLGDY'\n    eta: '2026-03-11T15:00:00.000Z'\n    l_fore: '21'\n    w_left: '7'\n    current_port: ''\n    last_port: 'GDYNIA'\n    last_port_time: '2026-03-10T13:00:00.000Z'\n    current_port_id: ''\n    current_port_unlocode: ''\n    current_port_country: ''\n    last_port_id: '1201'\n    last_port_unlocode: 'PLGDY'\n    last_port_country: 'PL'\n    next_port_id: ''\n    next_port_unlocode: ''\n    next_port_name: ''\n    next_port_country: ''\n    eta_calc: ''\n    eta_updated: ''\n    distance_to_go: '7'\n    distance_travelled: '53'\n    avg_speed: '9.4'\n    max_speed: '13.5'\n  record 3:\n    mmsi: '277000201'\n    imo: '9701236'\n    ship_id: '900002'\n    lat: '55.7120'\n    lon: '21.1290'\n    speed: '45'\n    heading: '351'\n    course: '354'\n    status: '0'\n    timestamp: '2026-03-11T10:25:00.000Z'\n    dsrc: 'TER'\n    utc_seconds: '12'\n    market: 'NAVAL'\n    shipname: 'LNS ZEMAITIS'\n    shiptype: '35'\n    callsign: 'LYZM'\n    flag: 'LT'\n    length: '112'\n    width: '14.50'\n    grt: '5000'\n    dwt: '6700'\n    draught: '54'\n    year_built: '2007'\n    ship_country: 'Lithuania'\n    ship_class: ''\n    rot: '0'\n    type_name: 'Corvette'\n    ais_type_summary: 'Military'\n    destination: 'LTKLJ'\n    eta: '2026-03-11T16:00:00.000Z'\n    l_fore: '22'\n    w_left: '8'\n    current_port: ''\n    last_port: 'KLAIPEDA'\n    last_port_time: '2026-03-10T14:00:00.000Z'\n    current_port_id: ''\n    current_port_unlocode: ''\n    current_port_country: ''\n    last_port_id: '1202'\n    last_port_unlocode: 'LTKLJ'\n    last_port_country: 'LT'\n    next_port_id: ''\n    next_port_unlocode: ''\n    next_port_name: ''\n    next_port_country: ''\n    eta_calc: ''\n    eta_updated: ''\n    distance_to_go: '14'\n    distance_travelled: '66'\n    avg_speed: '9.8'\n    max_speed: '14.0'\n\nONTOLOGY:\nConcept [bsm:Concept] | data: name [bsm:conceptName]\nBattlespace Concept [bsm:BattlespaceConcept] | subClassOf: Concept [bsm:Concept] | data: alternate name [bsm:alternateName], additional information [bsm:additionalInformationText], hostility code [bsm:hostilityCode], source identifier [bsm:sourceIdentifier] | obj: has geographic location [bsm:hasGeographicLocation], has alternate identifier [bsm:hasAlternateIdentifier], part of [bsm:partOf]\nObject [bsm:Object] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: type name [bsm:typeName] | obj: has affiliation [bsm:hasAffiliation]\nAction [bsm:Action] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: action description [bsm:actionDescriptionText], classification code [bsm:classificationCode], event start time [bsm:eventStartDateTime], event end time [bsm:eventEndDateTime] | obj: has focus [bsm:hasFocus], has requirement [bsm:hasRequirement], has result [bsm:hasResult], has sub-action [bsm:hasSubAction], is caused by [bsm:isCausedBy], has response [bsm:hasResponse], involved actor [bsm:involvedActor]\nActor [bsm:Actor] | subClassOf: Object [bsm:Object] | obj: operates materiel [bsm:operatesMateriel], owns materiel [bsm:ownsMateriel], has sanction designation [bsm:hasSanctionDesignation], has controlled facility [bsm:hasControlledFacility]\nPerson [bsm:Person] | subClassOf: Actor [bsm:Actor] | data: birth date [bsm:birthDate], death date [bsm:deathDate], gender code [bsm:genderCode], military status code [bsm:militaryStatusCode], characteristic code [bsm:characteristicCode], duty status code [bsm:dutyStatusCode] | obj: is member of [bsm:isMemberOf], is assigned to [bsm:isAssignedTo], is attached to [bsm:isAttachedTo], has superior [bsm:hasSuperior], has subordinate [bsm:hasSubordinate], is operative of [bsm:isOperativeOf], has nationality [bsm:hasNationality], has identification document [bsm:hasIdentificationDocument]\nOrganisation [bsm:Organisation] | subClassOf: Actor [bsm:Actor] | data: description [bsm:descriptionText], main activity code [bsm:mainActivityCode] | obj: has member [bsm:hasMember], has assigned person [bsm:hasAssignedPerson]\nMateriel [bsm:Materiel] | subClassOf: Object [bsm:Object] | data: serial number [bsm:serialNumberIdentifier], model name [bsm:modelName], is active [bsm:isActiveIndicator] | obj: has controller [bsm:hasController], has operator [bsm:hasOperator], has owner [bsm:hasOwner], is on account of [bsm:isOnAccountOf], transports actor [bsm:transportsActor], is loaded on [bsm:isLoadedOn], carries [bsm:carries]\nConsumableMateriel [bsm:ConsumableMateriel] | subClassOf: Materiel [bsm:Materiel]\nEquipment [bsm:Equipment] | subClassOf: Materiel [bsm:Materiel] | obj: has mobility [bsm:hasMobility]\nVehicle [bsm:Vehicle] | subClassOf: Equipment [bsm:Equipment] | data: operating mode code [bsm:operatingModeCode] | obj: has observation [bsm:hasObservation]\nAircraft [bsm:Aircraft] | subClassOf: Vehicle [bsm:Vehicle] | data: design range code [bsm:designRangeCode], design role code [bsm:designRoleCode], type main purpose code [bsm:typeMainPurposeCode], military/civilian code [bsm:militaryCivilianCode], wing span [bsm:wingSpanDimension], weapon type code [bsm:weaponTypeCode]\nVessel [bsm:Vessel] | subClassOf: Vehicle [bsm:Vehicle] | data: vessel category code [bsm:vesselCategoryCode], vessel maximum speed [bsm:vesselMaximumSpeed]\nLand Vehicle [bsm:LandVehicle] | subClassOf: Vehicle [bsm:Vehicle]\nLocation [bsm:Location] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: location name [bsm:locationName] | obj: has geometry [bsm:hasGeometry]\nGeometry [bsm:Geometry]\nPoint [bsm:Point] | subClassOf: Geometry [bsm:Geometry]\nAbsolute Point [bsm:AbsolutePoint] | subClassOf: Point [bsm:Point] | data: latitude (decimal degrees, WGS84) [bsm:latitudeDecimal], longitude (decimal degrees, WGS84) [bsm:longitudeDecimal]\nLine [bsm:Line] | subClassOf: Geometry [bsm:Geometry]\nSurface [bsm:Surface] | subClassOf: Geometry [bsm:Geometry]\nVelocity [bsm:Velocity] | data: speed (m/s) [bsm:speedMetersPerSecond], absolute bearing angle [bsm:absoluteBearingAngle], inclination angle [bsm:inclinationAngle]\nOrientation [bsm:Orientation] | data: heading angle [bsm:headingAngle]\nAltitude [bsm:Altitude] | data: altitude in meters [bsm:altitudeMeters]\nAffiliation [bsm:Affiliation]\nGeopolitical Affiliation [bsm:GeopoliticalAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: geopolitical affiliation code [bsm:geopoliticalAffiliationCode]\nEthnic Affiliation [bsm:EthnicAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: ethnic group code [bsm:affiliationEthnicGroupCode]\nReligious Affiliation [bsm:ReligiousAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: religion code [bsm:affiliationReligionCode]\nMobility [bsm:Mobility]\nAlternate Identifier [bsm:AlternateIdentifier] | data: alternate identifier standard code [bsm:alternateIdentifierStandardCode], alternate identifier value [bsm:alternateIdentifierValue]\nPerson Nationality [bsm:PersonNationality] | data: nationality country code [bsm:nationalityCountryCode], nationality reason code [bsm:nationalityReasonCode]\nPerson Identification Document [bsm:PersonIdentificationDocument] | data: ID document category [bsm:identificationDocumentCategoryCode], ID document number [bsm:identificationDocumentIdentifier]\nAction Effect [bsm:ActionEffect] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: effect description code [bsm:effectDescriptionCode], effect quantity [bsm:effectQuantityNumber], effect severity code [bsm:effectSeverityCode] | obj: effect on object [bsm:effectOnObject]\nAction Resource [bsm:ActionResource] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: resource object [bsm:resourceObject]\nAction Objective [bsm:ActionObjective] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: targets object [bsm:targetsObject]\nSanction Designation [bsm:SanctionDesignation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: listing date [bsm:listingDate], delisting date [bsm:delistingDate], sanction reason [bsm:sanctionReason], source URL [bsm:sourceUrl] | obj: listing authority [bsm:listingAuthority]\nFacility [bsm:Facility] | subClassOf: Object [bsm:Object] | data: facility is active [bsm:facilityIsActiveIndicator], facility access restriction code [bsm:facilityAccessRestrictionCode]\nTransport Facility [bsm:TransportFacility] | subClassOf: Facility [bsm:Facility]\nMaritime Transport Facility [bsm:MaritimeTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nPort [bsm:Port] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nMilitary Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nHarbour [bsm:Harbour] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nAir Transport Facility [bsm:AirTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nAirport or Airbase [bsm:AirportOrAirbase] | subClassOf: Air Transport Facility [bsm:AirTransportFacility]\nEnergy Facility [bsm:EnergyFacility] | subClassOf: Facility [bsm:Facility]\nPetroleum Production Complex [bsm:PetroleumProductionComplex] | subClassOf: Facility [bsm:Facility]\nObservation [bsm:Observation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: observation date time [bsm:observationDateTime]\n(unattached: no declared domain class) | obj: has velocity [bsm:hasVelocity], has orientation [bsm:hasOrientation], has altitude [bsm:hasAltitude]\n\nReturn the mapping as JSON.",
+  "raw_response": "{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"ship_id\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"vessel_{ship_id}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Vessel\"\n        }\n      ],\n      \"confidence\": 0.98,\n      \"basis\": \"name\",\n      \"reasoning\": \"The source stream name 'marinetraffic_vessels' and column 'type_name' with values like 'Frigate' indicate instances of class bsm:Vessel.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'shipname' matches the label 'name' of bsm:conceptName and sample 'ORP GENERAL PULASKI' is a naming literal.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"shipname\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:typeName\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'type_name' exactly aligns with property bsm:typeName (type name) and holds values like 'Frigate'.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"type_name\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:sourceIdentifier\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'ship_id' is a source-specific identifier matching bsm:sourceIdentifier for tracking source IDs.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"ship_id\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:serialNumberIdentifier\",\n          \"confidence\": 0.75,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'imo' holds the vessel's IMO number, which fits bsm:serialNumberIdentifier as a unique materiel serial.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"imo\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:vesselCategoryCode\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'shiptype' provides numeric vessel type codes like '35' corresponding to bsm:vesselCategoryCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"shiptype\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:vesselMaximumSpeed\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'max_speed' with sample 13.5 directly matches bsm:vesselMaximumSpeed for vessel speed limit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"max_speed\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.5,\n          \"basis\": \"value\",\n          \"reasoning\": \"Column 'ais_type_summary' contains descriptive role text like 'Military' suitable as bsm:alternateName.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"ais_type_summary\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'mmsi' is a standard maritime identifier, matching bsm:hasAlternateIdentifier linking to bsm:AlternateIdentifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"mmsi\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_{mmsi}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'callsign' is a radio call sign, fitting bsm:alternateIdentifierValue under bsm:hasAlternateIdentifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_{callsign}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasObservation\",\n          \"confidence\": 0.9,\n          \"basis\": \"structural\",\n          \"reasoning\": \"The repeating per-timestamp position block (lat/lon/speed/timestamp) implies a bsm:Observation linked via bsm:hasObservation from Vehicle.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"timestamp\"\n              },\n              \"transformation\": {\n                \"expression\": \"obs_{ship_id}_{timestamp}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"mmsi\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_{mmsi}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.85,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'mmsi' is a standard identifier, indicating class bsm:AlternateIdentifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'mmsi' value '261000101' is the literal for bsm:alternateIdentifierValue.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"mmsi\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"Constant 'MMSI' denotes the standard code for column 'mmsi' matching bsm:alternateIdentifierStandardCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"MMSI\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"callsign\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_{callsign}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'callsign' is a designated identifier, indicating class bsm:AlternateIdentifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'callsign' value 'SPGP' is the literal for bsm:alternateIdentifierValue.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"callsign\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Constant 'CALLSIGN' denotes the standard code for column 'callsign' matching bsm:alternateIdentifierStandardCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"CALLSIGN\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"timestamp\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"obs_{ship_id}_{timestamp}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Observation\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"structural\",\n      \"reasoning\": \"The per-record timestamp with position data forms an observation instance of bsm:Observation.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:observationDateTime\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'timestamp' with value '2026-03-11T08:25:00.000Z' maps to bsm:observationDateTime.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"timestamp\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.85,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Columns lat/lon describe a point location for the observation, linked via bsm:hasGeographicLocation.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"transformation\": {\n                \"expression\": \"point_{ship_id}_{timestamp}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasVelocity\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Columns speed and course represent a velocity vector for the observation, linked via unattached bsm:hasVelocity.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"speed\"\n              },\n              \"transformation\": {\n                \"expression\": \"vel_{ship_id}_{timestamp}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasOrientation\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"Column heading represents orientation for the observation, linked via unattached bsm:hasOrientation.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"transformation\": {\n                \"expression\": \"ori_{ship_id}_{timestamp}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"lat\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"point_{ship_id}_{timestamp}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AbsolutePoint\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"name\",\n      \"reasoning\": \"Columns lat/lon are decimal degrees, matching class bsm:AbsolutePoint.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:latitudeDecimal\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'lat' with value 54.3610 directly maps to bsm:latitudeDecimal.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lat\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:longitudeDecimal\",\n          \"confidence\": 0.95,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'lon' with value 18.6720 directly maps to bsm:longitudeDecimal.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"lon\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"speed\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"vel_{ship_id}_{timestamp}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Velocity\"\n        }\n      ],\n      \"confidence\": 0.85,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'speed' is a speed measure, indicating class bsm:Velocity.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:speedMetersPerSecond\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'speed' with value 84 maps to bsm:speedMetersPerSecond despite possible unit mismatch.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"speed\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:absoluteBearingAngle\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'course' with value 173 maps to bsm:absoluteBearingAngle as directional bearing.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"course\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"heading\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"ori_{ship_id}_{timestamp}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Orientation\"\n        }\n      ],\n      \"confidence\": 0.85,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'heading' is an angle, indicating class bsm:Orientation.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:headingAngle\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'heading' with value 175 directly maps to bsm:headingAngle.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"heading\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"last_port_id\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"port_{last_port_id}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Port\"\n        }\n      ],\n      \"confidence\": 0.9,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'last_port_id' with associated 'last_port' name 'GDYNIA' denotes a maritime port instance of bsm:Port.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'last_port' provides port name 'GDYNIA' mappable to bsm:alternateName of the port concept.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"last_port\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'last_port_unlocode' like 'PLGDY' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"last_port_unlocode\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_{last_port_unlocode}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"next_port_id\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"port_{next_port_id}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Port\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Columns 'next_port_id', 'next_port_name' repeat the port structure seen in last_port, implying bsm:Port entities.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'next_port_name' provides port name, mappable to bsm:alternateName of the port concept.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"next_port_name\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'next_port_unlocode' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"next_port_unlocode\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_{next_port_unlocode}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"current_port_id\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"port_{current_port_id}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:Port\"\n        }\n      ],\n      \"confidence\": 0.7,\n      \"basis\": \"structural\",\n      \"reasoning\": \"Columns 'current_port_id', 'current_port' mirror port structure, implying bsm:Port despite sparse population.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.7,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'current_port' provides port name, mappable to bsm:alternateName of the port concept.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"current_port\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasAlternateIdentifier\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'current_port_unlocode' is a UN/LOCODE, fitting bsm:hasAlternateIdentifier.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"current_port_unlocode\"\n              },\n              \"transformation\": {\n                \"expression\": \"altid_{current_port_unlocode}\"\n              },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"last_port_unlocode\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_{last_port_unlocode}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'last_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'last_port_unlocode' value 'PLGDY' is the literal for bsm:alternateIdentifierValue.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"last_port_unlocode\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Constant 'UNLOCODE' denotes the standard code for column 'last_port_unlocode' matching bsm:alternateIdentifierStandardCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"UNLOCODE\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"next_port_unlocode\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_{next_port_unlocode}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'next_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'next_port_unlocode' value maps to bsm:alternateIdentifierValue.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"next_port_unlocode\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Constant 'UNLOCODE' denotes the standard code for column 'next_port_unlocode' matching bsm:alternateIdentifierStandardCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"UNLOCODE\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": {\n        \"source\": \"column\",\n        \"column_name\": \"current_port_unlocode\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"altid_{current_port_unlocode}\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"bsm:AlternateIdentifier\"\n        }\n      ],\n      \"confidence\": 0.8,\n      \"basis\": \"name\",\n      \"reasoning\": \"Column 'current_port_unlocode' is a UN/LOCODE identifier, indicating class bsm:AlternateIdentifier.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:alternateIdentifierValue\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Column 'current_port_unlocode' value maps to bsm:alternateIdentifierValue.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column\",\n                \"column_name\": \"current_port_unlocode\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateIdentifierStandardCode\",\n          \"confidence\": 0.85,\n          \"basis\": \"name\",\n          \"reasoning\": \"Constant 'UNLOCODE' denotes the standard code for column 'current_port_unlocode' matching bsm:alternateIdentifierStandardCode.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"constant\",\n                \"constant_value\": \"UNLOCODE\"\n              },\n              \"value_type\": {\n                \"type\": \"literal\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"status\",\n    \"dsrc\",\n    \"utc_seconds\",\n    \"market\",\n    \"flag\",\n    \"length\",\n    \"width\",\n    \"grt\",\n    \"dwt\",\n    \"draught\",\n    \"year_built\",\n    \"ship_country\",\n    \"ship_class\",\n    \"rot\",\n    \"destination\",\n    \"eta\",\n    \"l_fore\",\n    \"w_left\",\n    \"last_port_country\",\n    \"next_port_country\",\n    \"current_port_country\",\n    \"eta_calc\",\n    \"eta_updated\",\n    \"distance_to_go\",\n    \"distance_travelled\",\n    \"avg_speed\"\n  ]\n}"
+}

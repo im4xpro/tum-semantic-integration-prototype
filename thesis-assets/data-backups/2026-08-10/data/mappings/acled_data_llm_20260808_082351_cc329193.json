@@ -1,0 +1,1020 @@
+{
+  "id": "2c0dcb30-a73b-4cd7-95e2-68e15c9c2a94",
+  "source_name": "acled_data",
+  "status": "draft",
+  "llm_model": "anthropic/claude-opus-5",
+  "strategy": "chain_of_thought",
+  "ontology_format": "class_list",
+  "include_descriptions": false,
+  "base_uri": "https://thesis.tum.de/baltic-sea-monitoring/instances/",
+  "namespaces": {
+    "bsm": "https://thesis.tum.de/baltic-sea-monitoring/ontology#"
+  },
+  "subject_mappings": [
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "event_id_cnty",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "event_{event_id_cnty}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Action"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "sub_event_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "value",
+          "reasoning": "sub_event_type gives the specific event label ('Armed clash') which serves as the action's name."
+        },
+        {
+          "property_uri": "bsm:alternateName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.6,
+          "basis": "value",
+          "reasoning": "event_type ('Battles') is the broader ACLED category name of the same event, usable as an alternate name."
+        },
+        {
+          "property_uri": "bsm:classificationCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "disorder_type",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.55,
+          "basis": "value",
+          "reasoning": "disorder_type holds a controlled code-like classification of the event ('Political violence')."
+        },
+        {
+          "property_uri": "bsm:eventStartDateTime",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_date",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.92,
+          "basis": "name",
+          "reasoning": "event_date ('2026-03-11') is literally the date the event occurred, matching 'event start time'."
+        },
+        {
+          "property_uri": "bsm:actionDescriptionText",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "notes",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "value",
+          "reasoning": "notes contains the free-text narrative of the action ('Armed clash reported in the port district of Gdansk.')."
+        },
+        {
+          "property_uri": "bsm:sourceIdentifier",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "source",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.72,
+          "basis": "name",
+          "reasoning": "source names the reporting outlet ('Baltic Monitoring Desk'), the provenance identifier of the record."
+        },
+        {
+          "property_uri": "bsm:involvedActor",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor1",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{actor1}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:conceptName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "actor1",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "value",
+                    "reasoning": "actor1 holds the group's proper name 'Military Forces of Poland (2023-)'."
+                  }
+                ]
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor2",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{actor2}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:conceptName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "actor2",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "value",
+                    "reasoning": "actor2 holds the opposing group's name 'Unidentified Armed Group (Baltic)'."
+                  }
+                ]
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "assoc_actor_1",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{assoc_actor_1}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:conceptName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "assoc_actor_1",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.85,
+                    "basis": "value",
+                    "reasoning": "assoc_actor_1 names an associated group such as 'Naval Command of Poland'."
+                  }
+                ]
+              }
+            },
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "assoc_actor_2",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "actor_{assoc_actor_2}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Organisation"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:conceptName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "assoc_actor_2",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.8,
+                    "basis": "name",
+                    "reasoning": "assoc_actor_2 is the ACLED field listing groups associated with actor2, i.e. an organisation name."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "name",
+          "reasoning": "actor1, actor2 and the assoc_actor columns name the parties engaged in the event, e.g. 'Military Forces of Poland (2023-)' vs 'Unidentified Armed Group (Baltic)'."
+        },
+        {
+          "property_uri": "bsm:hasGeographicLocation",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "location",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "loc_{country}_{location}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:locationName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "location",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.93,
+                    "basis": "name",
+                    "reasoning": "location holds the settlement name 'Gdansk', directly the location name."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "value",
+          "reasoning": "location/latitude/longitude ('Gdansk', 54.352/18.6466) give the geographic place where the event happened."
+        },
+        {
+          "property_uri": "bsm:hasResult",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "event_id_cnty",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "effect_{event_id_cnty}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:ActionEffect"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:effectQuantityNumber",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "fatalities",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.85,
+                    "basis": "value",
+                    "reasoning": "fatalities is an integer count (3) of persons killed, i.e. the effect quantity."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.75,
+          "basis": "value",
+          "reasoning": "fatalities (3, 1, 2) quantifies the outcome of the event, modelled as an ActionEffect result."
+        }
+      ],
+      "confidence": 0.94,
+      "basis": "value",
+      "reasoning": "Each row is a dated conflict event ('Armed clash' on 2026-03-11 with actors and fatalities) keyed by the unique ACLED identifier event_id_cnty, matching bsm:Action."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "actor1",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{actor1}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor1",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.92,
+          "basis": "value",
+          "reasoning": "actor1 is the proper name of the primary actor group."
+        },
+        {
+          "property_uri": "bsm:hostilityCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "inter1",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "value",
+          "reasoning": "inter1 is a coded actor-side classification ('State forces') matching a hostility/side code."
+        }
+      ],
+      "confidence": 0.88,
+      "basis": "value",
+      "reasoning": "actor1 values like 'Military Forces of Poland (2023-)' are named armed groups/institutions, i.e. organisations acting in the event."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "actor2",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{actor2}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "actor2",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "value",
+          "reasoning": "actor2 carries the group name used as its label."
+        },
+        {
+          "property_uri": "bsm:hostilityCode",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "inter2",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.7,
+          "basis": "value",
+          "reasoning": "inter2 codes actor2's side ('Rebels'), a hostility classification of that actor."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "value",
+      "reasoning": "actor2 values such as 'Unidentified Armed Group (Baltic)' are the opposing named group in the event."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "assoc_actor_1",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{assoc_actor_1}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "assoc_actor_1",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "value",
+          "reasoning": "'Naval Command of Poland' is the organisation's name."
+        }
+      ],
+      "confidence": 0.72,
+      "basis": "value",
+      "reasoning": "assoc_actor_1 holds group names like 'Naval Command of Poland' associated with actor1."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "assoc_actor_2",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "actor_{assoc_actor_2}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Organisation"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:conceptName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "assoc_actor_2",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "name",
+          "reasoning": "The column stores actor group names, mapped to conceptName like the other actor fields."
+        }
+      ],
+      "confidence": 0.65,
+      "basis": "name",
+      "reasoning": "assoc_actor_2 is the ACLED counterpart field to assoc_actor_1, listing organisations associated with actor2 (empty in samples)."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "location",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "loc_{country}_{location}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:locationName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "location",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.93,
+          "basis": "name",
+          "reasoning": "location literally provides the place name 'Gdansk'."
+        },
+        {
+          "property_uri": "bsm:hasGeometry",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "latitude",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "geom_{latitude}_{longitude}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:AbsolutePoint"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:latitudeDecimal",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "latitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "name",
+                    "reasoning": "latitude is a double in decimal degrees (54.352), matching latitudeDecimal."
+                  },
+                  {
+                    "property_uri": "bsm:longitudeDecimal",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "longitude",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.95,
+                    "basis": "name",
+                    "reasoning": "longitude is a double in decimal degrees (18.6466), matching longitudeDecimal."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.88,
+          "basis": "value",
+          "reasoning": "latitude 54.352 / longitude 18.6466 are WGS84 decimal degrees forming the location's point geometry."
+        },
+        {
+          "property_uri": "bsm:partOf",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "admin1",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "loc_admin1_{country}_{admin1}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:locationName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "admin1",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.9,
+                    "basis": "value",
+                    "reasoning": "admin1 gives the region name 'Pomorskie'."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.78,
+          "basis": "structural",
+          "reasoning": "admin1 ('Pomorskie') is the first-level administrative region containing the location, a containment relation."
+        }
+      ],
+      "confidence": 0.9,
+      "basis": "value",
+      "reasoning": "location plus country ('Gdansk', 'Poland') identify a populated place with coordinates, i.e. a bsm:Location."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "admin1",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "loc_admin1_{country}_{admin1}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:locationName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "admin1",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.9,
+          "basis": "value",
+          "reasoning": "'Pomorskie' is the region's name."
+        },
+        {
+          "property_uri": "bsm:partOf",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "country",
+                "constant_value": null
+              },
+              "transformation": {
+                "expression": "loc_country_{country}",
+                "language": "python"
+              },
+              "value_type": {
+                "type": "iri",
+                "type_mappings": [
+                  {
+                    "class_uri": "bsm:Location"
+                  }
+                ],
+                "property_mappings": [
+                  {
+                    "property_uri": "bsm:locationName",
+                    "values": [
+                      {
+                        "value_source": {
+                          "source": "column",
+                          "column_name": "country",
+                          "constant_value": null
+                        },
+                        "transformation": null,
+                        "value_type": {
+                          "type": "literal",
+                          "type_mappings": [],
+                          "property_mappings": []
+                        }
+                      }
+                    ],
+                    "confidence": 0.92,
+                    "basis": "value",
+                    "reasoning": "country holds the country name 'Poland'."
+                  }
+                ]
+              }
+            }
+          ],
+          "confidence": 0.8,
+          "basis": "structural",
+          "reasoning": "country ('Poland') is the state containing admin1 'Pomorskie', a containment hierarchy."
+        }
+      ],
+      "confidence": 0.8,
+      "basis": "value",
+      "reasoning": "admin1 values ('Pomorskie', 'Klaipedos') are first-level administrative regions, i.e. geographic locations."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "country",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "loc_country_{country}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:Location"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:locationName",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "country",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.92,
+          "basis": "name",
+          "reasoning": "country directly supplies the country's name as its location name."
+        }
+      ],
+      "confidence": 0.85,
+      "basis": "value",
+      "reasoning": "country values 'Poland' and 'Lithuania' are named geographic entities containing the event locations."
+    },
+    {
+      "label": null,
+      "subject": {
+        "source": "column",
+        "column_name": "event_id_cnty",
+        "constant_value": null
+      },
+      "subject_transformation": {
+        "expression": "effect_{event_id_cnty}",
+        "language": "python"
+      },
+      "type_mappings": [
+        {
+          "class_uri": "bsm:ActionEffect"
+        }
+      ],
+      "property_mappings": [
+        {
+          "property_uri": "bsm:effectQuantityNumber",
+          "values": [
+            {
+              "value_source": {
+                "source": "column",
+                "column_name": "fatalities",
+                "constant_value": null
+              },
+              "transformation": null,
+              "value_type": {
+                "type": "literal",
+                "type_mappings": [],
+                "property_mappings": []
+              }
+            }
+          ],
+          "confidence": 0.85,
+          "basis": "value",
+          "reasoning": "fatalities is an integer casualty count, the quantity of the effect."
+        }
+      ],
+      "confidence": 0.75,
+      "basis": "value",
+      "reasoning": "The fatalities count per event (3, 1, 2) is a measured effect of that action, one effect record per event_id_cnty."
+    }
+  ],
+  "unmapped_fields": [
+    "year",
+    "time_precision",
+    "interaction",
+    "civilian_targeting",
+    "iso",
+    "region",
+    "admin2",
+    "admin3",
+    "geo_precision",
+    "source_scale",
+    "tags",
+    "timestamp",
+    "population_1km",
+    "population_2km",
+    "population_5km",
+    "population_best"
+  ],
+  "generation_timestamp": "2026-08-08 08:39:32.235602",
+  "prompt_tokens": 7006,
+  "completion_tokens": 9088,
+  "system_prompt": "You are a semantic data integration expert.\nYour task is to map a data source schema to an OWL ontology using an RML-style subject-centric structure.\n\nFirst, think step by step in plain text:\n- List the distinct entity types present in the schema (e.g. one column group per real-world entity).\n- For each entity type, decide which column or constant value is its identifier (the subject).\n- For each entity type, decide which ontology class it corresponds to.\n- For each remaining column, decide which ontology property it maps to, and whether its value is a literal or a reference (IRI) to another entity.\n- If a value points to another entity, set value_type to \"iri\" and include nested type_mappings/property_mappings if applicable.\n- For each subject and property decision, note your confidence (0.0-1.0), the single best evidence category (basis: name, description, value, structural, or weak), and a concrete one-line justification citing the actual name, description, or values \u2014 not generic filler.\n- Note any columns that have no suitable ontology match, and list them in unmapped_fields.\n\nRules of the target format:\n- Use only classes and properties that appear in the ontology below, written exactly as\n  the ontology writes them. Do not invent, rename, or guess terms; if nothing fits, leave\n  the field unmapped rather than inventing a term.\n- A subject's expression must yield a distinct value for every distinct real-world entity.\n  Two records that produce the same expression are treated as the same entity and merged.\n- An expression is a plain {column} template, nothing more: no arithmetic, no function\n  calls, no format specifiers such as {value:.2f}. Literal text around the placeholders\n  is kept as-is. Anything else evaluates to nothing and the entity or value is dropped.\n- If any column referenced by an expression is empty for a record, the whole entity or\n  value is silently skipped for that record. Prefer columns that are populated in every\n  record for subjects; a sparsely filled column will discard most of the data.\n- When value_type is \"iri\", the value's transformation must be byte-for-byte identical to\n  the subject_transformation of the entity it references, and the reference should carry\n  nested type_mappings (and property_mappings where applicable). A mismatch does not raise\n  an error - the relation is silently dropped.\n- Omit subject_transformation and transformation when no expression is needed.\n\nAfter your reasoning, output the final mapping as a JSON code block (```json ... ```) matching this exact structure, and nothing after it:\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": {\n        \"source\": \"column | constant\",\n        \"column_name\": \"string: column that provides the subject URI (omit if source=constant)\",\n        \"constant_value\": \"string: fixed URI for the subject (omit if source=column)\"\n      },\n      \"subject_transformation\": {\n        \"expression\": \"string: optional template that builds the subject's URI from the record, e.g. org_{actor_name}. Each {placeholder} is replaced by that column's value, so every placeholder must be an actual column name from the schema above. This is a template, not code: no f-string prefix, no quotes, no expressions inside the braces.\"\n      },\n      \"type_mappings\": [\n        {\n          \"class_uri\": \"string: ontology class URI e.g. bsm:Organisation\"\n        }\n      ],\n      \"confidence\": \"number 0.0-1.0: how confident you are that this is the correct entity grouping and class\",\n      \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this class assignment\",\n      \"reasoning\": \"string: one concrete sentence citing the specific evidence \\u2014 e.g. the column/label name, the provided description, or how the grouping implies this class. No generic filler.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"string: ontology property URI e.g. bsm:conceptName\",\n          \"confidence\": \"number 0.0-1.0: how confident you are that this column maps to this specific property\",\n          \"basis\": \"one of: name | description | value | structural | weak \\u2014 the primary evidence for this column\\u2192property choice\",\n          \"reasoning\": \"string: one concrete sentence naming the actual evidence \\u2014 the column name vs property label, the column description text, or the sample values/datatype fit.\",\n          \"values\": [\n            {\n              \"value_source\": {\n                \"source\": \"column | constant\",\n                \"column_name\": \"string: source column name\",\n                \"constant_value\": \"string: fixed value\"\n              },\n              \"transformation\": {\n                \"expression\": \"string: optional template that builds this value from the record, same rules as subject_transformation. When value_type is 'iri' this MUST be byte-for-byte identical to the subject_transformation of the entity being referenced, otherwise the relation does not resolve. Omit when the raw column value is used as-is.\"\n              },\n              \"value_type\": {\n                \"type\": \"literal | iri\",\n                \"type_mappings\": [],\n                \"property_mappings\": []\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"string: field names with no suitable ontology match\"\n  ]\n}",
+  "user_prompt": "Map the following data source schema to the ontology.\n\nDATA SOURCE: acled_data (type: relational)\n\nSCHEMA:\n  event_id_cnty: text\n  event_date: text\n  year: bigint\n  time_precision: bigint\n  disorder_type: text\n  event_type: text\n  sub_event_type: text\n  actor1: text\n  assoc_actor_1: text\n  inter1: text\n  actor2: text\n  assoc_actor_2: text\n  inter2: text\n  interaction: text\n  civilian_targeting: text\n  iso: bigint\n  region: text\n  country: text\n  admin1: text\n  admin2: text\n  admin3: text\n  location: text\n  latitude: double precision\n  longitude: double precision\n  geo_precision: bigint\n  source: text\n  source_scale: text\n  notes: text\n  fatalities: bigint\n  tags: text\n  timestamp: bigint\n  population_1km: double precision\n  population_2km: bigint\n  population_5km: bigint\n  population_best: double precision\n\nSAMPLE RECORDS:\n  record 1:\n    event_id_cnty: 'POL1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: 'Naval Command of Poland'\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdansk'\n    admin3: ''\n    location: 'Gdansk'\n    latitude: 54.352\n    longitude: 18.6466\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported in the port district of Gdansk.'\n    fatalities: 3\n    tags: ''\n    timestamp: 1773216900\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 2:\n    event_id_cnty: 'POL1002'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Poland (2023-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 616\n    region: 'Europe'\n    country: 'Poland'\n    admin1: 'Pomorskie'\n    admin2: 'Gdynia'\n    admin3: ''\n    location: 'Gdynia'\n    latitude: 54.5189\n    longitude: 18.5305\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Exchange of fire near the naval base at Gdynia.'\n    fatalities: 1\n    tags: ''\n    timestamp: 1773220500\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n  record 3:\n    event_id_cnty: 'LTU1001'\n    event_date: '2026-03-11'\n    year: 2026\n    time_precision: 1\n    disorder_type: 'Political violence'\n    event_type: 'Battles'\n    sub_event_type: 'Armed clash'\n    actor1: 'Military Forces of Lithuania (2019-)'\n    assoc_actor_1: ''\n    inter1: 'State forces'\n    actor2: 'Unidentified Armed Group (Baltic)'\n    assoc_actor_2: ''\n    inter2: 'Rebels'\n    interaction: 'State forces - Rebels'\n    civilian_targeting: ''\n    iso: 440\n    region: 'Europe'\n    country: 'Lithuania'\n    admin1: 'Klaipedos'\n    admin2: 'Klaipeda'\n    admin3: ''\n    location: 'Klaipeda'\n    latitude: 55.7033\n    longitude: 21.1443\n    geo_precision: 1\n    source: 'Baltic Monitoring Desk'\n    source_scale: 'Subnational'\n    notes: 'Armed clash reported near the Klaipeda seaport.'\n    fatalities: 2\n    tags: ''\n    timestamp: 1773224100\n    population_1km: 1500.0\n    population_2km: 4200\n    population_5km: 31000\n    population_best: 1500.0\n\nONTOLOGY:\nConcept [bsm:Concept] | data: name [bsm:conceptName]\nBattlespace Concept [bsm:BattlespaceConcept] | subClassOf: Concept [bsm:Concept] | data: alternate name [bsm:alternateName], additional information [bsm:additionalInformationText], hostility code [bsm:hostilityCode], source identifier [bsm:sourceIdentifier] | obj: has geographic location [bsm:hasGeographicLocation], has alternate identifier [bsm:hasAlternateIdentifier], part of [bsm:partOf]\nObject [bsm:Object] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: type name [bsm:typeName] | obj: has affiliation [bsm:hasAffiliation]\nAction [bsm:Action] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: action description [bsm:actionDescriptionText], classification code [bsm:classificationCode], event start time [bsm:eventStartDateTime], event end time [bsm:eventEndDateTime] | obj: has focus [bsm:hasFocus], has requirement [bsm:hasRequirement], has result [bsm:hasResult], has sub-action [bsm:hasSubAction], is caused by [bsm:isCausedBy], has response [bsm:hasResponse], involved actor [bsm:involvedActor]\nActor [bsm:Actor] | subClassOf: Object [bsm:Object] | obj: operates materiel [bsm:operatesMateriel], owns materiel [bsm:ownsMateriel], has sanction designation [bsm:hasSanctionDesignation], has controlled facility [bsm:hasControlledFacility]\nPerson [bsm:Person] | subClassOf: Actor [bsm:Actor] | data: birth date [bsm:birthDate], death date [bsm:deathDate], gender code [bsm:genderCode], military status code [bsm:militaryStatusCode], characteristic code [bsm:characteristicCode], duty status code [bsm:dutyStatusCode] | obj: is member of [bsm:isMemberOf], is assigned to [bsm:isAssignedTo], is attached to [bsm:isAttachedTo], has superior [bsm:hasSuperior], has subordinate [bsm:hasSubordinate], is operative of [bsm:isOperativeOf], has nationality [bsm:hasNationality], has identification document [bsm:hasIdentificationDocument]\nOrganisation [bsm:Organisation] | subClassOf: Actor [bsm:Actor] | data: description [bsm:descriptionText], main activity code [bsm:mainActivityCode] | obj: has member [bsm:hasMember], has assigned person [bsm:hasAssignedPerson]\nMateriel [bsm:Materiel] | subClassOf: Object [bsm:Object] | data: serial number [bsm:serialNumberIdentifier], model name [bsm:modelName], is active [bsm:isActiveIndicator] | obj: has controller [bsm:hasController], has operator [bsm:hasOperator], has owner [bsm:hasOwner], is on account of [bsm:isOnAccountOf], transports actor [bsm:transportsActor], is loaded on [bsm:isLoadedOn], carries [bsm:carries]\nConsumableMateriel [bsm:ConsumableMateriel] | subClassOf: Materiel [bsm:Materiel]\nEquipment [bsm:Equipment] | subClassOf: Materiel [bsm:Materiel] | obj: has mobility [bsm:hasMobility]\nVehicle [bsm:Vehicle] | subClassOf: Equipment [bsm:Equipment] | data: operating mode code [bsm:operatingModeCode] | obj: has observation [bsm:hasObservation]\nAircraft [bsm:Aircraft] | subClassOf: Vehicle [bsm:Vehicle] | data: design range code [bsm:designRangeCode], design role code [bsm:designRoleCode], type main purpose code [bsm:typeMainPurposeCode], military/civilian code [bsm:militaryCivilianCode], wing span [bsm:wingSpanDimension], weapon type code [bsm:weaponTypeCode]\nVessel [bsm:Vessel] | subClassOf: Vehicle [bsm:Vehicle] | data: vessel category code [bsm:vesselCategoryCode], vessel maximum speed [bsm:vesselMaximumSpeed]\nLand Vehicle [bsm:LandVehicle] | subClassOf: Vehicle [bsm:Vehicle]\nLocation [bsm:Location] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: location name [bsm:locationName] | obj: has geometry [bsm:hasGeometry]\nGeometry [bsm:Geometry]\nPoint [bsm:Point] | subClassOf: Geometry [bsm:Geometry]\nAbsolute Point [bsm:AbsolutePoint] | subClassOf: Point [bsm:Point] | data: latitude (decimal degrees, WGS84) [bsm:latitudeDecimal], longitude (decimal degrees, WGS84) [bsm:longitudeDecimal]\nLine [bsm:Line] | subClassOf: Geometry [bsm:Geometry]\nSurface [bsm:Surface] | subClassOf: Geometry [bsm:Geometry]\nVelocity [bsm:Velocity] | data: speed (m/s) [bsm:speedMetersPerSecond], absolute bearing angle [bsm:absoluteBearingAngle], inclination angle [bsm:inclinationAngle]\nOrientation [bsm:Orientation] | data: heading angle [bsm:headingAngle]\nAltitude [bsm:Altitude] | data: altitude in meters [bsm:altitudeMeters]\nAffiliation [bsm:Affiliation]\nGeopolitical Affiliation [bsm:GeopoliticalAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: geopolitical affiliation code [bsm:geopoliticalAffiliationCode]\nEthnic Affiliation [bsm:EthnicAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: ethnic group code [bsm:affiliationEthnicGroupCode]\nReligious Affiliation [bsm:ReligiousAffiliation] | subClassOf: Affiliation [bsm:Affiliation] | data: religion code [bsm:affiliationReligionCode]\nMobility [bsm:Mobility]\nAlternate Identifier [bsm:AlternateIdentifier] | data: alternate identifier standard code [bsm:alternateIdentifierStandardCode], alternate identifier value [bsm:alternateIdentifierValue]\nPerson Nationality [bsm:PersonNationality] | data: nationality country code [bsm:nationalityCountryCode], nationality reason code [bsm:nationalityReasonCode]\nPerson Identification Document [bsm:PersonIdentificationDocument] | data: ID document category [bsm:identificationDocumentCategoryCode], ID document number [bsm:identificationDocumentIdentifier]\nAction Effect [bsm:ActionEffect] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: effect description code [bsm:effectDescriptionCode], effect quantity [bsm:effectQuantityNumber], effect severity code [bsm:effectSeverityCode] | obj: effect on object [bsm:effectOnObject]\nAction Resource [bsm:ActionResource] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: resource object [bsm:resourceObject]\nAction Objective [bsm:ActionObjective] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | obj: targets object [bsm:targetsObject]\nSanction Designation [bsm:SanctionDesignation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: listing date [bsm:listingDate], delisting date [bsm:delistingDate], sanction reason [bsm:sanctionReason], source URL [bsm:sourceUrl] | obj: listing authority [bsm:listingAuthority]\nFacility [bsm:Facility] | subClassOf: Object [bsm:Object] | data: facility is active [bsm:facilityIsActiveIndicator], facility access restriction code [bsm:facilityAccessRestrictionCode]\nTransport Facility [bsm:TransportFacility] | subClassOf: Facility [bsm:Facility]\nMaritime Transport Facility [bsm:MaritimeTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nPort [bsm:Port] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nMilitary Seaport or Naval Base [bsm:MilitarySeaportOrNavalBase] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nHarbour [bsm:Harbour] | subClassOf: Maritime Transport Facility [bsm:MaritimeTransportFacility]\nAir Transport Facility [bsm:AirTransportFacility] | subClassOf: Transport Facility [bsm:TransportFacility]\nAirport or Airbase [bsm:AirportOrAirbase] | subClassOf: Air Transport Facility [bsm:AirTransportFacility]\nEnergy Facility [bsm:EnergyFacility] | subClassOf: Facility [bsm:Facility]\nPetroleum Production Complex [bsm:PetroleumProductionComplex] | subClassOf: Facility [bsm:Facility]\nObservation [bsm:Observation] | subClassOf: Battlespace Concept [bsm:BattlespaceConcept] | data: observation date time [bsm:observationDateTime]\n(unattached: no declared domain class) | obj: has velocity [bsm:hasVelocity], has orientation [bsm:hasOrientation], has altitude [bsm:hasAltitude]\n\nThink step by step, then return the mapping as a JSON code block.",
+  "raw_response": "## Reasoning\n\n**Entity types in the schema**\n\n1. **The event itself** \u2014 `event_id_cnty` is a unique per-event key; the row describes a violent/protest action (`event_type`, `sub_event_type`, `notes`, `event_date`). \u2192 `bsm:Action`.\n2. **Actors** \u2014 `actor1`, `actor2`, `assoc_actor_1`, `assoc_actor_2` are named armed/state groups (\"Military Forces of Poland (2023-)\", \"Unidentified Armed Group (Baltic)\"). These are groups, not individuals \u2192 `bsm:Organisation` (subclass of `bsm:Actor`). `inter1`/`inter2` describe the actor's side (\"State forces\", \"Rebels\") \u2192 `bsm:hostilityCode`.\n3. **Place of the event** \u2014 `location` plus `latitude`/`longitude` \u2192 `bsm:Location` with a `bsm:AbsolutePoint` geometry.\n4. **Administrative containers** \u2014 `admin1` and `country` are coarser places containing the location \u2192 `bsm:Location` linked via `bsm:partOf`.\n5. **Casualty outcome** \u2014 `fatalities` is a quantified effect of the action \u2192 `bsm:ActionEffect` with `bsm:effectQuantityNumber`, attached with `bsm:hasResult`.\n\n**Subject keys**: `event_id_cnty` (always populated, unique). Actor subjects are built from the actor name (`actor_{actor1}` etc.) since no actor ID exists; rows sharing an actor name correctly merge. Location subject uses `loc_{country}_{location}` (both always populated) to avoid merging same-named towns in different countries. Geometry uses lat/long, effect uses the event key.\n\n**No suitable ontology term**: `year`, `time_precision`, `geo_precision`, `iso`, `region`, `interaction` (derived concatenation of inter1/inter2), `civilian_targeting`, `admin2`, `admin3`, `source_scale`, `tags`, `timestamp`, and all `population_*` columns have no matching ontology property.\n\n```json\n{\n  \"subject_mappings\": [\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"event_id_cnty\" },\n      \"subject_transformation\": { \"expression\": \"event_{event_id_cnty}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Action\" } ],\n      \"confidence\": 0.94,\n      \"basis\": \"value\",\n      \"reasoning\": \"Each row is a dated conflict event ('Armed clash' on 2026-03-11 with actors and fatalities) keyed by the unique ACLED identifier event_id_cnty, matching bsm:Action.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.8,\n          \"basis\": \"value\",\n          \"reasoning\": \"sub_event_type gives the specific event label ('Armed clash') which serves as the action's name.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"sub_event_type\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:alternateName\",\n          \"confidence\": 0.6,\n          \"basis\": \"value\",\n          \"reasoning\": \"event_type ('Battles') is the broader ACLED category name of the same event, usable as an alternate name.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"event_type\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:classificationCode\",\n          \"confidence\": 0.55,\n          \"basis\": \"value\",\n          \"reasoning\": \"disorder_type holds a controlled code-like classification of the event ('Political violence').\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"disorder_type\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:eventStartDateTime\",\n          \"confidence\": 0.92,\n          \"basis\": \"name\",\n          \"reasoning\": \"event_date ('2026-03-11') is literally the date the event occurred, matching 'event start time'.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"event_date\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:actionDescriptionText\",\n          \"confidence\": 0.9,\n          \"basis\": \"value\",\n          \"reasoning\": \"notes contains the free-text narrative of the action ('Armed clash reported in the port district of Gdansk.').\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"notes\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:sourceIdentifier\",\n          \"confidence\": 0.72,\n          \"basis\": \"name\",\n          \"reasoning\": \"source names the reporting outlet ('Baltic Monitoring Desk'), the provenance identifier of the record.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"source\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:involvedActor\",\n          \"confidence\": 0.9,\n          \"basis\": \"name\",\n          \"reasoning\": \"actor1, actor2 and the assoc_actor columns name the parties engaged in the event, e.g. 'Military Forces of Poland (2023-)' vs 'Unidentified Armed Group (Baltic)'.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"actor1\" },\n              \"transformation\": { \"expression\": \"actor_{actor1}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:conceptName\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"actor1 holds the group's proper name 'Military Forces of Poland (2023-)'.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"actor1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            },\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"actor2\" },\n              \"transformation\": { \"expression\": \"actor_{actor2}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:conceptName\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"actor2 holds the opposing group's name 'Unidentified Armed Group (Baltic)'.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"actor2\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            },\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_1\" },\n              \"transformation\": { \"expression\": \"actor_{assoc_actor_1}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:conceptName\",\n                    \"confidence\": 0.85,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"assoc_actor_1 names an associated group such as 'Naval Command of Poland'.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            },\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_2\" },\n              \"transformation\": { \"expression\": \"actor_{assoc_actor_2}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:conceptName\",\n                    \"confidence\": 0.8,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"assoc_actor_2 is the ACLED field listing groups associated with actor2, i.e. an organisation name.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_2\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeographicLocation\",\n          \"confidence\": 0.9,\n          \"basis\": \"value\",\n          \"reasoning\": \"location/latitude/longitude ('Gdansk', 54.352/18.6466) give the geographic place where the event happened.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"location\" },\n              \"transformation\": { \"expression\": \"loc_{country}_{location}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:locationName\",\n                    \"confidence\": 0.93,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"location holds the settlement name 'Gdansk', directly the location name.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"location\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:hasResult\",\n          \"confidence\": 0.75,\n          \"basis\": \"value\",\n          \"reasoning\": \"fatalities (3, 1, 2) quantifies the outcome of the event, modelled as an ActionEffect result.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"event_id_cnty\" },\n              \"transformation\": { \"expression\": \"effect_{event_id_cnty}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:ActionEffect\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:effectQuantityNumber\",\n                    \"confidence\": 0.85,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"fatalities is an integer count (3) of persons killed, i.e. the effect quantity.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"fatalities\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"actor1\" },\n      \"subject_transformation\": { \"expression\": \"actor_{actor1}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n      \"confidence\": 0.88,\n      \"basis\": \"value\",\n      \"reasoning\": \"actor1 values like 'Military Forces of Poland (2023-)' are named armed groups/institutions, i.e. organisations acting in the event.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.92,\n          \"basis\": \"value\",\n          \"reasoning\": \"actor1 is the proper name of the primary actor group.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"actor1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:hostilityCode\",\n          \"confidence\": 0.7,\n          \"basis\": \"value\",\n          \"reasoning\": \"inter1 is a coded actor-side classification ('State forces') matching a hostility/side code.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"inter1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"actor2\" },\n      \"subject_transformation\": { \"expression\": \"actor_{actor2}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n      \"confidence\": 0.85,\n      \"basis\": \"value\",\n      \"reasoning\": \"actor2 values such as 'Unidentified Armed Group (Baltic)' are the opposing named group in the event.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.9,\n          \"basis\": \"value\",\n          \"reasoning\": \"actor2 carries the group name used as its label.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"actor2\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:hostilityCode\",\n          \"confidence\": 0.7,\n          \"basis\": \"value\",\n          \"reasoning\": \"inter2 codes actor2's side ('Rebels'), a hostility classification of that actor.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"inter2\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"assoc_actor_1\" },\n      \"subject_transformation\": { \"expression\": \"actor_{assoc_actor_1}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n      \"confidence\": 0.72,\n      \"basis\": \"value\",\n      \"reasoning\": \"assoc_actor_1 holds group names like 'Naval Command of Poland' associated with actor1.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.85,\n          \"basis\": \"value\",\n          \"reasoning\": \"'Naval Command of Poland' is the organisation's name.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"assoc_actor_2\" },\n      \"subject_transformation\": { \"expression\": \"actor_{assoc_actor_2}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Organisation\" } ],\n      \"confidence\": 0.65,\n      \"basis\": \"name\",\n      \"reasoning\": \"assoc_actor_2 is the ACLED counterpart field to assoc_actor_1, listing organisations associated with actor2 (empty in samples).\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:conceptName\",\n          \"confidence\": 0.8,\n          \"basis\": \"name\",\n          \"reasoning\": \"The column stores actor group names, mapped to conceptName like the other actor fields.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"assoc_actor_2\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"location\" },\n      \"subject_transformation\": { \"expression\": \"loc_{country}_{location}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n      \"confidence\": 0.9,\n      \"basis\": \"value\",\n      \"reasoning\": \"location plus country ('Gdansk', 'Poland') identify a populated place with coordinates, i.e. a bsm:Location.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:locationName\",\n          \"confidence\": 0.93,\n          \"basis\": \"name\",\n          \"reasoning\": \"location literally provides the place name 'Gdansk'.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"location\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:hasGeometry\",\n          \"confidence\": 0.88,\n          \"basis\": \"value\",\n          \"reasoning\": \"latitude 54.352 / longitude 18.6466 are WGS84 decimal degrees forming the location's point geometry.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"latitude\" },\n              \"transformation\": { \"expression\": \"geom_{latitude}_{longitude}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:AbsolutePoint\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:latitudeDecimal\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"latitude is a double in decimal degrees (54.352), matching latitudeDecimal.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"latitude\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  },\n                  {\n                    \"property_uri\": \"bsm:longitudeDecimal\",\n                    \"confidence\": 0.95,\n                    \"basis\": \"name\",\n                    \"reasoning\": \"longitude is a double in decimal degrees (18.6466), matching longitudeDecimal.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"longitude\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        },\n        {\n          \"property_uri\": \"bsm:partOf\",\n          \"confidence\": 0.78,\n          \"basis\": \"structural\",\n          \"reasoning\": \"admin1 ('Pomorskie') is the first-level administrative region containing the location, a containment relation.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"admin1\" },\n              \"transformation\": { \"expression\": \"loc_admin1_{country}_{admin1}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:locationName\",\n                    \"confidence\": 0.9,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"admin1 gives the region name 'Pomorskie'.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"admin1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"admin1\" },\n      \"subject_transformation\": { \"expression\": \"loc_admin1_{country}_{admin1}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n      \"confidence\": 0.8,\n      \"basis\": \"value\",\n      \"reasoning\": \"admin1 values ('Pomorskie', 'Klaipedos') are first-level administrative regions, i.e. geographic locations.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:locationName\",\n          \"confidence\": 0.9,\n          \"basis\": \"value\",\n          \"reasoning\": \"'Pomorskie' is the region's name.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"admin1\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        },\n        {\n          \"property_uri\": \"bsm:partOf\",\n          \"confidence\": 0.8,\n          \"basis\": \"structural\",\n          \"reasoning\": \"country ('Poland') is the state containing admin1 'Pomorskie', a containment hierarchy.\",\n          \"values\": [\n            {\n              \"value_source\": { \"source\": \"column\", \"column_name\": \"country\" },\n              \"transformation\": { \"expression\": \"loc_country_{country}\" },\n              \"value_type\": {\n                \"type\": \"iri\",\n                \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n                \"property_mappings\": [\n                  {\n                    \"property_uri\": \"bsm:locationName\",\n                    \"confidence\": 0.92,\n                    \"basis\": \"value\",\n                    \"reasoning\": \"country holds the country name 'Poland'.\",\n                    \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"country\" }, \"value_type\": { \"type\": \"literal\" } } ]\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"country\" },\n      \"subject_transformation\": { \"expression\": \"loc_country_{country}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:Location\" } ],\n      \"confidence\": 0.85,\n      \"basis\": \"value\",\n      \"reasoning\": \"country values 'Poland' and 'Lithuania' are named geographic entities containing the event locations.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:locationName\",\n          \"confidence\": 0.92,\n          \"basis\": \"name\",\n          \"reasoning\": \"country directly supplies the country's name as its location name.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"country\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    },\n    {\n      \"subject\": { \"source\": \"column\", \"column_name\": \"event_id_cnty\" },\n      \"subject_transformation\": { \"expression\": \"effect_{event_id_cnty}\" },\n      \"type_mappings\": [ { \"class_uri\": \"bsm:ActionEffect\" } ],\n      \"confidence\": 0.75,\n      \"basis\": \"value\",\n      \"reasoning\": \"The fatalities count per event (3, 1, 2) is a measured effect of that action, one effect record per event_id_cnty.\",\n      \"property_mappings\": [\n        {\n          \"property_uri\": \"bsm:effectQuantityNumber\",\n          \"confidence\": 0.85,\n          \"basis\": \"value\",\n          \"reasoning\": \"fatalities is an integer casualty count, the quantity of the effect.\",\n          \"values\": [ { \"value_source\": { \"source\": \"column\", \"column_name\": \"fatalities\" }, \"value_type\": { \"type\": \"literal\" } } ]\n        }\n      ]\n    }\n  ],\n  \"unmapped_fields\": [\n    \"year\",\n    \"time_precision\",\n    \"interaction\",\n    \"civilian_targeting\",\n    \"iso\",\n    \"region\",\n    \"admin2\",\n    \"admin3\",\n    \"geo_precision\",\n    \"source_scale\",\n    \"tags\",\n    \"timestamp\",\n    \"population_1km\",\n    \"population_2km\",\n    \"population_5km\",\n    \"population_best\"\n  ]\n}\n```"
+}

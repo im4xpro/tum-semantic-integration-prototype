@@ -1,0 +1,47 @@
+# graph: https://thesis.tum.de/baltic-sea-monitoring/instances/runs/20260813_192710_4060c025
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_3c65aa> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "DLH88X";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3c65aa" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_3e1f88> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "VIPER13";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3e1f88" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_3f7a21> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "VIPER12";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "3f7a21" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_46b8c7> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "VIPER21";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "46b8c7" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_47c1a2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "SAS1742";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "47c1a2" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_4841b9> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "FALCON03";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4841b9" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_4ca8f1> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "LOT285";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4ca8f1" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_4d02f4> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "RCH285";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "4d02f4" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_51cc3b> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "51cc3b" .
+
+<https://thesis.tum.de/baltic-sea-monitoring/instances/ac_ab58b2> a <https://thesis.tum.de/baltic-sea-monitoring/ontology#Aircraft>;
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#conceptName> "VIPER11";
+  <https://thesis.tum.de/baltic-sea-monitoring/ontology#serialNumberIdentifier> "ab58b2" .

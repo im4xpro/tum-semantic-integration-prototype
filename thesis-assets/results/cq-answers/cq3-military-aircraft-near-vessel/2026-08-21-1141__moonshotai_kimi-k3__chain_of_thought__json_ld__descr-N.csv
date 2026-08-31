@@ -1,0 +1,15 @@
+aircraft,callsign,squawk,altitudeMetres,vesselUri,vessel,vesselType,aircraftLat,aircraftLon,vesselLat,vesselLon,distanceKm2
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4d02f4,RCH285,7775,688.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_277000201,LYZM,Military,55.718,21.16,55.712,21.129,4.5063421264
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4d02f4,RCH285,7775,703.4,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_277000201,LYZM,Military,55.718,21.16,55.712,21.129,4.5063421264
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3e1f88,VIPER13,7777,232.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.345,18.63,54.361,18.672,10.6252884544
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3e1f88,VIPER13,7777,251.9,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.345,18.63,54.361,18.672,10.6252884544
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21,VIPER12,7777,505.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.3801,18.612,54.361,18.672,19.730777468944
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21,VIPER12,7777,521.3,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.3801,18.612,54.361,18.672,19.730777468944
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2,VIPER11,7777,430.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.401,18.71,54.361,18.672,25.92832784
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2,VIPER11,7777,452.6,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.401,18.71,54.361,18.672,25.92832784
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4841b9,FALCON03,7776,1180.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.29,18.55,54.361,18.672,125.3536898384
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_4841b9,FALCON03,7776,1204.7,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000101,SPGP,Military,54.29,18.55,54.361,18.672,125.3536898384
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21,VIPER12,7777,505.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000102,SPOR,Military,54.3801,18.612,54.488,18.541,165.572627599184
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_3f7a21,VIPER12,7777,521.3,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000102,SPOR,Military,54.3801,18.612,54.488,18.541,165.572627599184
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2,VIPER11,7777,430.0,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000102,SPOR,Military,54.401,18.71,54.488,18.541,214.4663508256
+https://thesis.tum.de/baltic-sea-monitoring/instances/aircraft_ab58b2,VIPER11,7777,452.6,https://thesis.tum.de/baltic-sea-monitoring/instances/vessel_261000102,SPOR,Military,54.401,18.71,54.488,18.541,214.4663508256

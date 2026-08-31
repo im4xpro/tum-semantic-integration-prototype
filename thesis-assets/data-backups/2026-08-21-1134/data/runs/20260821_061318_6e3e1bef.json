@@ -1,0 +1,33 @@
+{
+  "id": "20260821_061318_6e3e1bef",
+  "config": {
+    "origin": "experiment",
+    "experiment_name": "2026-08-21-0812-adsb-experiment",
+    "source_name": "adsb_events",
+    "use_sample_data": true,
+    "data_limit": null,
+    "mapping_id": null,
+    "provider": "openrouter",
+    "llm_model": "anthropic/claude-opus-5",
+    "strategy": "zero_shot",
+    "ontology_format": "compact",
+    "include_descriptions": true
+  },
+  "status": "failed",
+  "mapping_id": null,
+  "named_graph": null,
+  "stats": {
+    "records_processed": 0,
+    "entities_extracted": 0,
+    "relations_extracted": 0,
+    "triples_written": 0,
+    "triples_in_db": 0,
+    "duration_seconds": 34.701738,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  },
+  "error": "Traceback (most recent call last):\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 57, in execute_run\n    mapping = _resolve_mapping(run, cancel, store)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/runner/pipeline_runner.py\", line 153, in _resolve_mapping\n    mapping = generator.generate(schema, ontology_manager, descriptions)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/src/pipeline/mapping/mapping_generator.py\", line 59, in generate\n    SubjectMapping(**sm) for sm in raw.get(\"subject_mappings\", [])\n    ^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/pydantic/main.py\", line 263, in __init__\n    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\npydantic_core._pydantic_core.ValidationError: 1 validation error for SubjectMapping\nproperty_mappings.0.values\n  Field required [type=missing, input_value={'property_uri': 'bsm:obs...observation date-time.\"}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n",
+  "created_at": "2026-08-21T06:13:18.023125",
+  "started_at": "2026-08-21T06:41:10.149792",
+  "finished_at": "2026-08-21T06:41:44.851530"
+}
